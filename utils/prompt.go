@@ -55,6 +55,7 @@ func PrintWithLoadIcon(message string, c chan bool) {
 			}
 		}
 		fmt.Printf("%s%s%s %s\n", ColorGreen, brailleFull, ColorReset, message)
+		c <- true
 	}()
 
 	<-c

@@ -13,14 +13,18 @@ import (
 	"github.com/buger/jsonparser"
 )
 
-func SearchYouTube(searchTerm string) {
+type YouTubeResult struct {
+	Title, ID string
+}
+
+func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 	url := fmt.Sprintf("https://www.youtube.com/results?search_query=%s", url.QueryEscape(searchTerm))
 
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
+	utils.HandleError(err, "Cannot create GET request")
 	req.Header.Add("Accept-Language", "en")
 	res, err := client.Do(req)
-
 	utils.HandleError(err, "Cannot get youtube page")
 
 	defer res.Body.Close()
@@ -41,9 +45,21 @@ func SearchYouTube(searchTerm string) {
 
 	contents, _, _, _ := jsonparser.Get(jsonData, "contents", "twoColumnSearchResultsRenderer", "primaryContents", "sectionListRenderer", "contents", "[0]", "itemSectionRenderer", "contents")
 	jsonparser.ArrayEach(contents, func(value []byte, t jsonparser.ValueType, i int, err error) {
+		utils.HandleError(err, "Cannot parse result contents")
+		if limit > 0 && len(results) >= limit {
+			return
+		}
 		id, err := jsonparser.GetString(value, "videoRenderer", "videoId")
+		if err != nil {
+			return
+		}
 		title, err := jsonparser.GetString(value, "videoRenderer", "title", "runs", "[0]", "text")
+		if err != nil {
+			return
+		}
 
-		fmt.Printf(" -> %s: %s\n", title, id)
+		results = append(results, YouTubeResult{Title: title, ID: id})
 	})
+
+	return
 }
