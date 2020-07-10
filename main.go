@@ -38,7 +38,7 @@ func searchFor() {
 	}
 	result := results[realIndex]
 	url := fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
-	fmt.Printf("%sPlaying %s // %s", utils.ColorGreen, result.Title, url)
+	fmt.Printf("%sPlaying %s // %s%s\n", utils.ColorGreen, result.Title, url, utils.ColorReset)
 
 	cmd := exec.Command("mpv", url, "--no-video")
 
