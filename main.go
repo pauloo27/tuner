@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"os/exec"
 	"strconv"
-	"strings"
 
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
@@ -46,22 +44,6 @@ func searchFor() {
 	utils.HandleError(err, "Cannot run MPV")
 }
 
-func searchLocal() {
-	fmt.Println("Not implemented yet")
-}
-
 func main() {
-	if len(os.Args) >= 2 {
-		operation := strings.ToLower(os.Args[1])
-		switch operation {
-		case "s":
-			searchFor()
-		case "l":
-			searchLocal()
-		default:
-			searchFor()
-		}
-	} else {
-		searchFor()
-	}
+	searchFor()
 }
