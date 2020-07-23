@@ -9,7 +9,7 @@ import (
 )
 
 var reader = bufio.NewReader(os.Stdin)
-var brailleChars = [8]string{"⡿", "⣟", "⣯", "⣷", "⣾", "⣽", "⣻", "⢿"}
+var brailleChars = [8]string{"⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"}
 var brailleFull = "⣿"
 
 func AskFor(message string, validValues ...string) string {
