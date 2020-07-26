@@ -40,12 +40,12 @@ func EditLastLine() {
 	fmt.Printf("\x1b[1F")
 }
 
-func PrintWithLoadIcon(message string, c chan bool) {
+func PrintWithLoadIcon(message string, c chan bool, stepTime time.Duration) {
 	done := false
 	go func() {
 		i := 0
 		for !done {
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(stepTime)
 			fmt.Printf("%s%s%s %s\n", ColorBlue, brailleChars[i], ColorReset, message)
 			EditLastLine()
 			i++
