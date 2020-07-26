@@ -55,17 +55,19 @@ func searchFor() {
 
 	result := results[realIndex]
 	url := fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
-	fmt.Printf("%sPlaying %s // %s%s\n", utils.ColorGreen, result.Title, url, utils.ColorReset)
+	go utils.PrintWithLoadIcon(fmt.Sprintf("%sPlaying %s // %s%s", utils.ColorGreen, result.Title, url, utils.ColorReset), c)
 
 	cmd := exec.Command("mpv", url, "--no-video")
 
 	err := cmd.Run()
 	if err != nil {
 		if err.Error() == "exit status 4" {
+			c <- true
 			return
 		}
 		utils.HandleError(err, "Cannot run MPV")
 	}
+	c <- true
 }
 
 func setupCloseHandler() {
