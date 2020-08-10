@@ -64,11 +64,13 @@ func searchFor() {
 	if err != nil {
 		if err.Error() == "exit status 4" {
 			c <- true
+			<-c
 			return
 		}
 		utils.HandleError(err, "Cannot run MPV")
 	}
 	c <- true
+	<-c
 }
 
 func setupCloseHandler() {
