@@ -54,19 +54,25 @@ func EditLastLine() {
 	MoveCursorUp(1)
 }
 
-func PrintWithLoadIcon(message string, c chan bool, stepTime time.Duration) {
+func PrintWithLoadIcon(message string, c chan bool, stepTime time.Duration, clearScreen bool) {
 	done := false
 	go func() {
 		i := 0
 		for !done {
-			time.Sleep(stepTime)
+			if clearScreen {
+				MoveCursorTo(1, 1)
+				ClearScreen()
+			} else {
+				EditLastLine()
+			}
+
 			fmt.Printf("%s%s%s %s\n", ColorBlue, brailleChars[i], ColorReset, message)
-			EditLastLine()
 			i++
 
 			if i >= len(brailleChars) {
 				i = 0
 			}
+			time.Sleep(stepTime)
 		}
 		fmt.Printf("%s%s%s %s\n", ColorGreen, brailleFull, ColorReset, message)
 		c <- true

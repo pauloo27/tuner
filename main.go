@@ -29,7 +29,7 @@ func searchFor() {
 	}
 	searchTerm := strings.TrimPrefix(rawSearchTerm, "!")
 	c := make(chan bool)
-	go utils.PrintWithLoadIcon(fmt.Sprintf("Searching for %s", searchTerm), c, 100*time.Millisecond)
+	go utils.PrintWithLoadIcon(fmt.Sprintf("Searching for %s", searchTerm), c, 100*time.Millisecond, true)
 	results := search.SearchYouTube(searchTerm, 10)
 
 	c <- true
@@ -73,7 +73,7 @@ func searchFor() {
 
 	result := results[realIndex]
 	url := fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
-	go utils.PrintWithLoadIcon(fmt.Sprintf("%sPlaying %s // %s%s", utils.ColorGreen, result.Title, url, utils.ColorReset), c, 1000*time.Millisecond)
+	go utils.PrintWithLoadIcon(fmt.Sprintf("%sPlaying %s // %s%s", utils.ColorGreen, result.Title, url, utils.ColorReset), c, 1000*time.Millisecond, true)
 
 	cmd := exec.Command("mpv", url, "--no-video")
 
