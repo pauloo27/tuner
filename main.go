@@ -15,18 +15,15 @@ import (
 )
 
 var close = make(chan os.Signal)
+var playing = false
 
 func searchFor() {
-	rawSearchTerm, err := utils.AskFor("Search term (add ! prefix to play the first, :q or Ctrl+D to exit)")
+	rawSearchTerm, err := utils.AskFor("Search term (add ! prefix to play the first, Ctrl+C to exit)")
 
 	if err != nil {
 		os.Exit(0)
 	}
 
-	if rawSearchTerm == ":q" {
-		fmt.Println("Bye!")
-		os.Exit(0)
-	}
 	searchTerm := strings.TrimPrefix(rawSearchTerm, "!")
 	c := make(chan bool)
 	go utils.PrintWithLoadIcon(fmt.Sprintf("Searching for %s", searchTerm), c, 100*time.Millisecond, true)
@@ -86,6 +83,7 @@ func searchFor() {
 	url := fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
 	go utils.PrintWithLoadIcon(fmt.Sprintf("%sPlaying %s%s", utils.ColorGreen, result.Title, utils.ColorReset), c, 1000*time.Millisecond, true)
 
+	playing = true
 	cmd := exec.Command("mpv", url, "--no-video")
 
 	err = cmd.Run()
@@ -106,7 +104,12 @@ func setupCloseHandler() {
 	go func() {
 		for {
 			<-close
-			fmt.Println("\n\nTo close search for `:q` or press Ctrl+D")
+			if !playing {
+				utils.MoveCursorTo(1, 1)
+				utils.ClearScreen()
+				fmt.Println("Bye!")
+				os.Exit(0)
+			}
 		}
 	}()
 }
@@ -117,5 +120,6 @@ func main() {
 		utils.MoveCursorTo(1, 1)
 		utils.ClearScreen()
 		searchFor()
+		playing = false
 	}
 }
