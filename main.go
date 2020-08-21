@@ -17,7 +17,12 @@ import (
 var close = make(chan os.Signal)
 
 func searchFor() {
-	rawSearchTerm := utils.AskFor("Search term (add ! prefix to play the first)")
+	rawSearchTerm, err := utils.AskFor("Search term (add ! prefix to play the first, :q or Ctrl+D to exit)")
+
+	if err != nil {
+		os.Exit(0)
+	}
+
 	if rawSearchTerm == ":q" {
 		fmt.Println("Bye!")
 		os.Exit(0)
@@ -30,6 +35,9 @@ func searchFor() {
 	c <- true
 	<-c
 
+	utils.MoveCursorTo(1, 1)
+	utils.ClearScreen()
+
 	if len(results) == 0 {
 		fmt.Printf("%sNo results found.\n", utils.ColorRed)
 		return
@@ -40,8 +48,17 @@ func searchFor() {
 		for index, result := range results {
 			fmt.Printf(" %s-> %d: %s\n", utils.ColorGreen, index+1, result.Title)
 		}
-		index := utils.AskFor("Your pick ID")
+		index, err := utils.AskFor("Your pick ID")
+
+		if err != nil {
+			os.Exit(0)
+		}
+
 		parsedIndex, err := strconv.ParseInt(index, 10, 32)
+
+		utils.MoveCursorTo(1, 1)
+		utils.ClearScreen()
+
 		if err != nil {
 			fmt.Println("Invalid ID")
 			return
@@ -60,7 +77,7 @@ func searchFor() {
 
 	cmd := exec.Command("mpv", url, "--no-video")
 
-	err := cmd.Run()
+	err = cmd.Run()
 	if err != nil {
 		if err.Error() == "exit status 4" {
 			c <- true
@@ -85,8 +102,9 @@ func setupCloseHandler() {
 
 func main() {
 	setupCloseHandler()
-	fmt.Println(utils.ColorGreen, "Tuner - To exit, search for `:q`")
 	for {
+		utils.MoveCursorTo(1, 1)
+		utils.ClearScreen()
 		searchFor()
 	}
 }

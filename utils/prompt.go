@@ -12,7 +12,7 @@ var reader = bufio.NewReader(os.Stdin)
 var brailleChars = [8]string{"⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"}
 var brailleFull = "⣿"
 
-func AskFor(message string, validValues ...string) string {
+func AskFor(message string, validValues ...string) (string, error) {
 	if len(validValues) == 0 {
 		fmt.Printf("%s » %s%s: ", ColorBlue, message, ColorReset)
 	} else {
@@ -20,24 +20,38 @@ func AskFor(message string, validValues ...string) string {
 	}
 
 	line, err := reader.ReadString('\n')
-	HandleError(err, "Cannot read user input")
+	if err != nil {
+		return "", err
+	}
 
 	response := strings.TrimSuffix(line, "\n")
 	if len(validValues) == 0 {
-		return response
+		return response, nil
 	}
 
 	for _, value := range validValues {
 		if strings.EqualFold(value, response) {
-			return value
+			return value, nil
 		}
 	}
 	HandleError(fmt.Errorf("Invalid response. Valid responses are %v.", validValues), "Invalid response")
-	return ""
+	return "", nil
+}
+
+func ClearScreen() {
+	fmt.Printf("\033[J")
+}
+
+func MoveCursorTo(line, column int) {
+	fmt.Printf("\033[%d;%df", line, column)
+}
+
+func MoveCursorUp(lineCount int) {
+	fmt.Printf("\x1b[%dF", lineCount)
 }
 
 func EditLastLine() {
-	fmt.Printf("\x1b[1F")
+	MoveCursorUp(1)
 }
 
 func PrintWithLoadIcon(message string, c chan bool, stepTime time.Duration) {
