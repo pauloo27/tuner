@@ -63,9 +63,11 @@ func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 			return
 		}
 
-		duration, err := jsonparser.GetString(value, "videoRenderer", "lengthText", "simpleText")
+		var duration = ""
+
+		duration, err = jsonparser.GetString(value, "videoRenderer", "lengthText", "simpleText")
 		if err != nil {
-			return
+			duration = utils.ColorRed + "LIVE"
 		}
 
 		results = append(results, YouTubeResult{Title: title, Uploader: uploader, Duration: duration, ID: id})
