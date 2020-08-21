@@ -95,7 +95,7 @@ func setupCloseHandler() {
 	go func() {
 		for {
 			<-close
-			fmt.Println("\n\nTo close search for `:q`")
+			fmt.Println("\n\nTo close search for `:q` or press Ctrl+D")
 		}
 	}()
 }
