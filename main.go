@@ -46,7 +46,7 @@ func searchFor() {
 	realIndex := 0
 	if !strings.HasPrefix(rawSearchTerm, "!") {
 		for index, result := range results {
-			fmt.Printf(" %s-> %d: %s\n", utils.ColorGreen, index+1, result.Title)
+			fmt.Printf(" %s-> %d: %s%s%s from %s%s\n", utils.ColorReset, index+1, utils.ColorGreen, result.Title, utils.ColorReset, utils.ColorGreen, result.Uploader)
 		}
 		index, err := utils.AskFor("Your pick ID")
 
