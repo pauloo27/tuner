@@ -43,6 +43,11 @@ func searchFor() {
 	realIndex := 0
 	if !strings.HasPrefix(rawSearchTerm, "!") {
 		for index, result := range results {
+			durationDisplay := result.Duration
+			if result.Live {
+				durationDisplay = utils.ColorRed + "LIVE"
+			}
+
 			fmt.Printf(
 				" %s-> %d: %s%s%s from %s%s%s %s\n",
 				utils.ColorReset,
@@ -53,7 +58,7 @@ func searchFor() {
 				utils.ColorGreen,
 				result.Uploader,
 				utils.ColorReset,
-				result.Duration,
+				durationDisplay,
 			)
 		}
 		index, err := utils.AskFor("Your pick ID")
@@ -84,7 +89,11 @@ func searchFor() {
 	go utils.PrintWithLoadIcon(fmt.Sprintf("%sPlaying %s%s", utils.ColorGreen, result.Title, utils.ColorReset), c, 1000*time.Millisecond, true)
 
 	playing = true
-	cmd := exec.Command("mpv", url, "--no-video")
+	parameters := []string{url, "--no-video"}
+	if result.Live {
+		parameters = append(parameters, "--cache=no")
+	}
+	cmd := exec.Command("mpv", parameters...)
 
 	err = cmd.Run()
 	if err != nil {
