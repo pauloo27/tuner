@@ -15,6 +15,7 @@ import (
 
 type YouTubeResult struct {
 	Title, Uploader, Duration, ID string
+	Live                          bool
 }
 
 func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
@@ -63,14 +64,21 @@ func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 			return
 		}
 
-		var duration = ""
+		live := false
+		duration, err := jsonparser.GetString(value, "videoRenderer", "lengthText", "simpleText")
 
-		duration, err = jsonparser.GetString(value, "videoRenderer", "lengthText", "simpleText")
 		if err != nil {
-			duration = utils.ColorRed + "LIVE"
+			duration = ""
+			live = true
 		}
 
-		results = append(results, YouTubeResult{Title: title, Uploader: uploader, Duration: duration, ID: id})
+		results = append(results, YouTubeResult{
+			Title:    title,
+			Uploader: uploader,
+			Duration: duration,
+			ID:       id,
+			Live:     live,
+		})
 	})
 
 	return
