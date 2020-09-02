@@ -12,6 +12,7 @@ import (
 
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
+	"github.com/Pauloo27/tuner/options"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
 )
@@ -104,8 +105,11 @@ func searchFor() {
 	go utils.PrintWithLoadIcon(fmt.Sprintf("%sPlaying %s%s", utils.ColorGreen, result.Title, utils.ColorReset), c, 1000*time.Millisecond, true)
 
 	playing = true
-	parameters := []string{url, "--no-video"}
-	if result.Live {
+	parameters := []string{url}
+	if !options.Options.ShowVideo {
+		parameters = append(parameters, "--no-video")
+	}
+	if result.Live && !options.Options.KeepCacheFromLives {
 		parameters = append(parameters, "--cache=no")
 	}
 	cmd := exec.Command("mpv", parameters...)
@@ -139,8 +143,8 @@ func setupCloseHandler() {
 }
 
 func main() {
-	setupCloseHandler()
 	commands.SetupDefaultCommands()
+	setupCloseHandler()
 	for {
 		utils.MoveCursorTo(1, 1)
 		utils.ClearScreen()
