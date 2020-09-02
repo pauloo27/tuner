@@ -150,6 +150,7 @@ func main() {
 	for {
 		utils.MoveCursorTo(1, 1)
 		utils.ClearScreen()
+		fmt.Printf("%sUse /help to see the commands%s\n\n", utils.ColorBlue, utils.ColorReset)
 		searchFor()
 		playing = false
 	}
