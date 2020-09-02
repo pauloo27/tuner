@@ -12,6 +12,16 @@ var reader = bufio.NewReader(os.Stdin)
 var brailleChars = [8]string{"⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"}
 var brailleFull = "⣿"
 
+func WaitForEnter(message string) error {
+	fmt.Printf("%s%s%s", ColorGreen, message, ColorReset)
+	_, err := reader.ReadString('\n')
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func AskFor(message string, validValues ...string) (string, error) {
 	if len(validValues) == 0 {
 		fmt.Printf("%s » %s%s: ", ColorBlue, message, ColorReset)
