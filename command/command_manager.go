@@ -6,20 +6,20 @@ import (
 	"github.com/Pauloo27/tuner/utils"
 )
 
-var commands = map[string]Command{}
+var Commands = map[string]Command{}
 
 func RegisterCommand(command Command) {
-	commands[command.Name] = command
+	Commands[command.Name] = command
 
 	for _, alias := range command.Aliases {
-		commands[alias] = command
+		Commands[alias] = command
 	}
 }
 
 func InvokeCommand(input string) (found bool, out string) {
 	lowerCased := strings.ToLower(input)
 	label := strings.Split(lowerCased, " ")[0]
-	command, ok := commands[label]
+	command, ok := Commands[label]
 	if !ok {
 		found = false
 		return

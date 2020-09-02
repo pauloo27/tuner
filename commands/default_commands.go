@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/options"
@@ -13,15 +14,20 @@ func SetupDefaultCommands() {
 		Description: "List all the commands",
 		Aliases:     []string{"h"},
 		Handle: func(input string) string {
-			fmt.Println("No help!")
+			for label, cmd := range command.Commands {
+				if cmd.Name == label {
+					aliases := strings.Join(cmd.Aliases, " ")
+					fmt.Printf("  -> /%s (or %v): %s\n", cmd.Name, aliases, cmd.Description)
+				}
+			}
 			return ""
 		},
 	}
 
 	keepLiveCache := command.Command{
 		Name: "cache",
-		Description: "Toggle the option to keep cache of a live when one is playing (default is false)." +
-			" When true, you can seek back a live but it use more ram overtime",
+		Description: "Toggle the option a live cached while playing." +
+			" When true, you can seek back it use more ram overtime (default is false)",
 		Aliases: []string{"c"},
 		Handle: func(input string) string {
 			options.Options.KeepLiveCache = !options.Options.KeepLiveCache
