@@ -27,8 +27,8 @@ func SetupDefaultCommands() {
 	keepLiveCache := command.Command{
 		Name: "cache",
 		Description: "Toggle the option to keep cache of the playing media." +
-			" When true, you can seek back, but it will use more RAM overtime " +
-			"(has more effect in lives and long videos. Default is false)",
+			" When true, you can seek back, but it will use more RAM " +
+			"(default is false)",
 		Aliases: []string{"c"},
 		Handle: func(input string) string {
 			options.Options.Cache = !options.Options.Cache
