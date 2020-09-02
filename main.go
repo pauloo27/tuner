@@ -10,18 +10,33 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/Pauloo27/tuner/command"
+	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
 )
 
 var close = make(chan os.Signal)
 var playing = false
+var warning = ""
 
 func searchFor() {
+	if warning != "" {
+		fmt.Printf("%s%s\n", utils.ColorRed, warning)
+		warning = ""
+	}
 	rawSearchTerm, err := utils.AskFor("Search term (add ! prefix to play the first, Ctrl+C to exit)")
 
 	if err != nil {
 		os.Exit(0)
+	}
+
+	if strings.HasPrefix(rawSearchTerm, "/") {
+		found := command.InvokeCommand(strings.TrimPrefix(rawSearchTerm, "/"))
+		if !found {
+			warning = "Invalid command"
+		}
+		return
 	}
 
 	searchTerm := strings.TrimPrefix(rawSearchTerm, "!")
@@ -36,7 +51,7 @@ func searchFor() {
 	utils.ClearScreen()
 
 	if len(results) == 0 {
-		fmt.Printf("%sNo results found.\n", utils.ColorRed)
+		warning = "No results found."
 		return
 	}
 
@@ -73,13 +88,13 @@ func searchFor() {
 		utils.ClearScreen()
 
 		if err != nil {
-			fmt.Println("Invalid ID")
+			warning = "Invalid ID."
 			return
 		}
 		realIndex = int(parsedIndex) - 1
 
 		if len(results) <= realIndex || realIndex <= -1 {
-			fmt.Printf("%sIndex too big\n", utils.ColorRed)
+			warning = "Invalid ID."
 			return
 		}
 	}
@@ -125,6 +140,7 @@ func setupCloseHandler() {
 
 func main() {
 	setupCloseHandler()
+	commands.SetupDefaultCommands()
 	for {
 		utils.MoveCursorTo(1, 1)
 		utils.ClearScreen()
