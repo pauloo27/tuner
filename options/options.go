@@ -1,10 +1,10 @@
 package options
 
 type TunerOptions struct {
-	KeepCacheFromLives, ShowVideo bool
+	KeepLiveCache, ShowVideo bool
 }
 
 var Options = TunerOptions{
-	ShowVideo:          false,
-	KeepCacheFromLives: false,
+	ShowVideo:     false,
+	KeepLiveCache: false,
 }
