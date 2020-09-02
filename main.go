@@ -66,17 +66,23 @@ func searchFor() {
 				durationDisplay = utils.ColorRed + "LIVE"
 			}
 
+			bold := ""
+			if index%2 == 0 {
+				bold = utils.ColorBold
+			}
+
 			fmt.Printf(
-				" %s-> %d: %s%s%s from %s%s%s %s\n",
-				utils.ColorReset,
+				" %s-> %d: %s%s%s from %s%s%s %s%s\n",
+				utils.ColorReset+bold,
 				index+1,
-				utils.ColorGreen,
+				utils.ColorGreen+bold,
 				result.Title,
-				utils.ColorReset,
-				utils.ColorGreen,
+				utils.ColorReset+bold,
+				utils.ColorGreen+bold,
 				result.Uploader,
-				utils.ColorReset,
+				utils.ColorReset+bold,
 				durationDisplay,
+				utils.ColorReset,
 			)
 		}
 		index, err := utils.AskFor("Your pick ID")
