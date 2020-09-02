@@ -16,7 +16,7 @@ func RegisterCommand(command Command) {
 	}
 }
 
-func InvokeCommand(input string) (found bool) {
+func InvokeCommand(input string) (found bool, out string) {
 	lowerCased := strings.ToLower(input)
 	label := strings.Split(lowerCased, " ")[0]
 	command, ok := commands[label]
@@ -29,9 +29,12 @@ func InvokeCommand(input string) (found bool) {
 	utils.ClearScreen()
 
 	commandInput := strings.TrimPrefix(lowerCased, label)
-	command.Handle(commandInput)
+	out = command.Handle(commandInput)
 
-	_, _ = utils.AskFor("Press enter to close")
+	if out == "" {
+		err := utils.WaitForEnter("Press enter to continue...")
+		utils.HandleError(err, "Cannot read input")
+	}
 
 	found = true
 	return

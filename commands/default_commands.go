@@ -12,8 +12,9 @@ func SetupDefaultCommands() {
 		Name:        "help",
 		Description: "List all the commands",
 		Aliases:     []string{"h"},
-		Handle: func(input string) {
+		Handle: func(input string) string {
 			fmt.Println("No help!")
+			return ""
 		},
 	}
 
@@ -21,9 +22,9 @@ func SetupDefaultCommands() {
 		Name:        "video",
 		Description: "Set the option to show the video",
 		Aliases:     []string{"v"},
-		Handle: func(input string) {
+		Handle: func(input string) string {
 			options.Options.ShowVideo = !options.Options.ShowVideo
-			fmt.Println("Show video set to", options.Options.ShowVideo)
+			return fmt.Sprintf("Show video set to %v", options.Options.ShowVideo)
 		},
 	}
 

@@ -33,9 +33,11 @@ func searchFor() {
 	}
 
 	if strings.HasPrefix(rawSearchTerm, "/") {
-		found := command.InvokeCommand(strings.TrimPrefix(rawSearchTerm, "/"))
+		found, out := command.InvokeCommand(strings.TrimPrefix(rawSearchTerm, "/"))
 		if !found {
 			warning = "Invalid command"
+		} else {
+			warning = out
 		}
 		return
 	}

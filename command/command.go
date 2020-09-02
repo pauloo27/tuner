@@ -1,6 +1,6 @@
 package command
 
-type CommandHandler func(input string)
+type CommandHandler func(input string) string
 
 type Command struct {
 	Name, Description string
