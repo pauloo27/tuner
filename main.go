@@ -111,7 +111,7 @@ func searchFor() {
 	if !options.Options.ShowVideo {
 		parameters = append(parameters, "--no-video")
 	}
-	if result.Live && !options.Options.KeepLiveCache {
+	if !options.Options.Cache {
 		parameters = append(parameters, "--cache=no")
 	}
 	cmd := exec.Command("mpv", parameters...)
