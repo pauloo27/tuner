@@ -23,7 +23,7 @@ var warning = ""
 
 func searchFor() {
 	if warning != "" {
-		fmt.Printf("%s%s\n", utils.ColorRed, warning)
+		fmt.Printf("%s%s\n", utils.ColorYellow, warning)
 		warning = ""
 	}
 	rawSearchTerm, err := utils.AskFor("Search term (add ! prefix to play the first, Ctrl+C to exit)")
