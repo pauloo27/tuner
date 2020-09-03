@@ -18,6 +18,12 @@ type YouTubeResult struct {
 	Live                          bool
 }
 
+func getContent(data []byte, index int) []byte {
+	id := fmt.Sprintf("[%d]", index)
+	contents, _, _, _ := jsonparser.Get(data, "contents", "twoColumnSearchResultsRenderer", "primaryContents", "sectionListRenderer", "contents", id, "itemSectionRenderer", "contents")
+	return contents
+}
+
 func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 	url := fmt.Sprintf("https://www.youtube.com/results?search_query=%s", url.QueryEscape(searchTerm))
 
@@ -44,16 +50,31 @@ func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 	splittedScript = strings.Split(splittedScript[1], `window["ytInitialPlayerResponse"] = null;`)
 	jsonData := []byte(splittedScript[0])
 
-	contents, _, _, _ := jsonparser.Get(jsonData, "contents", "twoColumnSearchResultsRenderer", "primaryContents", "sectionListRenderer", "contents", "[0]", "itemSectionRenderer", "contents")
+	index := 0
+	var contents []byte
+
+	for {
+		contents = getContent(jsonData, index)
+		_, _, _, err = jsonparser.Get(contents, "[0]", "carouselAdRenderer")
+
+		if err == nil {
+			index++
+		} else {
+			break
+		}
+	}
+
 	jsonparser.ArrayEach(contents, func(value []byte, t jsonparser.ValueType, i int, err error) {
 		utils.HandleError(err, "Cannot parse result contents")
 		if limit > 0 && len(results) >= limit {
 			return
 		}
+
 		id, err := jsonparser.GetString(value, "videoRenderer", "videoId")
 		if err != nil {
 			return
 		}
+
 		title, err := jsonparser.GetString(value, "videoRenderer", "title", "runs", "[0]", "text")
 		if err != nil {
 			return
