@@ -54,7 +54,7 @@ func searchFor() {
 	utils.ClearScreen()
 
 	if len(results) == 0 {
-		warning = "No results found."
+		warning = "No results found"
 		return
 	}
 
@@ -97,13 +97,13 @@ func searchFor() {
 		utils.ClearScreen()
 
 		if err != nil {
-			warning = "Invalid ID."
+			warning = "Invalid ID"
 			return
 		}
 		realIndex = int(parsedIndex) - 1
 
 		if len(results) <= realIndex || realIndex <= -1 {
-			warning = "Invalid ID."
+			warning = "Invalid ID"
 			return
 		}
 	}
