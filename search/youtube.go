@@ -64,7 +64,7 @@ func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 		}
 	}
 
-	jsonparser.ArrayEach(contents, func(value []byte, t jsonparser.ValueType, i int, err error) {
+	_, err = jsonparser.ArrayEach(contents, func(value []byte, t jsonparser.ValueType, i int, err error) {
 		utils.HandleError(err, "Cannot parse result contents")
 		if limit > 0 && len(results) >= limit {
 			return
@@ -101,6 +101,10 @@ func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 			Live:     live,
 		})
 	})
+
+	if err != nil {
+		utils.HandleError(err, "Cannot parse result")
+	}
 
 	return
 }
