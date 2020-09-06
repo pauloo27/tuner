@@ -15,6 +15,7 @@ import (
 	"github.com/Pauloo27/tuner/options"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
+	"github.com/eiannone/keyboard"
 )
 
 var close = make(chan os.Signal)
@@ -110,7 +111,12 @@ func searchFor() {
 
 	result := results[realIndex]
 	url := fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
-	go utils.PrintWithLoadIcon(fmt.Sprintf("%sPlaying %s%s", utils.ColorGreen, result.Title, utils.ColorReset), c, 1000*time.Millisecond, true)
+	go utils.PrintWithLoadIcon(fmt.Sprintf(
+		"%sPlaying %s%s",
+		utils.ColorGreen,
+		result.Title,
+		utils.ColorReset,
+	), c, 1000*time.Millisecond, true)
 
 	playing = true
 	parameters := []string{url}
@@ -122,17 +128,39 @@ func searchFor() {
 	}
 	cmd := exec.Command("mpv", parameters...)
 
+	go func() {
+		if err := keyboard.Open(); err != nil {
+			panic(err)
+		}
+
+		for {
+			char, key, err := keyboard.GetKey()
+			if err != nil {
+				break
+			}
+
+			if key == keyboard.KeyEsc || char == '\x00' {
+				_ = cmd.Process.Kill()
+			}
+			fmt.Printf("You pressed: rune %q, key %X\r\n", char, key)
+		}
+	}()
+
 	err = cmd.Run()
 	if err != nil {
 		if err.Error() == "exit status 4" {
 			c <- true
 			<-c
+			keyboard.Close()
 			return
 		}
-		utils.HandleError(err, "Cannot run MPV")
+		if err.Error() != "signal: killed" {
+			utils.HandleError(err, "Cannot run MPV")
+		}
 	}
 	c <- true
 	<-c
+	keyboard.Close()
 }
 
 func setupCloseHandler() {
