@@ -44,11 +44,15 @@ func AskFor(message string, validValues ...string) (string, error) {
 			return value, nil
 		}
 	}
-	HandleError(fmt.Errorf("Invalid response. Valid responses are %v.", validValues), "Invalid response")
-	return "", nil
+	return "", fmt.Errorf("Invalid response. Valid responses are %v.", validValues)
 }
 
 func ClearScreen() {
+	MoveCursorTo(1, 1)
+	ClearAfterCursor()
+}
+
+func ClearAfterCursor() {
 	fmt.Printf("\033[J")
 }
 
