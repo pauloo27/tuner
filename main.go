@@ -78,7 +78,11 @@ func listenToKeyboard(cmd *exec.Cmd) {
 		if err != nil {
 			break
 		}
-		if char == '\x00' || key == keyboard.KeyEsc {
+
+		switch key {
+		case keyboard.KeyEsc:
+			_ = cmd.Process.Kill()
+		case keyboard.KeyCtrlC:
 			_ = cmd.Process.Kill()
 		}
 		fmt.Printf("You pressed: rune %q, key %X\r\n", char, key)
@@ -86,7 +90,8 @@ func listenToKeyboard(cmd *exec.Cmd) {
 }
 
 func displayPlayingScreen(result search.YouTubeResult) {
-	fmt.Printf("%sPlaying %s\n.", utils.ColorGreen, result.Title)
+	utils.ClearScreen()
+	fmt.Printf("%sPlaying %s.\n", utils.ColorGreen, result.Title)
 }
 
 func play(result search.YouTubeResult) {
