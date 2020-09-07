@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/Pauloo27/go-mpris"
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/controller"
@@ -21,6 +22,11 @@ import (
 
 var close = make(chan os.Signal)
 var playing = false
+
+const (
+	pausedIcon  = ""
+	playingIcon = ""
+)
 
 func doSearch(searchTerm string, limit int) (results []search.YouTubeResult, err error) {
 	c := make(chan bool)
@@ -75,7 +81,7 @@ func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 	utils.HandleError(err, "Cannot open keyboard")
 
 	for {
-		_, key, err := keyboard.GetKey()
+		char, key, err := keyboard.GetKey()
 		if err != nil {
 			break
 		}
@@ -87,6 +93,13 @@ func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 			_ = cmd.Process.Kill()
 		case keyboard.KeySpace:
 			playerCtl.PlayPause()
+		default:
+			switch char {
+			case '9':
+				playerCtl.Player.SetVolume(playerCtl.Player.GetVolume() - 0.05)
+			case '0':
+				playerCtl.Player.SetVolume(playerCtl.Player.GetVolume() + 0.05)
+			}
 		}
 	}
 }
@@ -97,8 +110,26 @@ func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV)
 			break
 		}
 		utils.ClearScreen()
-		fmt.Printf("%sPlaying %s.\n", utils.ColorGreen, result.Title)
-		time.Sleep(1 * time.Second)
+
+		icon := playingIcon
+
+		playback := playerCtl.Player.GetPlaybackStatus()
+		if playback != mpris.PlaybackPlaying {
+			icon = pausedIcon
+		}
+		fmt.Printf("%s %s %sfrom %s%s\n",
+			icon,
+			utils.ColorGreen+result.Title,
+			utils.ColorWhite,
+			utils.ColorGreen+result.Uploader,
+			utils.ColorReset,
+		)
+
+		if playerCtl.Player.GetPlaybackStatus() != "" {
+			volume := playerCtl.Player.GetVolume() * 100
+			fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, volume, utils.ColorReset)
+		}
+		time.Sleep(500 * time.Millisecond)
 	}
 }
 
