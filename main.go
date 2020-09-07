@@ -92,8 +92,14 @@ func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 }
 
 func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV) {
-	utils.ClearScreen()
-	fmt.Printf("%sPlaying %s.\n", utils.ColorGreen, result.Title)
+	for {
+		if !playing {
+			break
+		}
+		utils.ClearScreen()
+		fmt.Printf("%sPlaying %s.\n", utils.ColorGreen, result.Title)
+		time.Sleep(1 * time.Second)
+	}
 }
 
 func play(result search.YouTubeResult) {
@@ -110,9 +116,11 @@ func play(result search.YouTubeResult) {
 	playing = true
 	cmd := exec.Command("mpv", parameters...)
 
-	playerCtl := controller.ConnectToMPV(cmd.Process.Pid)
-	go displayPlayingScreen(result, playerCtl)
-	go listenToKeyboard(cmd, playerCtl)
+	go func() {
+		playerCtl := controller.ConnectToMPV(cmd)
+		go displayPlayingScreen(result, playerCtl)
+		go listenToKeyboard(cmd, playerCtl)
+	}()
 
 	err := cmd.Run()
 
@@ -153,7 +161,7 @@ func tuneIn(warning *string) {
 	searchTerm := strings.TrimPrefix(rawSearchTerm, "!")
 
 	results, err := doSearch(searchTerm, limit)
-	utils.HandleError(err, "Cannot do search")
+	utils.HandleError(err, "Cannot search")
 
 	if len(results) == 0 {
 		*warning = "No results found"
