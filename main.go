@@ -48,8 +48,24 @@ func setupCloseHandler() {
 }
 
 func listResults(results []search.YouTubeResult) {
+	utils.ClearScreen()
 	for i, result := range results {
-		fmt.Printf("  %d: %s from %s - %s\n", i+1, result.Title, result.Uploader, result.Duration)
+		bold := ""
+		if i%2 == 0 {
+			bold = utils.ColorBold
+		}
+
+		defaultColor := bold + utils.ColorWhite
+		altColor := bold + utils.ColorGreen
+
+		fmt.Printf("  %s%d: %s %sfrom %s - %s%s\n",
+			defaultColor, i+1,
+			altColor+result.Title,
+			defaultColor,
+			altColor+result.Uploader,
+			altColor+result.Duration,
+			utils.ColorReset,
+		)
 	}
 }
 
