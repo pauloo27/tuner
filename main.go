@@ -12,6 +12,7 @@ import (
 
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
+	"github.com/Pauloo27/tuner/controller"
 	"github.com/Pauloo27/tuner/options"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
@@ -69,12 +70,12 @@ func listResults(results []search.YouTubeResult) {
 	}
 }
 
-func listenToKeyboard(cmd *exec.Cmd) {
+func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 	err := keyboard.Open()
 	utils.HandleError(err, "Cannot open keyboard")
 
 	for {
-		char, key, err := keyboard.GetKey()
+		_, key, err := keyboard.GetKey()
 		if err != nil {
 			break
 		}
@@ -84,12 +85,13 @@ func listenToKeyboard(cmd *exec.Cmd) {
 			_ = cmd.Process.Kill()
 		case keyboard.KeyCtrlC:
 			_ = cmd.Process.Kill()
+		case keyboard.KeySpace:
+			playerCtl.PlayPause()
 		}
-		fmt.Printf("You pressed: rune %q, key %X\r\n", char, key)
 	}
 }
 
-func displayPlayingScreen(result search.YouTubeResult) {
+func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV) {
 	utils.ClearScreen()
 	fmt.Printf("%sPlaying %s.\n", utils.ColorGreen, result.Title)
 }
@@ -108,8 +110,9 @@ func play(result search.YouTubeResult) {
 	playing = true
 	cmd := exec.Command("mpv", parameters...)
 
-	go displayPlayingScreen(result)
-	go listenToKeyboard(cmd)
+	playerCtl := controller.ConnectToMPV(cmd.Process.Pid)
+	go displayPlayingScreen(result, playerCtl)
+	go listenToKeyboard(cmd, playerCtl)
 
 	err := cmd.Run()
 
