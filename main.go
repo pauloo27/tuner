@@ -87,7 +87,7 @@ func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 	utils.HandleError(err, "Cannot open keyboard")
 
 	for {
-		char, key, err := keyboard.GetKey()
+		_, key, err := keyboard.GetKey()
 		if err != nil {
 			break
 		}
@@ -99,13 +99,6 @@ func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 			_ = cmd.Process.Kill()
 		case keyboard.KeySpace:
 			playerCtl.PlayPause()
-		default:
-			switch char {
-			case '9':
-				playerCtl.Player.SetVolume(playerCtl.Player.GetVolume() - 0.05)
-			case '0':
-				playerCtl.Player.SetVolume(playerCtl.Player.GetVolume() + 0.05)
-			}
 		}
 	}
 }
