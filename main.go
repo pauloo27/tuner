@@ -65,12 +65,18 @@ func listResults(results []search.YouTubeResult) {
 		defaultColor := bold + utils.ColorWhite
 		altColor := bold + utils.ColorGreen
 
+		duration := result.Duration
+
+		if duration == "" {
+			duration = utils.ColorRed + "LIVE"
+		}
+
 		fmt.Printf("  %s%d: %s %sfrom %s - %s%s\n",
 			defaultColor, i+1,
 			altColor+result.Title,
 			defaultColor,
 			altColor+result.Uploader,
-			altColor+result.Duration,
+			defaultColor+duration,
 			utils.ColorReset,
 		)
 	}
