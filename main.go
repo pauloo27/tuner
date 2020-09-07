@@ -69,7 +69,7 @@ func listResults(results []search.YouTubeResult) {
 	}
 }
 
-func listenToKeyboard() {
+func listenToKeyboard(cmd *exec.Cmd) {
 	err := keyboard.Open()
 	utils.HandleError(err, "Cannot open keyboard")
 
@@ -78,8 +78,10 @@ func listenToKeyboard() {
 		if err != nil {
 			break
 		}
-
-		fmt.Println("Pressed", char, key)
+		if char == '\x00' || key == keyboard.KeyEsc {
+			_ = cmd.Process.Kill()
+		}
+		fmt.Printf("You pressed: rune %q, key %X\r\n", char, key)
 	}
 }
 
@@ -102,7 +104,7 @@ func play(result search.YouTubeResult) {
 	cmd := exec.Command("mpv", parameters...)
 
 	go displayPlayingScreen(result)
-	go listenToKeyboard()
+	go listenToKeyboard(cmd)
 
 	err := cmd.Run()
 
