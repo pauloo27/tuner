@@ -137,7 +137,7 @@ func play(result search.YouTubeResult) {
 
 	parameters := []string{url}
 	if !options.Options.ShowVideo {
-		parameters = append(parameters, "--no-video")
+		parameters = append(parameters, "--no-video", "--ytdl-format=worst")
 	}
 	if !options.Options.Cache {
 		parameters = append(parameters, "--cache=no")
