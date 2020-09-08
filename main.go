@@ -124,10 +124,33 @@ func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV)
 			utils.ColorReset,
 		)
 
+		size := utils.GetTerminalWidth()
+
+		metadata := playerCtl.Player.GetMetadata()
+		rawLength := metadata["mpris:length"].Value()
+		progress := -1
+
+		if rawLength != nil {
+			position := playerCtl.Player.GetPosition()
+			progress = int(position) * int(size.Col) / int(playerCtl.Player.GetLength())
+		}
+
+		if progress != -1 {
+			fmt.Print(utils.ColorGreen)
+			for x := uint16(0); x < size.Col; x++ {
+				if progress == int(x) {
+					fmt.Print(utils.ColorWhite)
+				}
+				fmt.Print("█")
+			}
+			fmt.Printf("%s\n", utils.ColorReset)
+		}
+
 		if playerCtl.Player.GetPlaybackStatus() != "" {
 			volume := playerCtl.Player.GetVolume() * 100
 			fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, volume, utils.ColorReset)
 		}
+
 		time.Sleep(500 * time.Millisecond)
 	}
 }
