@@ -16,14 +16,6 @@ type MPV struct {
 }
 
 func ConnectToMPV(cmd *exec.Cmd) MPV {
-	conn, err := dbus.SessionBus()
-	utils.HandleError(err, "Cannot connect to dbus")
-
-	names, err := mpris.List(conn)
-	utils.HandleError(err, "Cannot list players")
-
-	playerName := ""
-
 	for {
 		if cmd.Process != nil {
 			break
@@ -33,6 +25,14 @@ func ConnectToMPV(cmd *exec.Cmd) MPV {
 	pid := cmd.Process.Pid
 
 	nameWithPID := fmt.Sprintf("org.mpris.MediaPlayer2.mpv.instance%d", pid)
+
+	conn, err := dbus.SessionBus()
+	utils.HandleError(err, "Cannot connect to dbus")
+
+	names, err := mpris.List(conn)
+	utils.HandleError(err, "Cannot list players")
+
+	playerName := ""
 
 	for _, name := range names {
 		if name == nameWithPID {
