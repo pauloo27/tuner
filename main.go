@@ -85,8 +85,8 @@ func listResults(results []search.YouTubeResult) {
 func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 	err := keyboard.Open()
 	utils.HandleError(err, "Cannot open keyboard")
-	volume, _ := playerCtl.Player.GetVolume()
 	for {
+		volume, _ := playerCtl.Player.GetVolume()
 		c, key, err := keyboard.GetKey()
 		if err != nil {
 			break
