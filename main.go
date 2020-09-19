@@ -85,9 +85,9 @@ func listResults(results []search.YouTubeResult) {
 func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 	err := keyboard.Open()
 	utils.HandleError(err, "Cannot open keyboard")
-
+	volume, _ := playerCtl.Player.GetVolume()
 	for {
-		_, key, err := keyboard.GetKey()
+		c, key, err := keyboard.GetKey()
 		if err != nil {
 			break
 		}
@@ -99,6 +99,13 @@ func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
 			_ = cmd.Process.Kill()
 		case keyboard.KeySpace:
 			playerCtl.PlayPause()
+		default:
+			switch c {
+			case '9':
+				playerCtl.Player.SetVolume(volume - 0.05)
+			case '0':
+				playerCtl.Player.SetVolume(volume + 0.05)
+			}
 		}
 	}
 }
@@ -112,7 +119,7 @@ func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV)
 
 		icon := playingIcon
 
-		playback := playerCtl.Player.GetPlaybackStatus()
+		playback, _ := playerCtl.Player.GetPlaybackStatus()
 		if playback != mpris.PlaybackPlaying {
 			icon = pausedIcon
 		}
@@ -124,9 +131,9 @@ func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV)
 			utils.ColorReset,
 		)
 
-		if playerCtl.Player.GetPlaybackStatus() != "" {
-			volume := playerCtl.Player.GetVolume() * 100
-			fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, volume, utils.ColorReset)
+		if status, _ := playerCtl.Player.GetPlaybackStatus(); status != "" {
+			volume, _ := playerCtl.Player.GetVolume()
+			fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, volume*100, utils.ColorReset)
 		}
 
 		time.Sleep(500 * time.Millisecond)
