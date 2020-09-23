@@ -11,8 +11,9 @@ import (
 )
 
 type MPV struct {
-	Pid    int
-	Player *mpris.Player
+	Pid      int
+	Player   *mpris.Player
+	ShowHelp bool
 }
 
 func ConnectToMPV(cmd *exec.Cmd) MPV {
@@ -48,7 +49,7 @@ func ConnectToMPV(cmd *exec.Cmd) MPV {
 	player := mpris.New(conn, playerName)
 	utils.HandleError(err, "Cannot connect to mpv")
 
-	return MPV{pid, player}
+	return MPV{pid, player, false}
 }
 
 func (i MPV) PlayPause() {

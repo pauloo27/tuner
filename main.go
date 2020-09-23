@@ -82,35 +82,24 @@ func listResults(results []search.YouTubeResult) {
 	}
 }
 
-func listenToKeyboard(cmd *exec.Cmd, playerCtl controller.MPV) {
+func listenToKeyboard(cmd *exec.Cmd, playerCtl *controller.MPV) {
 	err := keyboard.Open()
 	utils.HandleError(err, "Cannot open keyboard")
 	for {
-		volume, _ := playerCtl.Player.GetVolume()
 		c, key, err := keyboard.GetKey()
 		if err != nil {
 			break
 		}
 
-		switch key {
-		case keyboard.KeyEsc:
-			_ = cmd.Process.Kill()
-		case keyboard.KeyCtrlC:
-			_ = cmd.Process.Kill()
-		case keyboard.KeySpace:
-			playerCtl.PlayPause()
-		default:
-			switch c {
-			case '9':
-				playerCtl.Player.SetVolume(volume - 0.05)
-			case '0':
-				playerCtl.Player.SetVolume(volume + 0.05)
-			}
+		if bind, ok := byKey[key]; ok {
+			bind.Handler(cmd, playerCtl)
+		} else if bind, ok := byChar[c]; ok {
+			bind.Handler(cmd, playerCtl)
 		}
 	}
 }
 
-func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV) {
+func displayPlayingScreen(result search.YouTubeResult, mpv *controller.MPV) {
 	for {
 		if !playing {
 			break
@@ -119,11 +108,11 @@ func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV)
 
 		icon := playingIcon
 
-		playback, _ := playerCtl.Player.GetPlaybackStatus()
+		playback, _ := mpv.Player.GetPlaybackStatus()
 		if playback != mpris.PlaybackPlaying {
 			icon = pausedIcon
 		}
-		fmt.Printf("%s %s %sfrom %s%s\n",
+		fmt.Printf(" %s  %s %sfrom %s%s\n",
 			icon,
 			utils.ColorGreen+result.Title,
 			utils.ColorWhite,
@@ -131,9 +120,20 @@ func displayPlayingScreen(result search.YouTubeResult, playerCtl controller.MPV)
 			utils.ColorReset,
 		)
 
-		if status, _ := playerCtl.Player.GetPlaybackStatus(); status != "" {
-			volume, _ := playerCtl.Player.GetVolume()
+		if status, _ := mpv.Player.GetPlaybackStatus(); status != "" {
+			volume, _ := mpv.Player.GetVolume()
 			fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, volume*100, utils.ColorReset)
+		}
+
+		if mpv.ShowHelp {
+			fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
+			for _, bind := range byKey {
+				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
+			}
+			for _, bind := range byChar {
+				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
+			}
+			fmt.Print(utils.ColorReset)
 		}
 
 		time.Sleep(500 * time.Millisecond)
@@ -156,8 +156,8 @@ func play(result search.YouTubeResult) {
 
 	go func() {
 		playerCtl := controller.ConnectToMPV(cmd)
-		go displayPlayingScreen(result, playerCtl)
-		go listenToKeyboard(cmd, playerCtl)
+		go displayPlayingScreen(result, &playerCtl)
+		go listenToKeyboard(cmd, &playerCtl)
 	}()
 
 	err := cmd.Run()
@@ -232,6 +232,7 @@ func tuneIn(warning *string) {
 func main() {
 	commands.SetupDefaultCommands()
 	setupCloseHandler()
+	registerDefaultKeybinds()
 	warning := ""
 	for {
 		tuneIn(&warning)
