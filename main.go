@@ -22,6 +22,7 @@ import (
 
 var close = make(chan os.Signal)
 var playing = false
+var mpvInstance controller.MPV
 
 const (
 	pausedIcon  = ""
@@ -155,9 +156,9 @@ func play(result search.YouTubeResult) {
 	cmd := exec.Command("mpv", parameters...)
 
 	go func() {
-		playerCtl := controller.ConnectToMPV(cmd)
-		go displayPlayingScreen(result, &playerCtl)
-		go listenToKeyboard(cmd, &playerCtl)
+		mpvInstance = controller.ConnectToMPV(cmd)
+		go displayPlayingScreen(result, &mpvInstance)
+		go listenToKeyboard(cmd, &mpvInstance)
 	}()
 
 	err := cmd.Run()
