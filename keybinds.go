@@ -3,6 +3,7 @@ package main
 import (
 	"os/exec"
 
+	"github.com/Pauloo27/go-mpris"
 	"github.com/Pauloo27/tuner/controller"
 	"github.com/Pauloo27/tuner/utils"
 	"github.com/eiannone/keyboard"
@@ -64,6 +65,21 @@ func registerDefaultKeybinds() {
 		KeyName:     "H",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
 			mpv.ShowHelp = !mpv.ShowHelp
+		},
+	}
+
+	byChar['l'] = Keybind{
+		Description: "Toggle loop",
+		KeyName:     "L",
+		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
+			loop, err := mpv.Player.GetLoopStatus()
+			utils.HandleError(err, "Cannot get mpv loop status")
+			newLoopStatus := mpris.LoopNone
+			if loop == mpris.LoopNone {
+				newLoopStatus = mpris.LoopTrack
+			}
+			err = mpv.Player.SetLoopStatus(newLoopStatus)
+			utils.HandleError(err, "Cannot set loop status")
 		},
 	}
 }
