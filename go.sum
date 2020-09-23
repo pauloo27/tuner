@@ -2,6 +2,8 @@ github.com/Pauloo27/go-mpris v0.0.4 h1:sCJSREdUXidp/RkFHlw7Ki7DdcWTx9XkJkPEyFjAS
 github.com/Pauloo27/go-mpris v0.0.4/go.mod h1:Bp7LmGYphh0aq8rCIOrB2sckiY5M+6N3oc6Jt6FlqNs=
 github.com/Pauloo27/go-mpris v1.0.0 h1:oOTh6fr8pRFfBcQfyJS6nermVfJeqwTO8zYmwbyXnm8=
 github.com/Pauloo27/go-mpris v1.0.0/go.mod h1:Bp7LmGYphh0aq8rCIOrB2sckiY5M+6N3oc6Jt6FlqNs=
+github.com/Pauloo27/go-mpris v1.2.0 h1:ybwj2aX17u3yoURYuquEG+diR5AdIitfSXrQwFlVsFw=
+github.com/Pauloo27/go-mpris v1.2.0/go.mod h1:Bp7LmGYphh0aq8rCIOrB2sckiY5M+6N3oc6Jt6FlqNs=
 github.com/buger/jsonparser v1.0.0 h1:etJTGF5ESxjI0Ic2UaLQs2LQQpa8G9ykQScukbh4L8A=
 github.com/buger/jsonparser v1.0.0/go.mod h1:tgcrVJ81GPSF0mz+0nu1Xaz0fazGPrmmJfJtxjbHhUQ=
 github.com/eiannone/keyboard v0.0.0-20200508000154-caf4b762e807 h1:jdjd5e68T4R/j4PWxfZqcKY8KtT9oo8IPNVuV4bSXDQ=
