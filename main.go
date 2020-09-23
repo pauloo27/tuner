@@ -113,11 +113,18 @@ func displayPlayingScreen(result search.YouTubeResult, mpv *controller.MPV) {
 		if playback != mpris.PlaybackPlaying {
 			icon = pausedIcon
 		}
-		fmt.Printf(" %s  %s %sfrom %s%s\n",
+
+		extra := utils.ColorWhite
+		if status, err := mpv.Player.GetLoopStatus(); err == nil && status == mpris.LoopTrack {
+			extra += "  "
+		}
+
+		fmt.Printf(" %s  %s %sfrom %s%s%s\n",
 			icon,
 			utils.ColorGreen+result.Title,
 			utils.ColorWhite,
 			utils.ColorGreen+result.Uploader,
+			extra,
 			utils.ColorReset,
 		)
 
