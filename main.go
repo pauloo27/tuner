@@ -135,10 +135,7 @@ func displayPlayingScreen(result search.YouTubeResult, mpv *controller.MPV) {
 
 		if mpv.ShowHelp {
 			fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
-			for _, bind := range byKey {
-				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
-			}
-			for _, bind := range byChar {
+			for _, bind := range listBinds() {
 				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
 			}
 			fmt.Print(utils.ColorReset)

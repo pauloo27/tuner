@@ -15,8 +15,9 @@ type Keybind struct {
 }
 
 var (
-	byKey  = map[keyboard.Key]Keybind{}
-	byChar = map[rune]Keybind{}
+	byKey    = map[keyboard.Key]Keybind{}
+	byChar   = map[rune]Keybind{}
+	keybinds []Keybind
 )
 
 func registerDefaultKeybinds() {
@@ -46,7 +47,8 @@ func registerDefaultKeybinds() {
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
 			volume, err := mpv.Player.GetVolume()
 			utils.HandleError(err, "Cannot get MPV volume")
-			mpv.Player.SetVolume(volume - 0.05)
+			err = mpv.Player.SetVolume(volume - 0.05)
+			utils.HandleError(err, "Cannot set MPV volume")
 		},
 	}
 
@@ -56,7 +58,8 @@ func registerDefaultKeybinds() {
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
 			volume, err := mpv.Player.GetVolume()
 			utils.HandleError(err, "Cannot get MPV volume")
-			mpv.Player.SetVolume(volume + 0.05)
+			err = mpv.Player.SetVolume(volume + 0.05)
+			utils.HandleError(err, "Cannot set MPV volume")
 		},
 	}
 
@@ -82,4 +85,18 @@ func registerDefaultKeybinds() {
 			utils.HandleError(err, "Cannot set loop status")
 		},
 	}
+}
+
+func listBinds() []Keybind {
+	if keybinds != nil {
+		return keybinds
+	}
+	keybinds = []Keybind{}
+	for _, bind := range byKey {
+		keybinds = append(keybinds, bind)
+	}
+	for _, bind := range byChar {
+		keybinds = append(keybinds, bind)
+	}
+	return keybinds
 }
