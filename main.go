@@ -14,6 +14,7 @@ import (
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/controller"
+	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/options"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
@@ -83,7 +84,7 @@ func listResults(results []search.YouTubeResult) {
 	}
 }
 
-func listenToKeyboard(cmd *exec.Cmd, playerCtl *controller.MPV) {
+func listenToKeyboard(cmd *exec.Cmd, mpv *controller.MPV) {
 	err := keyboard.Open()
 	utils.HandleError(err, "Cannot open keyboard")
 	for {
@@ -91,12 +92,7 @@ func listenToKeyboard(cmd *exec.Cmd, playerCtl *controller.MPV) {
 		if err != nil {
 			break
 		}
-
-		if bind, ok := byKey[key]; ok {
-			bind.Handler(cmd, playerCtl)
-		} else if bind, ok := byChar[c]; ok {
-			bind.Handler(cmd, playerCtl)
-		}
+		keybind.HandlePress(c, key, cmd, mpv)
 	}
 }
 
@@ -135,7 +131,7 @@ func displayPlayingScreen(result search.YouTubeResult, mpv *controller.MPV) {
 
 		if mpv.ShowHelp {
 			fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
-			for _, bind := range listBinds() {
+			for _, bind := range keybind.ListBinds() {
 				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
 			}
 			fmt.Print(utils.ColorReset)
@@ -236,8 +232,8 @@ func tuneIn(warning *string) {
 
 func main() {
 	commands.SetupDefaultCommands()
+	keybind.RegisterDefaultKeybinds()
 	setupCloseHandler()
-	registerDefaultKeybinds()
 	warning := ""
 	for {
 		tuneIn(&warning)

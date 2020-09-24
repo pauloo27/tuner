@@ -1,4 +1,4 @@
-package main
+package keybind
 
 import (
 	"os/exec"
@@ -15,12 +15,12 @@ type Keybind struct {
 }
 
 var (
-	byKey    = map[keyboard.Key]Keybind{}
-	byChar   = map[rune]Keybind{}
+	ByKey    = map[keyboard.Key]Keybind{}
+	ByChar   = map[rune]Keybind{}
 	keybinds []Keybind
 )
 
-func registerDefaultKeybinds() {
+func RegisterDefaultKeybinds() {
 	killMpv := Keybind{
 		Description: "Stop the player",
 		KeyName:     "Esc",
@@ -29,11 +29,11 @@ func registerDefaultKeybinds() {
 		},
 	}
 
-	byKey[keyboard.KeyEsc] = killMpv
+	ByKey[keyboard.KeyEsc] = killMpv
 	killMpv.KeyName = "CtrlC"
-	byKey[keyboard.KeyCtrlC] = killMpv
+	ByKey[keyboard.KeyCtrlC] = killMpv
 
-	byKey[keyboard.KeySpace] = Keybind{
+	ByKey[keyboard.KeySpace] = Keybind{
 		Description: "Play/Pause song",
 		KeyName:     "Space",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
@@ -41,7 +41,7 @@ func registerDefaultKeybinds() {
 		},
 	}
 
-	byChar['9'] = Keybind{
+	ByChar['9'] = Keybind{
 		Description: "Decrease the volume",
 		KeyName:     "9",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
@@ -52,7 +52,7 @@ func registerDefaultKeybinds() {
 		},
 	}
 
-	byChar['0'] = Keybind{
+	ByChar['0'] = Keybind{
 		Description: "Increase the volume",
 		KeyName:     "0",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
@@ -63,7 +63,7 @@ func registerDefaultKeybinds() {
 		},
 	}
 
-	byChar['h'] = Keybind{
+	ByChar['h'] = Keybind{
 		Description: "Toggle keybind list",
 		KeyName:     "H",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
@@ -71,7 +71,7 @@ func registerDefaultKeybinds() {
 		},
 	}
 
-	byChar['l'] = Keybind{
+	ByChar['l'] = Keybind{
 		Description: "Toggle loop",
 		KeyName:     "L",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
@@ -87,15 +87,23 @@ func registerDefaultKeybinds() {
 	}
 }
 
-func listBinds() []Keybind {
+func HandlePress(c rune, key keyboard.Key, cmd *exec.Cmd, mpv *controller.MPV) {
+	if bind, ok := ByKey[key]; ok {
+		bind.Handler(cmd, mpv)
+	} else if bind, ok := ByChar[c]; ok {
+		bind.Handler(cmd, mpv)
+	}
+}
+
+func ListBinds() []Keybind {
 	if keybinds != nil {
 		return keybinds
 	}
 	keybinds = []Keybind{}
-	for _, bind := range byKey {
+	for _, bind := range ByKey {
 		keybinds = append(keybinds, bind)
 	}
-	for _, bind := range byChar {
+	for _, bind := range ByChar {
 		keybinds = append(keybinds, bind)
 	}
 	return keybinds
