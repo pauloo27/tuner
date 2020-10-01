@@ -11,10 +11,6 @@ import (
 	"github.com/anaskhan96/soup"
 )
 
-type SongLyric struct {
-	Lyric string
-}
-
 var lyricUrlRe = regexp.MustCompile(`https:\/\/genius.com/[^/]+-lyrics`)
 
 func FormatArgument(str string) string {
@@ -34,11 +30,11 @@ func FormatArgument(str string) string {
 	return str
 }
 
-func FetchLyricFor(artist, song string) (SongLyric, error) {
+func FetchLyricFor(artist, song string) (string, error) {
 	return Fetch(fmt.Sprintf("https://genius.com/%s-%s-lyrics", FormatArgument(artist), FormatArgument(song)))
 }
 
-func Fetch(path string) (lyric SongLyric, err error) {
+func Fetch(path string) (lyric string, err error) {
 	res, err := http.Get(path)
 	if err != nil {
 		return
@@ -67,10 +63,10 @@ func Fetch(path string) (lyric SongLyric, err error) {
 
 			html := strings.ReplaceAll(div.HTML(), "<br/>", "<br/>\n")
 
-			lyric.Lyric += soup.HTMLParse(html).FullText()
+			lyric += soup.HTMLParse(html).FullText()
 		}
 	} else {
-		lyric.Lyric = lyricDiv.FullText()
+		lyric = lyricDiv.FullText()
 	}
 
 	return
