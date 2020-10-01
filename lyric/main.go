@@ -63,10 +63,11 @@ func Fetch(path string) (lyric string, err error) {
 
 			html := strings.ReplaceAll(div.HTML(), "<br/>", "<br/>\n")
 
-			lyric += soup.HTMLParse(html).FullText()
+			lyric += strings.TrimSpace(soup.HTMLParse(html).FullText()) + "\n"
 		}
+		lyric = strings.TrimSpace(lyric)
 	} else {
-		lyric = lyricDiv.FullText()
+		lyric = strings.TrimSpace(lyricDiv.FullText())
 	}
 
 	return
