@@ -85,6 +85,14 @@ func RegisterDefaultKeybinds() {
 			utils.HandleError(err, "Cannot set loop status")
 		},
 	}
+
+	ByChar['p'] = Keybind{
+		Description: "Toggle lyric",
+		KeyName:     "P",
+		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
+			mpv.ShowLyric = !mpv.ShowLyric
+		},
+	}
 }
 
 func HandlePress(c rune, key keyboard.Key, cmd *exec.Cmd, mpv *controller.MPV) {

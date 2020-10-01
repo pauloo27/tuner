@@ -11,9 +11,11 @@ import (
 )
 
 type MPV struct {
-	Pid      int
-	Player   *mpris.Player
-	ShowHelp bool
+	Pid                 int
+	Player              *mpris.Player
+	ShowHelp, ShowLyric bool
+	LyricIndex          int
+	LyricLines          []string
 }
 
 func ConnectToMPV(cmd *exec.Cmd) MPV {
@@ -49,9 +51,9 @@ func ConnectToMPV(cmd *exec.Cmd) MPV {
 	player := mpris.New(conn, playerName)
 	utils.HandleError(err, "Cannot connect to mpv")
 
-	return MPV{pid, player, false}
+	return MPV{pid, player, false, false, 0, []string{"Fetching lyric..."}}
 }
 
 func (i MPV) PlayPause() {
-	i.Player.PlayPause()
+	_ = i.Player.PlayPause()
 }
