@@ -155,7 +155,11 @@ func displayPlayingScreen(result search.YouTubeResult, mpv *controller.MPV) {
 
 		if mpv.ShowLyric {
 			fmt.Println(utils.ColorBlue)
+			lines := len(mpv.LyricLines)
 			for i := mpv.LyricIndex; i < 10; i++ {
+				if i == lines {
+					break
+				}
 				fmt.Println(mpv.LyricLines[i])
 			}
 		}
