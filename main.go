@@ -24,7 +24,7 @@ import (
 
 var close = make(chan os.Signal)
 var playing = false
-var mpvInstance controller.MPV
+var mpvInstance *controller.MPV
 
 const (
 	pausedIcon  = ""
@@ -57,7 +57,7 @@ func setupCloseHandler() {
 	}()
 }
 
-func fetchLyric(result search.YouTubeResult, mpv *controller.MPV) {
+func fetchLyric(result *search.YouTubeResult, mpv *controller.MPV) {
 	path, err := lyric.SearchFor(fmt.Sprintf("%s %s", result.Title, result.Uploader))
 	if err != nil {
 		mpv.LyricLines = []string{"Cannot get lyric"}
@@ -116,64 +116,64 @@ func listenToKeyboard(cmd *exec.Cmd, mpv *controller.MPV) {
 	}
 }
 
-func displayPlayingScreen(result search.YouTubeResult, mpv *controller.MPV) {
-	for {
-		if !playing {
-			break
-		}
-		utils.ClearScreen()
+var asd = 0
 
-		icon := playingIcon
+func showPlayingScreen(result *search.YouTubeResult, mpv *controller.MPV) {
 
-		playback, _ := mpv.Player.GetPlaybackStatus()
-		if playback != mpris.PlaybackPlaying {
-			icon = pausedIcon
-		}
-
-		extra := utils.ColorWhite
-		if status, err := mpv.Player.GetLoopStatus(); err == nil && status == mpris.LoopTrack {
-			extra += "  "
-		}
-
-		fmt.Printf(" %s  %s %sfrom %s%s%s\n",
-			icon,
-			utils.ColorGreen+result.Title,
-			utils.ColorWhite,
-			utils.ColorGreen+result.Uploader,
-			extra,
-			utils.ColorReset,
-		)
-
-		if status, _ := mpv.Player.GetPlaybackStatus(); status != "" {
-			volume, _ := mpv.Player.GetVolume()
-			fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, volume*100, utils.ColorReset)
-		}
-
-		if mpv.ShowHelp {
-			fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
-			for _, bind := range keybind.ListBinds() {
-				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
-			}
-		}
-
-		if mpv.ShowLyric {
-			fmt.Println(utils.ColorBlue)
-			lines := len(mpv.LyricLines)
-			for i := mpv.LyricIndex; i < mpv.LyricIndex+15; i++ {
-				if i == lines {
-					break
-				}
-				fmt.Println(mpv.LyricLines[i])
-			}
-		}
-
-		fmt.Print(utils.ColorReset)
-
-		time.Sleep(500 * time.Millisecond)
+	if !playing {
+		return
 	}
+
+	utils.ClearScreen()
+
+	icon := playingIcon
+
+	playback, _ := mpv.Player.GetPlaybackStatus()
+	if playback != mpris.PlaybackPlaying {
+		icon = pausedIcon
+	}
+
+	extra := utils.ColorWhite
+	if status, err := mpv.Player.GetLoopStatus(); err == nil && status == mpris.LoopTrack {
+		extra += "  "
+	}
+
+	fmt.Printf(" %s  %s %sfrom %s%s%s\n",
+		icon,
+		utils.ColorGreen+result.Title,
+		utils.ColorWhite,
+		utils.ColorGreen+result.Uploader,
+		extra,
+		utils.ColorReset,
+	)
+
+	if status, _ := mpv.Player.GetPlaybackStatus(); status != "" {
+		volume, _ := mpv.Player.GetVolume()
+		fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, volume*100, utils.ColorReset)
+	}
+
+	if mpv.ShowHelp {
+		fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
+		for _, bind := range keybind.ListBinds() {
+			fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
+		}
+	}
+
+	if mpv.ShowLyric {
+		fmt.Println(utils.ColorBlue)
+		lines := len(mpv.LyricLines)
+		for i := mpv.LyricIndex; i < mpv.LyricIndex+15; i++ {
+			if i == lines {
+				break
+			}
+			fmt.Println(mpv.LyricLines[i])
+		}
+	}
+
+	fmt.Print(utils.ColorReset)
 }
 
-func play(result search.YouTubeResult) {
+func play(result *search.YouTubeResult) {
 	url := fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
 
 	parameters := []string{url}
@@ -188,10 +188,9 @@ func play(result search.YouTubeResult) {
 	cmd := exec.Command("mpv", parameters...)
 
 	go func() {
-		mpvInstance = controller.ConnectToMPV(cmd)
-		go fetchLyric(result, &mpvInstance)
-		go displayPlayingScreen(result, &mpvInstance)
-		go listenToKeyboard(cmd, &mpvInstance)
+		mpvInstance = controller.ConnectToMPV(cmd, result, showPlayingScreen)
+		go fetchLyric(result, mpvInstance)
+		go listenToKeyboard(cmd, mpvInstance)
 	}()
 
 	err := cmd.Run()
@@ -260,7 +259,7 @@ func tuneIn(warning *string) {
 		entry = results[index]
 	}
 
-	play(entry)
+	play(&entry)
 }
 
 func main() {

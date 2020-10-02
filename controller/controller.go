@@ -6,9 +6,12 @@ import (
 	"time"
 
 	"github.com/Pauloo27/go-mpris"
+	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
 	"github.com/godbus/dbus"
 )
+
+type UpdateHandler func(result *search.YouTubeResult, mpv *MPV)
 
 type MPV struct {
 	Pid                 int
@@ -16,9 +19,11 @@ type MPV struct {
 	ShowHelp, ShowLyric bool
 	LyricIndex          int
 	LyricLines          []string
+	Result              *search.YouTubeResult
+	OnUpdate            UpdateHandler
 }
 
-func ConnectToMPV(cmd *exec.Cmd) MPV {
+func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHandler) *MPV {
 	for {
 		if cmd.Process != nil {
 			break
@@ -51,9 +56,17 @@ func ConnectToMPV(cmd *exec.Cmd) MPV {
 	player := mpris.New(conn, playerName)
 	utils.HandleError(err, "Cannot connect to mpv")
 
-	return MPV{pid, player, false, false, 0, []string{"Fetching lyric..."}}
+	mpv := MPV{pid, player, false, false, 0, []string{"Fetching lyric..."}, result, onUpdate}
+
+	mpv.Update()
+
+	return &mpv
 }
 
-func (i MPV) PlayPause() {
+func (i *MPV) Update() {
+	i.OnUpdate(i.Result, i)
+}
+
+func (i *MPV) PlayPause() {
 	_ = i.Player.PlayPause()
 }
