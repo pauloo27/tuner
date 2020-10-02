@@ -63,9 +63,9 @@ func RegisterDefaultKeybinds() {
 		},
 	}
 
-	ByChar['h'] = Keybind{
+	ByChar['?'] = Keybind{
 		Description: "Toggle keybind list",
-		KeyName:     "H",
+		KeyName:     "?",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
 			mpv.ShowHelp = !mpv.ShowHelp
 		},
@@ -91,6 +91,26 @@ func RegisterDefaultKeybinds() {
 		KeyName:     "P",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
 			mpv.ShowLyric = !mpv.ShowLyric
+		},
+	}
+
+	ByChar['w'] = Keybind{
+		Description: "Scroll lyric up",
+		KeyName:     "W",
+		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
+			if mpv.LyricIndex > 0 {
+				mpv.LyricIndex = mpv.LyricIndex - 1
+			}
+		},
+	}
+
+	ByChar['s'] = Keybind{
+		Description: "Scroll lyric down",
+		KeyName:     "S",
+		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
+			if mpv.LyricIndex < len(mpv.LyricLines) {
+				mpv.LyricIndex = mpv.LyricIndex + 1
+			}
 		},
 	}
 }
