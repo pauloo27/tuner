@@ -107,9 +107,12 @@ func listenToKeyboard(cmd *exec.Cmd, mpv *controller.MPV) {
 	for {
 		c, key, err := keyboard.GetKey()
 		if err != nil {
-			break
+			if !playing {
+				break
+			}
+		} else {
+			keybind.HandlePress(c, key, cmd, mpv)
 		}
-		keybind.HandlePress(c, key, cmd, mpv)
 	}
 }
 
@@ -156,7 +159,7 @@ func displayPlayingScreen(result search.YouTubeResult, mpv *controller.MPV) {
 		if mpv.ShowLyric {
 			fmt.Println(utils.ColorBlue)
 			lines := len(mpv.LyricLines)
-			for i := mpv.LyricIndex; i < 10; i++ {
+			for i := mpv.LyricIndex; i < mpv.LyricIndex+15; i++ {
 				if i == lines {
 					break
 				}
