@@ -99,8 +99,6 @@ func listenToKeyboard(cmd *exec.Cmd, mpv *player.MPV) {
 	}
 }
 
-var asd = 0
-
 func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 
 	if !playing {
@@ -174,6 +172,9 @@ func play(result *search.YouTubeResult) {
 	cmd := exec.Command("mpv", parameters...)
 
 	go func() {
+		if mpvInstance != nil && !mpvInstance.Exitted {
+			mpvInstance.Exit()
+		}
 		mpvInstance = player.ConnectToMPV(cmd, result, showPlayingScreen)
 		go listenToKeyboard(cmd, mpvInstance)
 	}()
@@ -186,6 +187,7 @@ func play(result *search.YouTubeResult) {
 
 	keyboard.Close()
 	playing = false
+	mpvInstance.Exit()
 }
 
 func tuneIn(warning *string) {

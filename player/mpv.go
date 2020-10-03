@@ -23,6 +23,7 @@ type MPV struct {
 	LyricLines          []string
 	Result              *search.YouTubeResult
 	OnUpdate            UpdateHandler
+	Exitted             bool
 }
 
 func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHandler) *MPV {
@@ -58,9 +59,19 @@ func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHa
 	player := mpris.New(conn, playerName)
 	utils.HandleError(err, "Cannot connect to mpv")
 
-	mpv := MPV{pid, player, false, false, 0, []string{}, result, onUpdate}
+	mpv := MPV{pid, player, false, false, 0, []string{}, result, onUpdate, false}
 
 	mpv.Update()
+
+	go func() {
+		ch := make(chan *dbus.Signal)
+		err := mpv.Player.OnSignal(ch)
+		utils.HandleError(err, "Cannot add signal handler")
+
+		for range ch {
+			mpv.Update()
+		}
+	}()
 
 	return &mpv
 }
@@ -72,6 +83,10 @@ func (i *MPV) Update() {
 func (i *MPV) PlayPause() {
 	_ = i.Player.PlayPause()
 	i.Update()
+}
+
+func (i *MPV) Exit() {
+	i.Exitted = true
 }
 
 func (i *MPV) FetchLyric() {
