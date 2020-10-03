@@ -96,14 +96,17 @@ func (i *MPV) FetchLyric() {
 	path, err := lyric.SearchFor(fmt.Sprintf("%s %s", i.Result.Title, i.Result.Uploader))
 	if err != nil {
 		i.LyricLines = []string{"Cannot get lyric"}
+		i.Update()
 		return
 	}
 
 	l, err := lyric.Fetch(path)
 	if err != nil {
 		i.LyricLines = []string{"Cannot get lyric"}
+		i.Update()
 		return
 	}
 
 	i.LyricLines = strings.Split(l, "\n")
+	i.Update()
 }

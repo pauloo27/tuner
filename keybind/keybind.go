@@ -68,6 +68,7 @@ func RegisterDefaultKeybinds() {
 		KeyName:     "?",
 		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
 			mpv.ShowHelp = !mpv.ShowHelp
+			mpv.Update()
 		},
 	}
 
@@ -94,6 +95,7 @@ func RegisterDefaultKeybinds() {
 				go mpv.FetchLyric()
 			}
 			mpv.ShowLyric = !mpv.ShowLyric
+			mpv.Update()
 		},
 	}
 
@@ -103,6 +105,7 @@ func RegisterDefaultKeybinds() {
 		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
 			if mpv.LyricIndex > 0 {
 				mpv.LyricIndex = mpv.LyricIndex - 1
+				mpv.Update()
 			}
 		},
 	}
@@ -113,6 +116,7 @@ func RegisterDefaultKeybinds() {
 		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
 			if mpv.LyricIndex < len(mpv.LyricLines) {
 				mpv.LyricIndex = mpv.LyricIndex + 1
+				mpv.Update()
 			}
 		},
 	}
