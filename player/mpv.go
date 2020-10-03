@@ -69,6 +69,9 @@ func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHa
 		utils.HandleError(err, "Cannot add signal handler")
 
 		for range ch {
+			if mpv.Exitted {
+				break
+			}
 			mpv.Update()
 		}
 	}()
