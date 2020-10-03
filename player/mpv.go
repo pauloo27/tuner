@@ -71,6 +71,7 @@ func (i *MPV) Update() {
 
 func (i *MPV) PlayPause() {
 	_ = i.Player.PlayPause()
+	i.Update()
 }
 
 func (i *MPV) FetchLyric() {
