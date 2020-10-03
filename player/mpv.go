@@ -10,7 +10,7 @@ import (
 	"github.com/Pauloo27/tuner/lyric"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
-	"github.com/godbus/dbus"
+	"github.com/godbus/dbus/v5"
 )
 
 type UpdateHandler func(result *search.YouTubeResult, mpv *MPV)
