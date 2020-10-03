@@ -90,6 +90,9 @@ func RegisterDefaultKeybinds() {
 		Description: "Toggle lyric",
 		KeyName:     "P",
 		Handler: func(cmd *exec.Cmd, mpv *controller.MPV) {
+			if len(mpv.LyricLines) == 0 {
+				go mpv.FetchLyric()
+			}
 			mpv.ShowLyric = !mpv.ShowLyric
 		},
 	}

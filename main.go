@@ -15,7 +15,6 @@ import (
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/controller"
 	"github.com/Pauloo27/tuner/keybind"
-	"github.com/Pauloo27/tuner/lyric"
 	"github.com/Pauloo27/tuner/options"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
@@ -55,22 +54,6 @@ func setupCloseHandler() {
 			}
 		}
 	}()
-}
-
-func fetchLyric(result *search.YouTubeResult, mpv *controller.MPV) {
-	path, err := lyric.SearchFor(fmt.Sprintf("%s %s", result.Title, result.Uploader))
-	if err != nil {
-		mpv.LyricLines = []string{"Cannot get lyric"}
-		return
-	}
-
-	l, err := lyric.Fetch(path)
-	if err != nil {
-		mpv.LyricLines = []string{"Cannot get lyric"}
-		return
-	}
-
-	mpv.LyricLines = strings.Split(l, "\n")
 }
 
 func listResults(results []search.YouTubeResult) {
@@ -162,6 +145,9 @@ func showPlayingScreen(result *search.YouTubeResult, mpv *controller.MPV) {
 	if mpv.ShowLyric {
 		fmt.Println(utils.ColorBlue)
 		lines := len(mpv.LyricLines)
+		if lines == 0 {
+			fmt.Println("Fetching lyric...")
+		}
 		for i := mpv.LyricIndex; i < mpv.LyricIndex+15; i++ {
 			if i == lines {
 				break
@@ -189,7 +175,6 @@ func play(result *search.YouTubeResult) {
 
 	go func() {
 		mpvInstance = controller.ConnectToMPV(cmd, result, showPlayingScreen)
-		go fetchLyric(result, mpvInstance)
 		go listenToKeyboard(cmd, mpvInstance)
 	}()
 
