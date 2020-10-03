@@ -13,9 +13,9 @@ import (
 	"github.com/Pauloo27/go-mpris"
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
-	"github.com/Pauloo27/tuner/controller"
 	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/options"
+	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
 	"github.com/eiannone/keyboard"
@@ -23,7 +23,7 @@ import (
 
 var close = make(chan os.Signal)
 var playing = false
-var mpvInstance *controller.MPV
+var mpvInstance *player.MPV
 
 const (
 	pausedIcon  = ""
@@ -84,7 +84,7 @@ func listResults(results []search.YouTubeResult) {
 	}
 }
 
-func listenToKeyboard(cmd *exec.Cmd, mpv *controller.MPV) {
+func listenToKeyboard(cmd *exec.Cmd, mpv *player.MPV) {
 	err := keyboard.Open()
 	utils.HandleError(err, "Cannot open keyboard")
 	for {
@@ -101,7 +101,7 @@ func listenToKeyboard(cmd *exec.Cmd, mpv *controller.MPV) {
 
 var asd = 0
 
-func showPlayingScreen(result *search.YouTubeResult, mpv *controller.MPV) {
+func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 
 	if !playing {
 		return
@@ -174,7 +174,7 @@ func play(result *search.YouTubeResult) {
 	cmd := exec.Command("mpv", parameters...)
 
 	go func() {
-		mpvInstance = controller.ConnectToMPV(cmd, result, showPlayingScreen)
+		mpvInstance = player.ConnectToMPV(cmd, result, showPlayingScreen)
 		go listenToKeyboard(cmd, mpvInstance)
 	}()
 
