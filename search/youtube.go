@@ -45,6 +45,10 @@ func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 	body := string(buffer)
 	splittedScript := strings.Split(body, `window["ytInitialData"] = `)
 	if len(splittedScript) != 2 {
+		splittedScript = strings.Split(body, `var ytInitialData = `)
+	}
+
+	if len(splittedScript) != 2 {
 		utils.HandleError(errors.New("Too much splitted scripts"), "Cannot split script")
 	}
 	splittedScript = strings.Split(splittedScript[1], `window["ytInitialPlayerResponse"] = null;`)
