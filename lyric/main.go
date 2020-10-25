@@ -13,27 +13,6 @@ import (
 
 var lyricUrlRe = regexp.MustCompile(`https:\/\/genius.com/[^/]+-lyrics`)
 
-func FormatArgument(str string) string {
-	str = strings.ToLower(str)
-	// TODO: Improve
-	str = strings.ReplaceAll(str, " ", "-")
-	str = strings.ReplaceAll(str, "/", "-")
-	str = strings.ReplaceAll(str, ".", "")
-	str = strings.ReplaceAll(str, "ç", "c")
-	str = strings.ReplaceAll(str, "ã", "a")
-	str = strings.ReplaceAll(str, "é", "e")
-	str = strings.ReplaceAll(str, "í", "i")
-	str = strings.ReplaceAll(str, "ô", "o")
-	str = strings.ReplaceAll(str, "ú", "u")
-	str = strings.ReplaceAll(str, "ü", "u")
-
-	return str
-}
-
-func FetchLyricFor(artist, song string) (string, error) {
-	return Fetch(fmt.Sprintf("https://genius.com/%s-%s-lyrics", FormatArgument(artist), FormatArgument(song)))
-}
-
 func Fetch(path string) (lyric string, err error) {
 	res, err := http.Get(path)
 	if err != nil {
