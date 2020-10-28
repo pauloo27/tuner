@@ -1,6 +1,7 @@
 package keybind
 
 import (
+	"fmt"
 	"os/exec"
 
 	"github.com/Pauloo27/go-mpris"
@@ -46,7 +47,11 @@ func RegisterDefaultKeybinds() {
 		KeyName:     "9",
 		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
 			volume, err := mpv.Player.GetVolume()
-			utils.HandleError(err, "Cannot get MPV volume")
+			// avoid crashing when the player is starting
+			if err != nil {
+				fmt.Println("Cannot get MPV volume")
+				return
+			}
 			err = mpv.Player.SetVolume(volume - 0.05)
 			utils.HandleError(err, "Cannot set MPV volume")
 		},
@@ -57,7 +62,11 @@ func RegisterDefaultKeybinds() {
 		KeyName:     "0",
 		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
 			volume, err := mpv.Player.GetVolume()
-			utils.HandleError(err, "Cannot get MPV volume")
+			// avoid crashing when the player is starting
+			if err != nil {
+				fmt.Println("Cannot get MPV volume")
+				return
+			}
 			err = mpv.Player.SetVolume(volume + 0.05)
 			utils.HandleError(err, "Cannot set MPV volume")
 		},
