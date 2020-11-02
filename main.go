@@ -160,7 +160,7 @@ func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 func play(result *search.YouTubeResult) {
 	url := fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
 
-	parameters := []string{url}
+	parameters := []string{url, "--script-opts=ytdl_hook-ytdl_path=youtube-dlc"}
 	if !options.Options.ShowVideo {
 		parameters = append(parameters, "--no-video", "--ytdl-format=worst")
 	}
