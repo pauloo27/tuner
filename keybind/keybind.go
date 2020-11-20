@@ -129,6 +129,15 @@ func RegisterDefaultKeybinds() {
 			}
 		},
 	}
+
+	ByChar['u'] = Keybind{
+		Description: "Show video URL",
+		KeyName:     "U",
+		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+			mpv.ShowURL = !mpv.ShowURL
+			mpv.Update()
+		},
+	}
 }
 
 func HandlePress(c rune, key keyboard.Key, cmd *exec.Cmd, mpv *player.MPV) {

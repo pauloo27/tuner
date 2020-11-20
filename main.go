@@ -133,6 +133,10 @@ func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 		fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, volume*100, utils.ColorReset)
 	}
 
+	if mpv.ShowURL {
+		fmt.Printf("%shttps://youtube.com/watch?v=%s%s\n", utils.ColorBlue, result.ID, utils.ColorReset)
+	}
+
 	if mpv.ShowHelp {
 		fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
 		for _, bind := range keybind.ListBinds() {

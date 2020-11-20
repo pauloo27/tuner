@@ -16,14 +16,14 @@ import (
 type UpdateHandler func(result *search.YouTubeResult, mpv *MPV)
 
 type MPV struct {
-	Pid                 int
-	Player              *mpris.Player
-	ShowHelp, ShowLyric bool
-	LyricIndex          int
-	LyricLines          []string
-	Result              *search.YouTubeResult
-	OnUpdate            UpdateHandler
-	Exitted             bool
+	Pid                          int
+	Player                       *mpris.Player
+	ShowHelp, ShowLyric, ShowURL bool
+	LyricIndex                   int
+	LyricLines                   []string
+	Result                       *search.YouTubeResult
+	OnUpdate                     UpdateHandler
+	Exitted                      bool
 }
 
 func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHandler) *MPV {
@@ -59,7 +59,7 @@ func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHa
 	player := mpris.New(conn, playerName)
 	utils.HandleError(err, "Cannot connect to mpv")
 
-	mpv := MPV{pid, player, false, false, 0, []string{}, result, onUpdate, false}
+	mpv := MPV{pid, player, false, false, false, 0, []string{}, result, onUpdate, false}
 
 	mpv.Update()
 
