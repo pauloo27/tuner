@@ -150,6 +150,24 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 			}
 		},
 	}
+
+	ByChar['>'] = Keybind{
+		Description: "Next song in playlist",
+		KeyName:     ">",
+		Handler: func(mpv *player.MPV) {
+			err := mpv.Player.Next()
+			utils.HandleError(err, "Cannot skip song")
+		},
+	}
+
+	ByChar['<'] = Keybind{
+		Description: "Previous song in playlist",
+		KeyName:     "<",
+		Handler: func(mpv *player.MPV) {
+			err := mpv.Player.Previous()
+			utils.HandleError(err, "Cannot skip song")
+		},
+	}
 }
 
 func HandlePress(c rune, key keyboard.Key, mpv *player.MPV) {
