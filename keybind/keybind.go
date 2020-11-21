@@ -2,16 +2,16 @@ package keybind
 
 import (
 	"fmt"
-	"os/exec"
 
 	"github.com/Pauloo27/go-mpris"
 	"github.com/Pauloo27/tuner/player"
+	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
 	"github.com/eiannone/keyboard"
 )
 
 type Keybind struct {
-	Handler              func(cmd *exec.Cmd, mpv *player.MPV)
+	Handler              func(mpv *player.MPV)
 	KeyName, Description string
 }
 
@@ -21,12 +21,12 @@ var (
 	keybinds []Keybind
 )
 
-func RegisterDefaultKeybinds() {
+func RegisterDefaultKeybinds(data *storage.TunerData) {
 	killMpv := Keybind{
 		Description: "Stop the player",
 		KeyName:     "Esc",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
-			_ = cmd.Process.Kill()
+		Handler: func(mpv *player.MPV) {
+			_ = mpv.Cmd.Process.Kill()
 		},
 	}
 
@@ -37,7 +37,7 @@ func RegisterDefaultKeybinds() {
 	ByKey[keyboard.KeySpace] = Keybind{
 		Description: "Play/Pause song",
 		KeyName:     "Space",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			mpv.PlayPause()
 		},
 	}
@@ -45,7 +45,7 @@ func RegisterDefaultKeybinds() {
 	ByChar['9'] = Keybind{
 		Description: "Decrease the volume",
 		KeyName:     "9",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			volume, err := mpv.Player.GetVolume()
 			// avoid crashing when the player is starting
 			if err != nil {
@@ -60,7 +60,7 @@ func RegisterDefaultKeybinds() {
 	ByChar['0'] = Keybind{
 		Description: "Increase the volume",
 		KeyName:     "0",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			volume, err := mpv.Player.GetVolume()
 			// avoid crashing when the player is starting
 			if err != nil {
@@ -75,7 +75,7 @@ func RegisterDefaultKeybinds() {
 	ByChar['?'] = Keybind{
 		Description: "Toggle keybind list",
 		KeyName:     "?",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			mpv.ShowHelp = !mpv.ShowHelp
 			mpv.Update()
 		},
@@ -84,7 +84,7 @@ func RegisterDefaultKeybinds() {
 	ByChar['l'] = Keybind{
 		Description: "Toggle loop",
 		KeyName:     "L",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			loop, err := mpv.Player.GetLoopStatus()
 			utils.HandleError(err, "Cannot get mpv loop status")
 			newLoopStatus := mpris.LoopNone
@@ -99,7 +99,7 @@ func RegisterDefaultKeybinds() {
 	ByChar['p'] = Keybind{
 		Description: "Toggle lyric",
 		KeyName:     "P",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			if len(mpv.LyricLines) == 0 {
 				go mpv.FetchLyric()
 			}
@@ -111,7 +111,7 @@ func RegisterDefaultKeybinds() {
 	ByChar['w'] = Keybind{
 		Description: "Scroll lyric up",
 		KeyName:     "W",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			if mpv.LyricIndex > 0 {
 				mpv.LyricIndex = mpv.LyricIndex - 1
 				mpv.Update()
@@ -122,7 +122,7 @@ func RegisterDefaultKeybinds() {
 	ByChar['s'] = Keybind{
 		Description: "Scroll lyric down",
 		KeyName:     "S",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			if mpv.LyricIndex < len(mpv.LyricLines) {
 				mpv.LyricIndex = mpv.LyricIndex + 1
 				mpv.Update()
@@ -133,18 +133,30 @@ func RegisterDefaultKeybinds() {
 	ByChar['u'] = Keybind{
 		Description: "Show video URL",
 		KeyName:     "U",
-		Handler: func(cmd *exec.Cmd, mpv *player.MPV) {
+		Handler: func(mpv *player.MPV) {
 			mpv.ShowURL = !mpv.ShowURL
 			mpv.Update()
 		},
 	}
+
+	ByChar['b'] = Keybind{
+		Description: "Save song to playlist",
+		KeyName:     "B",
+		Handler: func(mpv *player.MPV) {
+			mpv.Saving = !mpv.Saving
+			mpv.Update()
+			if mpv.Saving {
+				mpv.Save()
+			}
+		},
+	}
 }
 
-func HandlePress(c rune, key keyboard.Key, cmd *exec.Cmd, mpv *player.MPV) {
+func HandlePress(c rune, key keyboard.Key, mpv *player.MPV) {
 	if bind, ok := ByKey[key]; ok {
-		bind.Handler(cmd, mpv)
+		bind.Handler(mpv)
 	} else if bind, ok := ByChar[c]; ok {
-		bind.Handler(cmd, mpv)
+		bind.Handler(mpv)
 	}
 }
 

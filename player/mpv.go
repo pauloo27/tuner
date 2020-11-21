@@ -14,19 +14,22 @@ import (
 )
 
 type UpdateHandler func(result *search.YouTubeResult, mpv *MPV)
+type SaveFunction func(result *search.YouTubeResult, mpv *MPV)
 
 type MPV struct {
-	Pid                          int
-	Player                       *mpris.Player
-	ShowHelp, ShowLyric, ShowURL bool
-	LyricIndex                   int
-	LyricLines                   []string
-	Result                       *search.YouTubeResult
-	OnUpdate                     UpdateHandler
-	Exitted                      bool
+	Pid                                  int
+	Cmd                                  *exec.Cmd
+	Player                               *mpris.Player
+	ShowHelp, ShowLyric, ShowURL, Saving bool
+	LyricIndex                           int
+	LyricLines                           []string
+	Result                               *search.YouTubeResult
+	onUpdate                             UpdateHandler
+	save                                 SaveFunction
+	Exitted                              bool
 }
 
-func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHandler) *MPV {
+func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHandler, save SaveFunction) *MPV {
 	for {
 		if cmd.Process != nil {
 			break
@@ -59,7 +62,7 @@ func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHa
 	player := mpris.New(conn, playerName)
 	utils.HandleError(err, "Cannot connect to mpv")
 
-	mpv := MPV{pid, player, false, false, false, 0, []string{}, result, onUpdate, false}
+	mpv := MPV{pid, cmd, player, false, false, false, false, 0, []string{}, result, onUpdate, save, false}
 
 	mpv.Update()
 
@@ -80,7 +83,11 @@ func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHa
 }
 
 func (i *MPV) Update() {
-	i.OnUpdate(i.Result, i)
+	i.onUpdate(i.Result, i)
+}
+
+func (i *MPV) Save() {
+	i.save(i.Result, i)
 }
 
 func (i *MPV) PlayPause() {

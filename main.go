@@ -86,7 +86,7 @@ func listResults(results []search.YouTubeResult) {
 	}
 }
 
-func listenToKeyboard(cmd *exec.Cmd, mpv *player.MPV) {
+func listenToKeyboard(mpv *player.MPV) {
 	err := keyboard.Open()
 	utils.HandleError(err, "Cannot open keyboard")
 	for {
@@ -96,14 +96,59 @@ func listenToKeyboard(cmd *exec.Cmd, mpv *player.MPV) {
 				break
 			}
 		} else {
-			keybind.HandlePress(c, key, cmd, mpv)
+			keybind.HandlePress(c, key, mpv)
 		}
 	}
 }
 
-func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
+func saveToPlaylist(result *search.YouTubeResult, mpv *player.MPV) {
+	keyboard.Close()
+	utils.ClearScreen()
 
-	if !playing {
+	fmt.Printf("Save to:\n")
+	for i, playlist := range data.Playlists {
+		bold := ""
+		if i%2 == 0 {
+			bold = utils.ColorBold
+		}
+
+		defaultColor := bold + utils.ColorWhite
+		altColor := bold + utils.ColorGreen
+
+		fmt.Printf("  %s#%d: %s%s\n",
+			defaultColor, i+1,
+			altColor+playlist.Name,
+			utils.ColorReset,
+		)
+	}
+
+	rawPlaylist, err := utils.AskFor("Save to (#<id>, the name of a new one or nothing to cancel)")
+	utils.HandleError(err, "Cannot read user input")
+
+	if rawPlaylist != "" {
+		if strings.HasPrefix(rawPlaylist, "#") {
+			index, err := strconv.ParseInt(strings.TrimPrefix(rawPlaylist, "#"), 10, 64)
+
+			if err == nil && index <= int64(len(data.Playlists)) && index > 0 {
+				index--
+				data.Playlists[index].Songs = append(data.Playlists[index].Songs, result)
+				storage.Save(data)
+			}
+		} else {
+			newPlaylist := &storage.Playlist{Name: rawPlaylist, Songs: []*search.YouTubeResult{result}}
+			data.Playlists = append(data.Playlists, newPlaylist)
+			storage.Save(data)
+		}
+	}
+
+	// restore keyboard
+	mpv.Saving = false
+	go listenToKeyboard(mpv)
+	mpv.Update()
+}
+
+func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
+	if !playing || mpv.Saving {
 		return
 	}
 
@@ -181,8 +226,8 @@ func play(result *search.YouTubeResult) {
 		if mpvInstance != nil && !mpvInstance.Exitted {
 			mpvInstance.Exit()
 		}
-		mpvInstance = player.ConnectToMPV(cmd, result, showPlayingScreen)
-		go listenToKeyboard(cmd, mpvInstance)
+		mpvInstance = player.ConnectToMPV(cmd, result, showPlayingScreen, saveToPlaylist)
+		go listenToKeyboard(mpvInstance)
 	}()
 
 	err := cmd.Run()
@@ -258,7 +303,7 @@ func tuneIn(warning *string) {
 func main() {
 	data = storage.Load()
 	commands.SetupDefaultCommands()
-	keybind.RegisterDefaultKeybinds()
+	keybind.RegisterDefaultKeybinds(data)
 	setupCloseHandler()
 	warning := ""
 	for {
