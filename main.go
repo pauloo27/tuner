@@ -162,8 +162,12 @@ func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 	}
 
 	extra := utils.ColorWhite
-	if status, err := mpv.Player.GetLoopStatus(); err == nil && status == mpris.LoopTrack {
-		extra += "  "
+	if status, err := mpv.Player.GetLoopStatus(); err == nil {
+		if status == mpris.LoopTrack {
+			extra += "  "
+		} else if status == mpris.LoopPlaylist {
+			extra += utils.ColorBlue + "  "
+		}
 	}
 
 	if result == nil {

@@ -83,11 +83,15 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 		Handler: func(mpv *player.MPV) {
 			loop, err := mpv.Player.GetLoopStatus()
 			utils.HandleError(err, "Cannot get mpv loop status")
-			newLoopStatus := mpris.LoopNone
+			newLoop := mpris.LoopNone
+
 			if loop == mpris.LoopNone {
-				newLoopStatus = mpris.LoopTrack
+				newLoop = mpris.LoopTrack
+			} else if loop == mpris.LoopTrack && mpv.Result == nil {
+				newLoop = mpris.LoopPlaylist
 			}
-			err = mpv.Player.SetLoopStatus(newLoopStatus)
+
+			err = mpv.Player.SetLoopStatus(newLoop)
 			utils.HandleError(err, "Cannot set loop status")
 		},
 	}
