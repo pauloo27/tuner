@@ -17,6 +17,7 @@ import (
 	"github.com/Pauloo27/tuner/options"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
+	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
 	"github.com/eiannone/keyboard"
 )
@@ -24,6 +25,7 @@ import (
 var close = make(chan os.Signal)
 var playing = false
 var mpvInstance *player.MPV
+var data *storage.TunerData
 
 const (
 	pausedIcon  = ""
@@ -254,6 +256,7 @@ func tuneIn(warning *string) {
 }
 
 func main() {
+	data = storage.Load()
 	commands.SetupDefaultCommands()
 	keybind.RegisterDefaultKeybinds()
 	setupCloseHandler()
