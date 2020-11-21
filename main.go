@@ -166,6 +166,15 @@ func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 		extra += "  "
 	}
 
+	if result == nil {
+		result = mpv.Playlist.Songs[mpv.PlaylistIndex]
+		fmt.Printf("Playing: %s (%d/%d)\n",
+			mpv.Playlist.Name,
+			mpv.PlaylistIndex+1,
+			len(mpv.Playlist.Songs),
+		)
+	}
+
 	fmt.Printf(" %s  %s %sfrom %s%s%s\n",
 		icon,
 		utils.ColorGreen+result.Title,
@@ -181,7 +190,7 @@ func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 	}
 
 	if mpv.ShowURL {
-		fmt.Printf("%shttps://youtube.com/watch?v=%s%s\n", utils.ColorBlue, result.ID, utils.ColorReset)
+		fmt.Printf("%s%s%s\n", utils.ColorBlue, result.URL(), utils.ColorReset)
 	}
 
 	if mpv.ShowHelp {
@@ -208,10 +217,16 @@ func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 	fmt.Print(utils.ColorReset)
 }
 
-func play(result *search.YouTubeResult) {
-	url := fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
+func play(result *search.YouTubeResult, playlist *storage.Playlist) {
+	parameters := []string{}
+	if result == nil {
+		for _, song := range playlist.Songs {
+			parameters = append(parameters, song.URL())
+		}
+	} else {
+		parameters = []string{result.URL()}
+	}
 
-	parameters := []string{url}
 	if !options.Options.ShowVideo {
 		parameters = append(parameters, "--no-video", "--ytdl-format=worst")
 	}
@@ -226,7 +241,7 @@ func play(result *search.YouTubeResult) {
 		if mpvInstance != nil && !mpvInstance.Exitted {
 			mpvInstance.Exit()
 		}
-		mpvInstance = player.ConnectToMPV(cmd, result, showPlayingScreen, saveToPlaylist)
+		mpvInstance = player.ConnectToMPV(cmd, result, playlist, showPlayingScreen, saveToPlaylist)
 		go listenToKeyboard(mpvInstance)
 	}()
 
@@ -244,16 +259,43 @@ func play(result *search.YouTubeResult) {
 func findAndPlay(warning *string) {
 	utils.ClearScreen()
 
-	fmt.Printf("%sUse /help to see the commands%s\n\n", utils.ColorBlue, utils.ColorReset)
+	fmt.Printf("%sPlaylists:\n", utils.ColorBlue)
+	for i, playlist := range data.Playlists {
+		bold := ""
+		if i%2 == 0 {
+			bold = utils.ColorBold
+		}
+
+		defaultColor := bold + utils.ColorWhite
+		altColor := bold + utils.ColorGreen
+
+		fmt.Printf("  %s#%d: %s%s\n",
+			defaultColor, i+1,
+			altColor+playlist.Name,
+			utils.ColorReset,
+		)
+	}
+	fmt.Printf("%sUse #<id> to start a playlist%s\n\n", utils.ColorBlue, utils.ColorReset)
+
 	if *warning != "" {
 		fmt.Printf("%s%s%s\n", utils.ColorYellow, *warning, utils.ColorReset)
 		*warning = ""
 	}
 
-	rawSearchTerm, err := utils.AskFor("Search term (add ! prefix to play the first, Ctrl+C to exit)")
+	rawSearchTerm, err := utils.AskFor("Search for")
 	utils.HandleError(err, "Cannot read user input")
 
-	if strings.HasPrefix(rawSearchTerm, "/") {
+	if strings.HasPrefix(rawSearchTerm, "#") {
+		index, err := strconv.ParseInt(strings.TrimPrefix(rawSearchTerm, "#"), 10, 64)
+
+		if err == nil && index <= int64(len(data.Playlists)) && index > 0 {
+			index--
+			play(nil, data.Playlists[index])
+		} else {
+			*warning = "Invalid playlist"
+		}
+		return
+	} else if strings.HasPrefix(rawSearchTerm, "/") {
 		found, out := command.InvokeCommand(strings.TrimPrefix(rawSearchTerm, "/"))
 		if !found {
 			*warning = "Invalid command"
@@ -297,7 +339,7 @@ func findAndPlay(warning *string) {
 		entry = results[index]
 	}
 
-	play(&entry)
+	play(&entry, nil)
 }
 
 func main() {

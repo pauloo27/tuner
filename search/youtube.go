@@ -18,6 +18,10 @@ type YouTubeResult struct {
 	Live                          bool
 }
 
+func (result *YouTubeResult) URL() string {
+	return fmt.Sprintf("https://youtube.com/watch?v=%s", result.ID)
+}
+
 func getContent(data []byte, index int) []byte {
 	id := fmt.Sprintf("[%d]", index)
 	contents, _, _, _ := jsonparser.Get(data, "contents", "twoColumnSearchResultsRenderer", "primaryContents", "sectionListRenderer", "contents", id, "itemSectionRenderer", "contents")

@@ -3,12 +3,14 @@ package player
 import (
 	"fmt"
 	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/Pauloo27/go-mpris"
 	"github.com/Pauloo27/tuner/lyric"
 	"github.com/Pauloo27/tuner/search"
+	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
 	"github.com/godbus/dbus/v5"
 )
@@ -20,6 +22,8 @@ type MPV struct {
 	Pid                                  int
 	Cmd                                  *exec.Cmd
 	Player                               *mpris.Player
+	Playlist                             *storage.Playlist
+	PlaylistIndex                        int
 	ShowHelp, ShowLyric, ShowURL, Saving bool
 	LyricIndex                           int
 	LyricLines                           []string
@@ -29,7 +33,13 @@ type MPV struct {
 	Exitted                              bool
 }
 
-func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHandler, save SaveFunction) *MPV {
+func ConnectToMPV(
+	cmd *exec.Cmd,
+	result *search.YouTubeResult,
+	playlist *storage.Playlist,
+	onUpdate UpdateHandler,
+	save SaveFunction,
+) *MPV {
 	for {
 		if cmd.Process != nil {
 			break
@@ -62,7 +72,14 @@ func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHa
 	player := mpris.New(conn, playerName)
 	utils.HandleError(err, "Cannot connect to mpv")
 
-	mpv := MPV{pid, cmd, player, false, false, false, false, 0, []string{}, result, onUpdate, save, false}
+	mpv := MPV{
+		pid, cmd, player,
+		playlist, 0,
+		false, false, false, false,
+		0, []string{},
+		result,
+		onUpdate, save, false,
+	}
 
 	mpv.Update()
 
@@ -71,10 +88,20 @@ func ConnectToMPV(cmd *exec.Cmd, result *search.YouTubeResult, onUpdate UpdateHa
 		err := mpv.Player.OnSignal(ch)
 		utils.HandleError(err, "Cannot add signal handler")
 
-		for range ch {
+		for sig := range ch {
 			if mpv.Exitted {
 				break
 			}
+			body := sig.Body[1].(map[string]dbus.Variant)
+			metadata := body["Metadata"].Value().(map[string]dbus.Variant)
+			rawTrackId := string(metadata["mpris:trackid"].Value().(dbus.ObjectPath))
+			rawTrackId = strings.TrimPrefix(rawTrackId, "/")
+
+			trackId, err := strconv.ParseInt(rawTrackId, 10, 32)
+			utils.HandleError(err, "Cannot parse track id "+rawTrackId)
+
+			mpv.PlaylistIndex = int(trackId)
+
 			mpv.Update()
 		}
 	}()
