@@ -22,17 +22,13 @@ var (
 )
 
 func RegisterDefaultKeybinds(data *storage.TunerData) {
-	killMpv := Keybind{
+	ByKey[keyboard.KeyCtrlC] = Keybind{
 		Description: "Stop the player",
-		KeyName:     "Esc",
+		KeyName:     "Ctrl C",
 		Handler: func(mpv *player.MPV) {
 			_ = mpv.Cmd.Process.Kill()
 		},
 	}
-
-	ByKey[keyboard.KeyEsc] = killMpv
-	killMpv.KeyName = "CtrlC"
-	ByKey[keyboard.KeyCtrlC] = killMpv
 
 	ByKey[keyboard.KeySpace] = Keybind{
 		Description: "Play/Pause song",
