@@ -241,7 +241,7 @@ func play(result *search.YouTubeResult) {
 	mpvInstance.Exit()
 }
 
-func tuneIn(warning *string) {
+func findAndPlay(warning *string) {
 	utils.ClearScreen()
 
 	fmt.Printf("%sUse /help to see the commands%s\n\n", utils.ColorBlue, utils.ColorReset)
@@ -307,6 +307,6 @@ func main() {
 	setupCloseHandler()
 	warning := ""
 	for {
-		tuneIn(&warning)
+		findAndPlay(&warning)
 	}
 }
