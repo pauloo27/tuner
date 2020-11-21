@@ -93,14 +93,16 @@ func ConnectToMPV(
 				break
 			}
 			body := sig.Body[1].(map[string]dbus.Variant)
-			metadata := body["Metadata"].Value().(map[string]dbus.Variant)
-			rawTrackId := string(metadata["mpris:trackid"].Value().(dbus.ObjectPath))
-			rawTrackId = strings.TrimPrefix(rawTrackId, "/")
+			if _, ok := body["Metadata"]; ok {
+				metadata := body["Metadata"].Value().(map[string]dbus.Variant)
+				rawTrackId := string(metadata["mpris:trackid"].Value().(dbus.ObjectPath))
+				rawTrackId = strings.TrimPrefix(rawTrackId, "/")
 
-			trackId, err := strconv.ParseInt(rawTrackId, 10, 32)
-			utils.HandleError(err, "Cannot parse track id "+rawTrackId)
+				trackId, err := strconv.ParseInt(rawTrackId, 10, 32)
+				utils.HandleError(err, "Cannot parse track id "+rawTrackId)
 
-			mpv.PlaylistIndex = int(trackId)
+				mpv.PlaylistIndex = int(trackId)
+			}
 
 			mpv.Update()
 		}
