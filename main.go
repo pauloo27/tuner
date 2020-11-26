@@ -170,8 +170,7 @@ func showPlayingScreen(result *search.YouTubeResult, mpv *player.MPV) {
 		}
 	}
 
-	if result == nil {
-		result = mpv.Playlist.Songs[mpv.PlaylistIndex]
+	if mpv.IsPlaylist() {
 		fmt.Printf("Playing: %s (%d/%d)\n",
 			mpv.Playlist.Name,
 			mpv.PlaylistIndex+1,

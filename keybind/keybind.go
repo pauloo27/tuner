@@ -87,7 +87,7 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 
 			if loop == mpris.LoopNone {
 				newLoop = mpris.LoopTrack
-			} else if loop == mpris.LoopTrack && mpv.Result == nil {
+			} else if loop == mpris.LoopTrack && mpv.IsPlaylist() {
 				newLoop = mpris.LoopPlaylist
 			}
 
@@ -155,7 +155,7 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 		Description: "Next song in playlist",
 		KeyName:     ">",
 		Handler: func(mpv *player.MPV) {
-			err := mpv.Player.Next()
+			err := mpv.Next()
 			utils.HandleError(err, "Cannot skip song")
 		},
 	}
@@ -164,7 +164,7 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 		Description: "Previous song in playlist",
 		KeyName:     "<",
 		Handler: func(mpv *player.MPV) {
-			err := mpv.Player.Previous()
+			err := mpv.Previous()
 			utils.HandleError(err, "Cannot skip song")
 		},
 	}

@@ -27,7 +27,7 @@ type MPV struct {
 	ShowHelp, ShowLyric, ShowURL, Saving bool
 	LyricIndex                           int
 	LyricLines                           []string
-	Result                               *search.YouTubeResult
+	result                               *search.YouTubeResult
 	onUpdate                             UpdateHandler
 	save                                 SaveFunction
 	Exitted                              bool
@@ -112,11 +112,23 @@ func ConnectToMPV(
 }
 
 func (i *MPV) Update() {
-	i.onUpdate(i.Result, i)
+	i.onUpdate(i.GetPlaying(), i)
+}
+
+func (i *MPV) IsPlaylist() bool {
+	return i.result == nil
+}
+
+func (i *MPV) GetPlaying() *search.YouTubeResult {
+	if i.IsPlaylist() {
+		return i.Playlist.Songs[i.PlaylistIndex]
+	} else {
+		return i.result
+	}
 }
 
 func (i *MPV) Save() {
-	i.save(i.Result, i)
+	i.save(i.GetPlaying(), i)
 }
 
 func (i *MPV) PlayPause() {
@@ -128,8 +140,22 @@ func (i *MPV) Exit() {
 	i.Exitted = true
 }
 
+func (i *MPV) Previous() error {
+	err := i.Player.Previous()
+	i.LyricLines = []string{}
+	i.LyricIndex = 0
+	return err
+}
+
+func (i *MPV) Next() error {
+	err := i.Player.Next()
+	i.LyricLines = []string{}
+	i.LyricIndex = 0
+	return err
+}
+
 func (i *MPV) FetchLyric() {
-	path, err := lyric.SearchFor(fmt.Sprintf("%s %s", i.Result.Title, i.Result.Uploader))
+	path, err := lyric.SearchFor(fmt.Sprintf("%s %s", i.GetPlaying().Title, i.GetPlaying().Uploader))
 	if err != nil {
 		i.LyricLines = []string{"Cannot get lyric"}
 		i.Update()
