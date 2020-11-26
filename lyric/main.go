@@ -55,12 +55,22 @@ func Fetch(path string) (lyric string, err error) {
 func SearchFor(query string) (string, error) {
 	path := fmt.Sprintf("https://html.duckduckgo.com/html/?q=site:genius.com+%s", url.QueryEscape(query))
 
-	res, err := soup.Get(path)
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", path, nil)
+	req.Header.Add("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/81.0")
+
+	res, err := client.Do(req)
 	if err != nil {
 		return "", err
 	}
 
-	doc := soup.HTMLParse(res)
+	defer res.Body.Close()
+	buffer, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return "", err
+	}
+
+	doc := soup.HTMLParse(string(buffer))
 	if err != nil {
 		return "", err
 	}
