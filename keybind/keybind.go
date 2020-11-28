@@ -18,27 +18,37 @@ type Keybind struct {
 var (
 	ByKey    = map[keyboard.Key]Keybind{}
 	ByChar   = map[rune]Keybind{}
-	keybinds []Keybind
+	keybinds []*Keybind
 )
 
+func BindKey(key keyboard.Key, bind Keybind) {
+	ByKey[key] = bind
+	keybinds = append(keybinds, &bind)
+}
+
+func BindChar(c rune, bind Keybind) {
+	ByChar[c] = bind
+	keybinds = append(keybinds, &bind)
+}
+
 func RegisterDefaultKeybinds(data *storage.TunerData) {
-	ByKey[keyboard.KeyCtrlC] = Keybind{
+	BindKey(keyboard.KeyCtrlC, Keybind{
 		Description: "Stop the player",
 		KeyName:     "Ctrl C",
 		Handler: func(mpv *player.MPV) {
 			_ = mpv.Cmd.Process.Kill()
 		},
-	}
+	})
 
-	ByKey[keyboard.KeySpace] = Keybind{
+	BindKey(keyboard.KeySpace, Keybind{
 		Description: "Play/Pause song",
 		KeyName:     "Space",
 		Handler: func(mpv *player.MPV) {
 			mpv.PlayPause()
 		},
-	}
+	})
 
-	ByChar['9'] = Keybind{
+	BindChar('9', Keybind{
 		Description: "Decrease the volume",
 		KeyName:     "9",
 		Handler: func(mpv *player.MPV) {
@@ -51,9 +61,9 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 			err = mpv.Player.SetVolume(volume - 0.05)
 			utils.HandleError(err, "Cannot set MPV volume")
 		},
-	}
+	})
 
-	ByChar['0'] = Keybind{
+	BindChar('0', Keybind{
 		Description: "Increase the volume",
 		KeyName:     "0",
 		Handler: func(mpv *player.MPV) {
@@ -66,18 +76,18 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 			err = mpv.Player.SetVolume(volume + 0.05)
 			utils.HandleError(err, "Cannot set MPV volume")
 		},
-	}
+	})
 
-	ByChar['?'] = Keybind{
+	BindChar('?', Keybind{
 		Description: "Toggle keybind list",
 		KeyName:     "?",
 		Handler: func(mpv *player.MPV) {
 			mpv.ShowHelp = !mpv.ShowHelp
 			mpv.Update()
 		},
-	}
+	})
 
-	ByChar['l'] = Keybind{
+	BindChar('l', Keybind{
 		Description: "Toggle loop",
 		KeyName:     "L",
 		Handler: func(mpv *player.MPV) {
@@ -98,9 +108,9 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 			err = mpv.Player.SetLoopStatus(newLoop)
 			utils.HandleError(err, "Cannot set loop status")
 		},
-	}
+	})
 
-	ByChar['p'] = Keybind{
+	BindChar('p', Keybind{
 		Description: "Toggle lyric",
 		KeyName:     "P",
 		Handler: func(mpv *player.MPV) {
@@ -110,9 +120,9 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 			mpv.ShowLyric = !mpv.ShowLyric
 			mpv.Update()
 		},
-	}
+	})
 
-	ByChar['w'] = Keybind{
+	BindChar('w', Keybind{
 		Description: "Scroll lyric up",
 		KeyName:     "W",
 		Handler: func(mpv *player.MPV) {
@@ -121,9 +131,9 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 				mpv.Update()
 			}
 		},
-	}
+	})
 
-	ByChar['s'] = Keybind{
+	BindChar('s', Keybind{
 		Description: "Scroll lyric down",
 		KeyName:     "S",
 		Handler: func(mpv *player.MPV) {
@@ -132,18 +142,18 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 				mpv.Update()
 			}
 		},
-	}
+	})
 
-	ByChar['u'] = Keybind{
+	BindChar('u', Keybind{
 		Description: "Show video URL",
 		KeyName:     "U",
 		Handler: func(mpv *player.MPV) {
 			mpv.ShowURL = !mpv.ShowURL
 			mpv.Update()
 		},
-	}
+	})
 
-	ByChar['b'] = Keybind{
+	BindChar('b', Keybind{
 		Description: "Save song to playlist",
 		KeyName:     "B",
 		Handler: func(mpv *player.MPV) {
@@ -153,25 +163,25 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 				mpv.Save()
 			}
 		},
-	}
+	})
 
-	ByChar['>'] = Keybind{
+	BindChar('>', Keybind{
 		Description: "Next song in playlist",
 		KeyName:     ">",
 		Handler: func(mpv *player.MPV) {
 			err := mpv.Next()
 			utils.HandleError(err, "Cannot skip song")
 		},
-	}
+	})
 
-	ByChar['<'] = Keybind{
+	BindChar('<', Keybind{
 		Description: "Previous song in playlist",
 		KeyName:     "<",
 		Handler: func(mpv *player.MPV) {
 			err := mpv.Previous()
 			utils.HandleError(err, "Cannot skip song")
 		},
-	}
+	})
 }
 
 func HandlePress(c rune, key keyboard.Key, mpv *player.MPV) {
@@ -182,16 +192,6 @@ func HandlePress(c rune, key keyboard.Key, mpv *player.MPV) {
 	}
 }
 
-func ListBinds() []Keybind {
-	if keybinds != nil {
-		return keybinds
-	}
-	keybinds = []Keybind{}
-	for _, bind := range ByKey {
-		keybinds = append(keybinds, bind)
-	}
-	for _, bind := range ByChar {
-		keybinds = append(keybinds, bind)
-	}
+func ListBinds() []*Keybind {
 	return keybinds
 }
