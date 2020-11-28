@@ -4,6 +4,11 @@ Tuner search for YouTube videos to play in MPV.
 
 ![Example GIF](https://i.imgur.com/EjuSoA4.gif)
 
+## Features
+- Playlists
+- Lyrics
+- No "search rate limits" (Tuner doesn't use the youtube API)
+
 ## Compile
 
 ### Dependencies
