@@ -28,7 +28,7 @@ func getContent(data []byte, index int) []byte {
 	return contents
 }
 
-func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
+func SearchYouTube(searchTerm string, limit int) (results []*YouTubeResult) {
 	url := fmt.Sprintf("https://www.youtube.com/results?search_query=%s", url.QueryEscape(searchTerm))
 
 	client := &http.Client{}
@@ -101,7 +101,7 @@ func SearchYouTube(searchTerm string, limit int) (results []YouTubeResult) {
 			live = true
 		}
 
-		results = append(results, YouTubeResult{
+		results = append(results, &YouTubeResult{
 			Title:    title,
 			Uploader: uploader,
 			Duration: duration,
