@@ -27,7 +27,9 @@ func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 		if state.MPVInstance != nil && !state.MPVInstance.Exitted {
 			state.MPVInstance.Exit()
 		}
-		state.MPVInstance = player.ConnectToMPV(cmd, result, playlist, display.ShowPlaying, nil)
+		state.MPVInstance = player.ConnectToMPV(cmd, result, playlist,
+			display.ShowPlaying, display.SaveToPlaylist,
+		)
 		go keybind.Listen()
 	}()
 
@@ -46,8 +48,8 @@ func promptEntry() {
 	utils.ClearScreen()
 
 	fmt.Printf("%sPlaylists:\n", utils.ColorBlue)
-	display.ListPlaylists(state.Data.Playlists)
-	fmt.Printf("%sUse #<id> to start a playlist%s\n\n", utils.ColorBlue, utils.ColorReset)
+	display.ListPlaylists()
+	fmt.Printf("%sUse #<id> to start a playlist%s\n", utils.ColorBlue, utils.ColorReset)
 
 	if state.Warning != "" {
 		fmt.Printf("%s%s%s\n", utils.ColorYellow, state.Warning, utils.ColorReset)
