@@ -16,6 +16,7 @@ import (
 )
 
 type UpdateHandler func(result *search.YouTubeResult, mpv *MPV)
+type SongLoadedHandler func(result *search.YouTubeResult, mpv *MPV)
 type SaveFunction func(result *search.YouTubeResult, mpv *MPV)
 
 type MPV struct {
@@ -29,8 +30,9 @@ type MPV struct {
 	LyricLines                           []string
 	result                               *search.YouTubeResult
 	onUpdate                             UpdateHandler
+	onLoaded                             SongLoadedHandler
 	save                                 SaveFunction
-	Exitted                              bool
+	Exitted, HasAlbum                    bool
 }
 
 func ConnectToMPV(
@@ -39,6 +41,7 @@ func ConnectToMPV(
 	playlist *storage.Playlist,
 	onUpdate UpdateHandler,
 	save SaveFunction,
+	onLoaded SongLoadedHandler,
 ) *MPV {
 	for {
 		if cmd.Process != nil {
@@ -78,7 +81,8 @@ func ConnectToMPV(
 		false, false, false, false,
 		0, []string{},
 		result,
-		onUpdate, save, false,
+		onUpdate, onLoaded, save,
+		false, false,
 	}
 
 	mpv.Update()
@@ -117,6 +121,7 @@ func ConnectToMPV(
 				mpv.PlaylistIndex = int(trackId)
 			}
 
+			mpv.onLoaded(mpv.GetPlaying(), &mpv)
 			mpv.Update()
 		}
 	}()

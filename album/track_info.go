@@ -31,8 +31,6 @@ const (
 )
 
 func FetchTrackInfo(artist, track string) (*TrackInfo, error) {
-	fmt.Printf("Fetching track info for %s by %s\n", track, artist)
-
 	// escape params
 	artist = url.QueryEscape(artist)
 	track = url.QueryEscape(track)

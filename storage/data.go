@@ -27,19 +27,10 @@ func CreateDataFolder(dataFolder string) {
 }
 
 func Load() *TunerData {
-	home, err := os.UserHomeDir()
-	utils.HandleError(err, "Cannot get user home")
-
-	dataFolder := home + "/.cache/tuner"
-
-	_, err = os.Stat(dataFolder)
-	if os.IsNotExist(err) {
-		CreateDataFolder(dataFolder)
-	}
-
+	dataFolder := utils.LoadDataFolder()
 	dataFile = dataFolder + "/data.json"
 
-	_, err = os.Stat(dataFile)
+	_, err := os.Stat(dataFile)
 
 	if os.IsNotExist(err) {
 		_, err = os.Create(dataFile)

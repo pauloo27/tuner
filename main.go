@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/Pauloo27/keyboard"
+	"github.com/Pauloo27/tuner/album"
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/display"
@@ -47,7 +48,7 @@ func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 			state.MPVInstance.Exit()
 		}
 		state.MPVInstance = player.ConnectToMPV(cmd, result, playlist,
-			display.ShowPlaying, display.SaveToPlaylist,
+			display.ShowPlaying, display.SaveToPlaylist, album.FetchAlbum,
 		)
 		go keybind.Listen()
 	}()
