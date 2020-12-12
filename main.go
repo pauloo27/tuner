@@ -93,11 +93,10 @@ func promptEntry() {
 		return
 	}
 
-	// search
-	c := make(chan bool)
-
 	// 'loading' message
+	c := make(chan bool)
 	go utils.PrintWithLoadIcon(utils.Fmt("Searching for %s", rawInput), c, 100*time.Millisecond, true)
+	// do search
 	results := search.SearchYouTube(rawInput, searchLimit)
 
 	// ask the loading message to stop
