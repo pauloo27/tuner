@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -45,6 +46,20 @@ func AskFor(message string, validValues ...string) (string, error) {
 		}
 	}
 	return "", fmt.Errorf("Invalid response. Valid responses are %v.", validValues)
+}
+
+func AskForInt(message string) (int, error) {
+	input, err := AskFor(message)
+	if err != nil {
+		return 0, err
+	}
+
+	v, err := strconv.Atoi(input)
+	if err != nil {
+		return 0, err
+	}
+
+	return v, nil
 }
 
 func ClearScreen() {
