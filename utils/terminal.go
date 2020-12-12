@@ -11,7 +11,7 @@ type TerminalSize struct {
 	Col uint16
 }
 
-func GetTerminalWidth() *TerminalSize {
+func GetTerminalSize() *TerminalSize {
 	ws := &TerminalSize{}
 	retCode, _, err := syscall.Syscall(syscall.SYS_IOCTL,
 		uintptr(syscall.Stdin),

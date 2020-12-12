@@ -17,6 +17,10 @@ const (
 	playingIcon = ""
 )
 
+var (
+	horizontalBars = []string{"▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"}
+)
+
 var updateLock sync.Mutex
 
 func ShowPlaying(result *search.YouTubeResult, mpv *player.MPV) {
@@ -61,6 +65,28 @@ func ShowPlaying(result *search.YouTubeResult, mpv *player.MPV) {
 		extra,
 		utils.ColorReset,
 	)
+
+	if !mpv.GetPlaying().Live {
+		length, err := mpv.Player.GetLength()
+		if err == nil {
+			position, err := mpv.Player.GetPosition()
+			if err == nil {
+				columns := float64(utils.GetTerminalSize().Col)
+				barSize := columns * float64(len(horizontalBars))
+				progress := int((barSize * position) / length)
+				fullBlocks := progress / len(horizontalBars)
+				missing := progress % len(horizontalBars)
+				fmt.Print(utils.ColorBlue)
+				for i := 0; i < fullBlocks; i++ {
+					fmt.Print(horizontalBars[len(horizontalBars)-1])
+				}
+				if missing != 0 {
+					fmt.Print(horizontalBars[missing-1])
+				}
+				fmt.Println(utils.ColorReset)
+			}
+		}
+	}
 
 	if status, _ := mpv.Player.GetPlaybackStatus(); status != "" {
 		volume, _ := mpv.Player.GetVolume()

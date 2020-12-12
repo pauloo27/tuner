@@ -103,6 +103,19 @@ func ConnectToMPV(
 
 	mpv.Update()
 
+	// progress bar update
+	go func() {
+		for {
+			if mpv.Exitted {
+				break
+			}
+
+			time.Sleep(500 * time.Millisecond)
+			mpv.Update()
+		}
+	}()
+
+	// signals update
 	go func() {
 		ch := make(chan *dbus.Signal)
 		err := mpv.Player.OnSignal(ch)
