@@ -19,9 +19,28 @@ import (
 	"github.com/Pauloo27/tuner/utils"
 )
 
+func parametersFor(result *search.YouTubeResult,
+	playlist *storage.Playlist) (parameters []string) {
+	if result == nil {
+		for _, song := range playlist.Songs {
+			parameters = append(parameters, song.URL())
+		}
+	} else {
+		parameters = append(parameters, result.URL())
+	}
+
+	if !state.Data.ShowVideo {
+		parameters = append(parameters, "--no-video", "--ytdl-format=worst")
+	}
+	if !state.Data.Cache {
+		parameters = append(parameters, "--cache=no")
+	}
+	return
+}
+
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 	state.Playing = true
-	cmd := exec.Command("mpv", player.ParametersFor(result, playlist)...)
+	cmd := exec.Command("mpv", parametersFor(result, playlist)...)
 
 	go func() {
 		if state.MPVInstance != nil && !state.MPVInstance.Exitted {

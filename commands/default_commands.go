@@ -5,7 +5,8 @@ import (
 	"strings"
 
 	"github.com/Pauloo27/tuner/command"
-	"github.com/Pauloo27/tuner/options"
+	"github.com/Pauloo27/tuner/state"
+	"github.com/Pauloo27/tuner/storage"
 )
 
 func SetupDefaultCommands() {
@@ -31,8 +32,9 @@ func SetupDefaultCommands() {
 			"(default is false)",
 		Aliases: []string{"c"},
 		Handle: func(input string) string {
-			options.Options.Cache = !options.Options.Cache
-			return fmt.Sprintf("Cache set to %v", options.Options.Cache)
+			state.Data.Cache = !state.Data.Cache
+			storage.Save(state.Data)
+			return fmt.Sprintf("Cache set to %v", state.Data.Cache)
 		},
 	}
 
@@ -41,8 +43,9 @@ func SetupDefaultCommands() {
 		Description: "Toggle the option to show the video (default is false)",
 		Aliases:     []string{"v"},
 		Handle: func(input string) string {
-			options.Options.ShowVideo = !options.Options.ShowVideo
-			return fmt.Sprintf("Show video set to %v", options.Options.ShowVideo)
+			state.Data.ShowVideo = !state.Data.ShowVideo
+			storage.Save(state.Data)
+			return fmt.Sprintf("Show video set to %v", state.Data.ShowVideo)
 		},
 	}
 

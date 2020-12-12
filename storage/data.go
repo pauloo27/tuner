@@ -17,7 +17,8 @@ type Playlist struct {
 }
 
 type TunerData struct {
-	Playlists []*Playlist
+	Playlists        []*Playlist
+	ShowVideo, Cache bool
 }
 
 func CreateDataFolder(dataFolder string) {
