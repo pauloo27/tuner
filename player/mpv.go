@@ -9,6 +9,7 @@ import (
 
 	"github.com/Pauloo27/go-mpris"
 	"github.com/Pauloo27/tuner/lyric"
+	"github.com/Pauloo27/tuner/options"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
@@ -31,6 +32,25 @@ type MPV struct {
 	onUpdate                             UpdateHandler
 	save                                 SaveFunction
 	Exitted                              bool
+}
+
+func ParametersFor(result *search.YouTubeResult,
+	playlist *storage.Playlist) (parameters []string) {
+	if result == nil {
+		for _, song := range playlist.Songs {
+			parameters = append(parameters, song.URL())
+		}
+	} else {
+		parameters = append(parameters, result.URL())
+	}
+
+	if !options.Options.ShowVideo {
+		parameters = append(parameters, "--no-video", "--ytdl-format=worst")
+	}
+	if !options.Options.Cache {
+		parameters = append(parameters, "--cache=no")
+	}
+	return
 }
 
 func ConnectToMPV(
