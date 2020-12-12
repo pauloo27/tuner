@@ -49,9 +49,9 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 		},
 	})
 
-	BindChar('9', Keybind{
+	BindKey(keyboard.KeyArrowDown, Keybind{
 		Description: "Decrease the volume",
-		KeyName:     "9",
+		KeyName:     "Arrow Down",
 		Handler: func(mpv *player.MPV) {
 			volume, err := mpv.Player.GetVolume()
 			// avoid crashing when the player is starting
@@ -64,9 +64,9 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 		},
 	})
 
-	BindChar('0', Keybind{
+	BindKey(keyboard.KeyArrowUp, Keybind{
 		Description: "Increase the volume",
-		KeyName:     "0",
+		KeyName:     "Arrow Up",
 		Handler: func(mpv *player.MPV) {
 			volume, err := mpv.Player.GetVolume()
 			// avoid crashing when the player is starting
