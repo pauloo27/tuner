@@ -33,6 +33,24 @@ func BindChar(c rune, bind Keybind) {
 }
 
 func RegisterDefaultKeybinds(data *storage.TunerData) {
+	BindKey(keyboard.KeyArrowLeft, Keybind{
+		Description: "Seek 5 seconds back",
+		KeyName:     "Arrow Left",
+		Handler: func(mpv *player.MPV) {
+			_ = mpv.Player.Seek(-5)
+			mpv.Update()
+		},
+	})
+
+	BindKey(keyboard.KeyArrowRight, Keybind{
+		Description: "Seek 5 seconds",
+		KeyName:     "Arrow Right",
+		Handler: func(mpv *player.MPV) {
+			_ = mpv.Player.Seek(+5)
+			mpv.Update()
+		},
+	})
+
 	BindKey(keyboard.KeyCtrlC, Keybind{
 		Description: "Stop the player",
 		KeyName:     "Ctrl C",
