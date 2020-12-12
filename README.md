@@ -18,6 +18,8 @@ Before running Tuner you need to install
 [youtube-dl](https://github.com/ytdl-org/youtube-dl/) and 
 [mpv-mpris](https://github.com/hoyon/mpv-mpris).
 
+_On Arch Linux, the dependencies packages are `mpv youtube-dl mpv-mpris-git`
+(mpv-mpris-git come from AUR)._
 
 ### Build
 
