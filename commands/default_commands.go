@@ -49,5 +49,16 @@ func SetupDefaultCommands() {
 		},
 	}
 
-	command.RegisterCommands(help, keepLiveCache, showVideo)
+	fetchAlbum := command.Command{
+		Name:        "album",
+		Description: "Toggle the option to show album art (default is false)",
+		Aliases:     []string{"a"},
+		Handle: func(input string) string {
+			state.Data.FetchAlbum = !state.Data.FetchAlbum
+			storage.Save(state.Data)
+			return fmt.Sprintf("Show album set to %v", state.Data.FetchAlbum)
+		},
+	}
+
+	command.RegisterCommands(help, keepLiveCache, showVideo, fetchAlbum)
 }
