@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Pauloo27/keyboard"
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/display"
@@ -16,7 +17,6 @@ import (
 	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
-	"github.com/eiannone/keyboard"
 )
 
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {

@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	"github.com/Pauloo27/go-mpris"
+	"github.com/Pauloo27/keyboard"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
-	"github.com/eiannone/keyboard"
 )
 
 type Keybind struct {
