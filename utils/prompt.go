@@ -70,17 +70,21 @@ func EditLastLine() {
 
 func PrintWithLoadIcon(message string, c chan bool, stepTime time.Duration, clearScreen bool) {
 	done := false
+
+	print := func(format string, v ...interface{}) {
+		if clearScreen {
+			MoveCursorTo(1, 1)
+			ClearScreen()
+		} else {
+			EditLastLine()
+		}
+		fmt.Printf(format, v...)
+	}
+
 	go func() {
 		i := 0
 		for !done {
-			if clearScreen {
-				MoveCursorTo(1, 1)
-				ClearScreen()
-			} else {
-				EditLastLine()
-			}
-
-			fmt.Printf("%s%s%s %s\n", ColorBlue, brailleChars[i], ColorReset, message)
+			print("%s%s%s %s\n", ColorBlue, brailleChars[i], ColorReset, message)
 			i++
 
 			if i >= len(brailleChars) {
@@ -88,7 +92,7 @@ func PrintWithLoadIcon(message string, c chan bool, stepTime time.Duration, clea
 			}
 			time.Sleep(stepTime)
 		}
-		fmt.Printf("%s%s%s %s\n", ColorGreen, brailleFull, ColorReset, message)
+		print("%s%s%s %s\n", ColorGreen, brailleFull, ColorReset, message)
 		c <- true
 	}()
 
