@@ -24,7 +24,7 @@ var (
 var updateLock sync.Mutex
 
 func ShowPlaying(result *search.YouTubeResult, mpv *player.MPV) {
-	if !state.Playing {
+	if !state.Playing || mpv.Saving {
 		return
 	}
 
