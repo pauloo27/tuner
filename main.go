@@ -116,7 +116,11 @@ func promptEntry() {
 
 	display.ListResults(results)
 	index, err := utils.AskForInt("Insert index of the video")
-	utils.HandleError(err, "Cannot read user input")
+	if err != nil {
+		state.Warning = "Invalid input"
+		return
+	}
+
 	if index <= 0 || index > len(results) {
 		state.Warning = "Invalid index"
 		return
