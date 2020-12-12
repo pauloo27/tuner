@@ -28,14 +28,15 @@ func getContent(data []byte, index int) []byte {
 	return contents
 }
 
+var httpClient = &http.Client{}
+
 func SearchYouTube(searchTerm string, limit int) (results []*YouTubeResult) {
 	url := fmt.Sprintf("https://www.youtube.com/results?search_query=%s", url.QueryEscape(searchTerm))
 
-	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	utils.HandleError(err, "Cannot create GET request")
 	req.Header.Add("Accept-Language", "en")
-	res, err := client.Do(req)
+	res, err := httpClient.Do(req)
 	utils.HandleError(err, "Cannot get youtube page")
 
 	defer res.Body.Close()
