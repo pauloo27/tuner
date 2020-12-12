@@ -2,6 +2,7 @@ package display
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/Pauloo27/go-mpris"
 	"github.com/Pauloo27/tuner/keybind"
@@ -16,10 +17,15 @@ const (
 	playingIcon = ""
 )
 
+var updateLock sync.Mutex
+
 func ShowPlaying(result *search.YouTubeResult, mpv *player.MPV) {
 	if !state.Playing {
 		return
 	}
+
+	updateLock.Lock()
+	defer updateLock.Unlock()
 
 	utils.ClearScreen()
 
