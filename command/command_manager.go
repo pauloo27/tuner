@@ -16,6 +16,12 @@ func RegisterCommand(command Command) {
 	}
 }
 
+func RegisterCommands(commands ...Command) {
+	for _, command := range commands {
+		RegisterCommand(command)
+	}
+}
+
 func InvokeCommand(input string) (found bool, out string) {
 	lowerCased := strings.ToLower(input)
 	label := strings.Split(lowerCased, " ")[0]

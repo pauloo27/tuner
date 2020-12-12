@@ -5,6 +5,7 @@ import (
 
 	"github.com/Pauloo27/go-mpris"
 	"github.com/Pauloo27/tuner/player"
+	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
 	"github.com/eiannone/keyboard"
@@ -194,4 +195,19 @@ func HandlePress(c rune, key keyboard.Key, mpv *player.MPV) {
 
 func ListBinds() []*Keybind {
 	return keybinds
+}
+
+func Listen() {
+	err := keyboard.Open()
+	utils.HandleError(err, "Cannot open keyboard")
+	for {
+		c, key, err := keyboard.GetKey()
+		if err != nil {
+			if !state.Playing {
+				break
+			}
+		} else {
+			HandlePress(c, key, state.MPVInstance)
+		}
+	}
 }

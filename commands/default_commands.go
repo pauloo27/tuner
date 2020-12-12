@@ -46,9 +46,5 @@ func SetupDefaultCommands() {
 		},
 	}
 
-	cmds := []command.Command{help, keepLiveCache, showVideo}
-
-	for _, cmd := range cmds {
-		command.RegisterCommand(cmd)
-	}
+	command.RegisterCommands(help, keepLiveCache, showVideo)
 }

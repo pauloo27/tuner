@@ -26,18 +26,17 @@ func Fetch(path string) (lyric string, err error) {
 
 	defer res.Body.Close()
 
-	bodyB, err := ioutil.ReadAll(res.Body)
+	body, err := ioutil.ReadAll(res.Body)
 
 	if err != nil {
 		return
 	}
 
-	doc := soup.HTMLParse(string(bodyB))
+	doc := soup.HTMLParse(string(body))
 
 	lyricDiv := doc.Find("div", "class", "lyrics")
 
 	if lyricDiv.Error != nil {
-
 		for _, div := range doc.FindAll("div", "class", "jgQsqn") {
 
 			html := strings.ReplaceAll(div.HTML(), "<br/>", "<br/>\n")
