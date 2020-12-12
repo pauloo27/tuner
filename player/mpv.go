@@ -94,7 +94,7 @@ func ConnectToMPV(
 				break
 			}
 
-			time.Sleep(500 * time.Millisecond)
+			time.Sleep(1 * time.Second)
 			mpv.Update()
 		}
 	}()
