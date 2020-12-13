@@ -8,7 +8,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Pauloo27/tuner/utils"
 	"github.com/anaskhan96/soup"
+	"github.com/buger/jsonparser"
 )
 
 var lyricUrlRe = regexp.MustCompile(`https:\/\/genius.com/[^/]+-lyrics`)
@@ -52,13 +54,9 @@ func Fetch(path string) (lyric string, err error) {
 }
 
 func SearchFor(query string) (string, error) {
-	path := fmt.Sprintf("https://html.duckduckgo.com/html/?q=site:genius.com+%s", url.QueryEscape(query))
+	path := fmt.Sprintf("https://searx.prvcy.eu/search?format=json&q=site:genius.com+%s", url.QueryEscape(query))
 
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", path, nil)
-	req.Header.Add("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/81.0")
-
-	res, err := client.Do(req)
+	res, err := http.Get(path)
 	if err != nil {
 		return "", err
 	}
@@ -69,16 +67,13 @@ func SearchFor(query string) (string, error) {
 		return "", err
 	}
 
-	doc := soup.HTMLParse(string(buffer))
-	if err != nil {
-		return "", err
-	}
-
-	for _, result := range doc.FindAll("a", "class", "result__url") {
-		r := fmt.Sprintf("https://%s", strings.TrimSpace(result.Text()))
-
-		if lyricUrlRe.MatchString(r) {
-			return r, nil
+	for i := 0; i < 5; i++ {
+		url, err := jsonparser.GetString(buffer, "results", utils.Fmt("[%d]", i), "pretty_url")
+		if err != nil {
+			return "", err
+		}
+		if lyricUrlRe.MatchString(url) {
+			return url, nil
 		}
 	}
 
