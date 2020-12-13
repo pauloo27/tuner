@@ -1,6 +1,7 @@
 package album
 
 import (
+	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/state"
@@ -22,7 +23,16 @@ func FetchAlbum(result *search.YouTubeResult, mpv *player.MPV) {
 		if err != nil {
 			return
 		}
+		path := utils.LoadDataFolder() + "/album"
+		utils.DownloadFile(trackInfo.Album.ImageURL, path)
 
-		utils.DownloadFile(trackInfo.Album.ImageURL, utils.LoadDataFolder()+"/album")
+		size := 30
+		x := int(utils.GetTerminalSize().Col) - size
+
+		img.SendCommand(
+			utils.Fmt(`{"action": "add", "x": %d, "y": 0, "width": %d, "height": %d, "path": "%s", "identifier": "asda"}`,
+				x, size, size, path,
+			),
+		)
 	}()
 }

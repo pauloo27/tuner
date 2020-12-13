@@ -12,6 +12,7 @@ import (
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/display"
+	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
@@ -161,7 +162,7 @@ func main() {
 			os.Exit(0)
 		}
 	})
-
+	img.StartDaemon()
 	// loop
 	for {
 		promptEntry()
