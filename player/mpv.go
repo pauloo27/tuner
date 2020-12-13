@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/Pauloo27/go-mpris"
+	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/lyric"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/storage"
@@ -156,6 +157,7 @@ func (i *MPV) PlayPause() {
 
 func (i *MPV) Exit() {
 	i.Exitted = true
+	img.SendCommand(`{"action": "remove", "identifier": "album"}`)
 }
 
 func (i *MPV) Previous() error {
