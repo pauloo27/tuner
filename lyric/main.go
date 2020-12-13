@@ -54,7 +54,7 @@ func Fetch(path string) (lyric string, err error) {
 }
 
 func SearchFor(query string) (string, error) {
-	path := fmt.Sprintf("https://searx.prvcy.eu/search?format=json&q=site:genius.com+%s", url.QueryEscape(query))
+	path := fmt.Sprintf("https://searx.lnode.net/search?format=json&q=site:genius.com+%s", url.QueryEscape(query))
 
 	res, err := http.Get(path)
 	if err != nil {
