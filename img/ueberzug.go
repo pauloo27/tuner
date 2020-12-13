@@ -26,6 +26,9 @@ func StartDaemon() {
 }
 
 func SendCommand(command string) {
+	if stdin == nil {
+		return
+	}
 	_, err := io.WriteString(stdin, command+"\n")
 	utils.HandleError(err, "Cannot send command")
 }

@@ -157,6 +157,7 @@ func (i *MPV) PlayPause() {
 
 func (i *MPV) Exit() {
 	i.Exitted = true
+
 	img.SendCommand(`{"action": "remove", "identifier": "album"}`)
 }
 

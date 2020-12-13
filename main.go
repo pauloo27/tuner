@@ -162,7 +162,9 @@ func main() {
 			os.Exit(0)
 		}
 	})
-	img.StartDaemon()
+	if state.Data.FetchAlbum {
+		img.StartDaemon()
+	}
 	// loop
 	for {
 		promptEntry()
