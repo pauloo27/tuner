@@ -29,7 +29,7 @@ func FetchAlbum(result *search.YouTubeResult, mpv *player.MPV) {
 		x := int(utils.GetTerminalSize().Col) - size
 
 		img.SendCommand(
-			utils.Fmt(`{"action": "add", "x": %d, "y": 0, "width": %d, "height": %d, "path": "%s", "identifier": "album"}`,
+			utils.Fmt(`{"action": "add", "x": %d, "y": 1, "width": %d, "height": %d, "path": "%s", "identifier": "album"}`,
 				x, size, size, path,
 			),
 		)

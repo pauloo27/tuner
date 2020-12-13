@@ -49,23 +49,6 @@ func ShowPlaying(result *search.YouTubeResult, mpv *player.MPV) {
 		}
 	}
 
-	if mpv.IsPlaylist() {
-		fmt.Printf("Playing: %s (%d/%d)\n",
-			mpv.Playlist.Name,
-			mpv.PlaylistIndex+1,
-			len(mpv.Playlist.Songs),
-		)
-	}
-
-	fmt.Printf(" %s  %s %sfrom %s%s%s\n",
-		icon,
-		utils.ColorGreen+result.Title,
-		utils.ColorWhite,
-		utils.ColorGreen+result.Uploader,
-		extra,
-		utils.ColorReset,
-	)
-
 	if !mpv.GetPlaying().Live {
 		length, err := mpv.Player.GetLength()
 		if err == nil {
@@ -87,6 +70,23 @@ func ShowPlaying(result *search.YouTubeResult, mpv *player.MPV) {
 			}
 		}
 	}
+
+	if mpv.IsPlaylist() {
+		fmt.Printf("Playing: %s (%d/%d)\n",
+			mpv.Playlist.Name,
+			mpv.PlaylistIndex+1,
+			len(mpv.Playlist.Songs),
+		)
+	}
+
+	fmt.Printf(" %s  %s %sfrom %s%s%s\n",
+		icon,
+		utils.ColorGreen+result.Title,
+		utils.ColorWhite,
+		utils.ColorGreen+result.Uploader,
+		extra,
+		utils.ColorReset,
+	)
 
 	if status, _ := mpv.Player.GetPlaybackStatus(); status != "" {
 		volume, _ := mpv.Player.GetVolume()
@@ -110,7 +110,7 @@ func ShowPlaying(result *search.YouTubeResult, mpv *player.MPV) {
 		if lines == 0 {
 			fmt.Println("Fetching lyric...")
 		}
-		for i := mpv.LyricIndex; i < mpv.LyricIndex+15; i++ {
+		for i := mpv.LyricIndex; i < mpv.LyricIndex+14; i++ {
 			if i == lines {
 				break
 			}
