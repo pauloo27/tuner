@@ -2,6 +2,8 @@ github.com/Pauloo27/go-mpris v1.4.0 h1:KWNTZuXeOdOdIVdzwG/JOOZHlveNiMjiSaK0AWi22
 github.com/Pauloo27/go-mpris v1.4.0/go.mod h1:+9otYxTLPRTVZ6i2k6VrG1Y0RzMbBXGuEUQM4ZSvjxU=
 github.com/Pauloo27/keyboard v0.0.0-20201212180329-d97a9fb52944 h1:bLlYLY78o3U7aVUNdXVEKEb51XFeJSWZKQgTqL9M+cA=
 github.com/Pauloo27/keyboard v0.0.0-20201212180329-d97a9fb52944/go.mod h1:f/fpTvqPMAknHb2cgxTh4ITDyGTv4oNLv7wdB3vESdw=
+github.com/Pauloo27/keyboard v0.0.0-20201213171310-472d2a9ecf6c h1:K3vtWaSg9/WUYgxQHC0YmkbqZ+RQ3YKm2OqT7jc9t3Q=
+github.com/Pauloo27/keyboard v0.0.0-20201213171310-472d2a9ecf6c/go.mod h1:f/fpTvqPMAknHb2cgxTh4ITDyGTv4oNLv7wdB3vESdw=
 github.com/anaskhan96/soup v1.2.4 h1:or+sKs9QbzJGZVTYFmTs2VBateEywoq00a6K14z331E=
 github.com/anaskhan96/soup v1.2.4/go.mod h1:6YnEp9A2yywlYdM4EgDz9NEHclocMepEtku7wg6Cq3s=
 github.com/buger/jsonparser v1.0.0 h1:etJTGF5ESxjI0Ic2UaLQs2LQQpa8G9ykQScukbh4L8A=
