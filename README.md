@@ -30,6 +30,10 @@ Clone the repository:
 Install:
 > $ make install
 
+## Screenshots
+![Screenshot search](https://i.imgur.com/7KRlSnS.jpg)
+![Screenshot playing with CAVA](https://i.imgur.com/YGhMcwK.jpg)
+
 ## Album Art (experimental)
 
 The option to show the song Album Art is disabled by default, here's how to 
