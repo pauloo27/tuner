@@ -105,12 +105,12 @@ func promptEntry() {
 		rawInput = unprefixed
 	case '#':
 		rawInput = unprefixed
-		playlistIndex, err := strconv.Atoi(rawInput)
-		if err != nil {
+		index, err := strconv.Atoi(rawInput)
+		if err != nil || index <= 0 || index > len(state.Data.Playlists) {
 			state.Warning = "Invalid playlist"
 			return
 		}
-		play(nil, state.Data.Playlists[playlistIndex-1])
+		play(nil, state.Data.Playlists[index-1])
 		return
 	}
 
