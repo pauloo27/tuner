@@ -188,8 +188,7 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 		Description: "Next song in playlist",
 		KeyName:     ">",
 		Handler: func(mpv *player.MPV) {
-			err := mpv.Next()
-			utils.HandleError(err, "Cannot skip song")
+			mpv.Next()
 		},
 	})
 
@@ -197,8 +196,7 @@ func RegisterDefaultKeybinds(data *storage.TunerData) {
 		Description: "Previous song in playlist",
 		KeyName:     "<",
 		Handler: func(mpv *player.MPV) {
-			err := mpv.Previous()
-			utils.HandleError(err, "Cannot skip song")
+			mpv.Previous()
 		},
 	})
 }
