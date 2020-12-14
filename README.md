@@ -2,12 +2,13 @@
 
 Tuner search for YouTube videos to play in MPV.
 
-![Example GIF](https://i.imgur.com/EjuSoA4.gif)
+![Screenshot](https://i.imgur.com/v5GbcaL.png)
 
 ## Features
 - Playlists
 - Lyrics
 - No "search rate limits" (Tuner doesn't use the youtube API)
+- Show album art (experimental)
 
 ## Compile
 
@@ -28,6 +29,16 @@ Clone the repository:
 
 Install:
 > $ make install
+
+## Album Art (experimental)
+
+The option to show the song Album Art is disabled by default, here's how to 
+enable it:
+
+First install [Überzug](https://github.com/seebye/ueberzug) 
+(on Arch Linux, install the `ueberzug` package)...
+
+Then open Tuner and type `/a` in the search bar and restart Tuner.
 
 ## License
 
