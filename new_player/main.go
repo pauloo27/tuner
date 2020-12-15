@@ -60,13 +60,13 @@ func Initialize() {
 	}
 
 	// internal hooks
-	RegisterHook(HOOK_FILE_LOAD_STARTED, func(params ...interface{}) {
+	RegisterHook(func(params ...interface{}) {
 		Play()
 		ClearPlaylist()
-	})
-	RegisterHook(HOOK_VOLUME_CHANGED, func(params ...interface{}) {
+	}, HOOK_FILE_LOAD_STARTED)
+	RegisterHook(func(params ...interface{}) {
 		State.Volume = params[0].(float64)
-	})
+	}, HOOK_VOLUME_CHANGED)
 
 	// start the player
 	err = MpvInstance.Initialize()

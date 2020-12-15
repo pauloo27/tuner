@@ -17,7 +17,7 @@ type HookCallback func(params ...interface{})
 
 var hooks = make(map[int][]*HookCallback)
 
-func RegisterHook(hookType int, cb HookCallback) {
+func RegisterHook(cb HookCallback, hookType int) {
 	if currentHooks, ok := hooks[hookType]; ok {
 		hooks[hookType] = append(currentHooks, &cb)
 	} else {
@@ -25,9 +25,9 @@ func RegisterHook(hookType int, cb HookCallback) {
 	}
 }
 
-func RegisterHooks(hookTypes []int, cb HookCallback) {
+func RegisterHooks(cb HookCallback, hookTypes ...int) {
 	for _, hookType := range hookTypes {
-		RegisterHook(hookType, cb)
+		RegisterHook(cb, hookType)
 	}
 }
 

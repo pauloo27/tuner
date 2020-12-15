@@ -175,9 +175,9 @@ func main() {
 	state.Start()
 	new_player.Initialize()
 
-	new_player.RegisterHook(new_player.HOOK_FILE_ENDED, func(params ...interface{}) {
+	new_player.RegisterHook(func(params ...interface{}) {
 		playing <- false
-	})
+	}, new_player.HOOK_FILE_ENDED)
 
 	new_keybind.RegisterDefaultKeybinds()
 
