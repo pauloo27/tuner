@@ -2,6 +2,7 @@ package new_player
 
 import (
 	"math"
+	"strconv"
 
 	"github.com/Pauloo27/tuner/new_player/mpv"
 	"github.com/Pauloo27/tuner/utils"
@@ -98,6 +99,10 @@ func PlayPause() error {
 	} else {
 		return Pause()
 	}
+}
+
+func Seek(seconds int) error {
+	return MpvInstance.Command([]string{"seek", strconv.Itoa(seconds)})
 }
 
 func Pause() error {
