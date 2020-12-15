@@ -10,6 +10,7 @@ import (
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/utils"
+	"golang.org/x/term"
 )
 
 const (
@@ -54,8 +55,9 @@ func ShowPlaying(result *search.YouTubeResult, mpv *player.MPV) {
 		if err == nil {
 			position, err := mpv.Player.GetPosition()
 			if err == nil && position > 0 {
-				columns := float64(utils.GetTerminalSize().Col)
-				barSize := columns * float64(len(horizontalBars))
+				columns, _, err := term.GetSize(0)
+				utils.HandleError(err, "Cannot get term size")
+				barSize := float64(columns) * float64(len(horizontalBars))
 				progress := int((barSize * position) / length)
 				fullBlocks := progress / len(horizontalBars)
 				missing := progress % len(horizontalBars)

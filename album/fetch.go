@@ -6,6 +6,7 @@ import (
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/utils"
+	"golang.org/x/term"
 )
 
 func FetchAlbum(result *search.YouTubeResult, mpv *player.MPV) {
@@ -26,7 +27,9 @@ func FetchAlbum(result *search.YouTubeResult, mpv *player.MPV) {
 		utils.DownloadFile(trackInfo.Album.ImageURL, path)
 
 		size := 25
-		x := int(utils.GetTerminalSize().Col) - size
+		width, _, err := term.GetSize(0)
+		utils.HandleError(err, "Cannot get term size")
+		x := width - size
 
 		img.SendCommand(
 			utils.Fmt(`{"action": "add", "x": %d, "y": 1, "width": %d, "height": %d, "path": "%s", "identifier": "album"}`,
