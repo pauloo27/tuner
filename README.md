@@ -12,6 +12,9 @@ Tuner search for YouTube videos to play in MPV.
 
 ## Compile
 
+Tuner is a written in Go, so you will need to install the GoLang compiler. On 
+Arch Linux, you should install the `go` package.
+
 ### Dependencies
 
 Before running Tuner you need to install 
