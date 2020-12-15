@@ -29,25 +29,21 @@ func BindChar(c rune, bind Keybind) {
 }
 
 func RegisterDefaultKeybinds() {
-	/*
-		BindKey(keyboard.KeyArrowLeft, Keybind{
-			Description: "Seek 5 seconds back",
-			KeyName:     "Arrow Left",
-			Handler: func(mpv *player.MPV) {
-				_ = mpv.Player.Seek(-5)
-				mpv.Update()
-			},
-		})
+	BindKey(keyboard.KeyArrowLeft, Keybind{
+		Description: "Seek 5 seconds back",
+		KeyName:     "Arrow Left",
+		Handler: func() {
+			new_player.Seek(-5)
+		},
+	})
 
-		BindKey(keyboard.KeyArrowRight, Keybind{
-			Description: "Seek 5 seconds",
-			KeyName:     "Arrow Right",
-			Handler: func(mpv *player.MPV) {
-				_ = mpv.Player.Seek(+5)
-				mpv.Update()
-			},
-		})
-	*/
+	BindKey(keyboard.KeyArrowRight, Keybind{
+		Description: "Seek 5 seconds",
+		KeyName:     "Arrow Right",
+		Handler: func() {
+			new_player.Seek(+5)
+		},
+	})
 
 	BindKey(keyboard.KeyCtrlC, Keybind{
 		Description: "Stop the player",
@@ -69,7 +65,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Decrease the volume",
 		KeyName:     "Arrow Down",
 		Handler: func() {
-			new_player.SetVolume(new_player.State.Volume - 0.05)
+			new_player.SetVolume(new_player.State.Volume - 5.0)
 		},
 	})
 
@@ -77,7 +73,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Increase the volume",
 		KeyName:     "Arrow Up",
 		Handler: func() {
-			new_player.SetVolume(new_player.State.Volume + 0.05)
+			new_player.SetVolume(new_player.State.Volume + 5.0)
 		},
 	})
 
