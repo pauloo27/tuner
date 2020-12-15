@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/Pauloo27/tuner/new_player/mpv"
+	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
 )
 
@@ -85,6 +86,11 @@ func RemoveCurrentFromPlaylist() error {
 
 func Stop() error {
 	return MpvInstance.Command([]string{"stop"})
+}
+
+func PlayFromYouTube(result *search.YouTubeResult) error {
+	State.playing = result
+	return LoadFile(result.URL())
 }
 
 func LoadFile(filePath string) error {

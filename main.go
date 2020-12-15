@@ -48,14 +48,12 @@ func parametersFor(result *search.YouTubeResult,
 }
 
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
-	var file string
 	if result == nil {
 		fmt.Println("Not supported yet (1)")
 		os.Exit(-1)
 	} else {
-		file = result.URL()
+		new_player.PlayFromYouTube(result)
 	}
-	new_player.LoadFile(file)
 	go new_keybind.Listen()
 	go new_display.DisplayPlayer()
 	// wait to the player to exit
