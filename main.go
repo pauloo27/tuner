@@ -14,6 +14,7 @@ import (
 	"github.com/Pauloo27/tuner/display"
 	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/keybind"
+	"github.com/Pauloo27/tuner/new_display"
 	"github.com/Pauloo27/tuner/new_keybind"
 	"github.com/Pauloo27/tuner/new_player"
 	"github.com/Pauloo27/tuner/player"
@@ -56,6 +57,7 @@ func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 	}
 	new_player.LoadFile(file)
 	go new_keybind.Listen()
+	go new_display.DisplayPlayer()
 	// wait to the player to exit
 	<-playing
 	keyboard.Close()
