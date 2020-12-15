@@ -4,7 +4,11 @@ import "github.com/Pauloo27/tuner/search"
 
 type PlayerState struct {
 	Paused   bool
-	Playing  *search.YouTubeResult
+	playing  *search.YouTubeResult
 	Volume   float64
 	Duration float64
+}
+
+func (s *PlayerState) GetPlaying() *search.YouTubeResult {
+	return s.playing
 }
