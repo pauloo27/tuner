@@ -14,11 +14,16 @@ import (
 	"github.com/Pauloo27/tuner/display"
 	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/keybind"
+	"github.com/Pauloo27/tuner/new_player"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
+)
+
+var (
+	playing = make(chan bool)
 )
 
 func parametersFor(result *search.YouTubeResult,
@@ -41,6 +46,19 @@ func parametersFor(result *search.YouTubeResult,
 }
 
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
+	var file string
+	if result == nil {
+		fmt.Println("Not supported yet (1)")
+		os.Exit(-1)
+	} else {
+		file = result.URL()
+	}
+	new_player.LoadFile(file)
+	// wait to the player to exit
+	<-playing
+}
+
+func playOld(result *search.YouTubeResult, playlist *storage.Playlist) {
 	state.Playing = true
 	cmd := exec.Command("mpv", parametersFor(result, playlist)...)
 
@@ -152,6 +170,12 @@ func promptEntry() {
 
 func main() {
 	state.Start()
+	new_player.Initialize()
+
+	new_player.RegisterHook(new_player.HOOK_FILE_ENDED, func(params ...interface{}) {
+		playing <- false
+	})
+
 	commands.SetupDefaultCommands()
 	keybind.RegisterDefaultKeybinds(state.Data)
 	// handle sigterm (Ctrl+C)
