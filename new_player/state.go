@@ -2,11 +2,17 @@ package new_player
 
 import "github.com/Pauloo27/tuner/search"
 
+type SongLyric struct {
+	Lines     []string
+	LineIndex int
+}
 type PlayerState struct {
-	Paused   bool
-	playing  *search.YouTubeResult
-	Volume   float64
-	Duration float64
+	Paused                       bool
+	playing                      *search.YouTubeResult
+	Volume                       float64
+	Duration                     float64
+	ShowHelp, ShowURL, ShowLyric bool
+	Lyric                        SongLyric
 }
 
 func (s *PlayerState) GetPlaying() *search.YouTubeResult {

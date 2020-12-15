@@ -58,6 +58,8 @@ func Initialize() {
 		nil,
 		initialVolume,
 		0.0,
+		false, false, false,
+		SongLyric{},
 	}
 
 	// internal hooks
@@ -86,6 +88,10 @@ func RemoveCurrentFromPlaylist() error {
 
 func Stop() error {
 	return MpvInstance.Command([]string{"stop"})
+}
+
+func ForceUpdate() {
+	callHooks(HOOK_GENERIC_UPDATE)
 }
 
 func PlayFromYouTube(result *search.YouTubeResult) error {
