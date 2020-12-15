@@ -82,6 +82,10 @@ func RemoveCurrentFromPlaylist() error {
 	return MpvInstance.Command([]string{"playlist-remove", "current"})
 }
 
+func Stop() error {
+	return MpvInstance.Command([]string{"stop"})
+}
+
 func LoadFile(filePath string) error {
 	err := MpvInstance.Command([]string{"loadfile", filePath})
 	callHooks(HOOK_FILE_LOAD_STARTED, err, filePath)

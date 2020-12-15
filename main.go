@@ -14,6 +14,7 @@ import (
 	"github.com/Pauloo27/tuner/display"
 	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/keybind"
+	"github.com/Pauloo27/tuner/new_keybind"
 	"github.com/Pauloo27/tuner/new_player"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
@@ -54,8 +55,10 @@ func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 		file = result.URL()
 	}
 	new_player.LoadFile(file)
+	go new_keybind.Listen()
 	// wait to the player to exit
 	<-playing
+	keyboard.Close()
 }
 
 func playOld(result *search.YouTubeResult, playlist *storage.Playlist) {
@@ -176,8 +179,9 @@ func main() {
 		playing <- false
 	})
 
+	new_keybind.RegisterDefaultKeybinds()
+
 	commands.SetupDefaultCommands()
-	keybind.RegisterDefaultKeybinds(state.Data)
 	// handle sigterm (Ctrl+C)
 	utils.OnSigTerm(func(sig *os.Signal) {
 		if !state.Playing {
