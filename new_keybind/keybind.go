@@ -77,95 +77,96 @@ func RegisterDefaultKeybinds() {
 		},
 	})
 
+	BindChar('?', Keybind{
+		Description: "Toggle keybind list",
+		KeyName:     "?",
+		Handler: func() {
+			new_player.State.ShowHelp = !new_player.State.ShowHelp
+			new_player.ForceUpdate()
+		},
+	})
+
 	/*
-		BindChar('?', Keybind{
-			Description: "Toggle keybind list",
-			KeyName:     "?",
+		BindChar('l', Keybind{
+			Description: "Toggle loop",
+			KeyName:     "L",
 			Handler: func(mpv *player.MPV) {
-				mpv.ShowHelp = !mpv.ShowHelp
-				mpv.Update()
+				loop, err := mpv.Player.GetLoopStatus()
+				// avoid crashing when the player is starting
+				if err != nil {
+					fmt.Println("Cannot get MPV loop status")
+					return
+				}
+				newLoop := mpris.LoopNone
+
+				if loop == mpris.LoopNone {
+					newLoop = mpris.LoopTrack
+				} else if loop == mpris.LoopTrack && mpv.IsPlaylist() {
+					newLoop = mpris.LoopPlaylist
+				}
+
+				err = mpv.Player.SetLoopStatus(newLoop)
+				utils.HandleError(err, "Cannot set loop status")
 			},
 		})
 	*/
 
+	BindChar('p', Keybind{
+		Description: "Toggle lyric",
+		KeyName:     "P",
+		Handler: func() {
+			if len(new_player.State.Lyric.Lines) == 0 {
+				// TODO
+				//go new_player.FetchLyric()
+			}
+			new_player.State.ShowLyric = !new_player.State.ShowLyric
+			new_player.ForceUpdate()
+		},
+	})
+
+	BindChar('w', Keybind{
+		Description: "Scroll lyric up",
+		KeyName:     "W",
+		Handler: func() {
+			if new_player.State.Lyric.Index > 0 {
+				new_player.State.Lyric.Index--
+				new_player.ForceUpdate()
+			}
+		},
+	})
+
+	BindChar('s', Keybind{
+		Description: "Scroll lyric down",
+		KeyName:     "S",
+		Handler: func() {
+			if new_player.State.Lyric.Index < len(new_player.State.Lyric.Lines) {
+				new_player.State.Lyric.Index++
+				new_player.ForceUpdate()
+			}
+		},
+	})
+
+	BindChar('u', Keybind{
+		Description: "Show video URL",
+		KeyName:     "U",
+		Handler: func() {
+			new_player.State.ShowURL = !new_player.State.ShowURL
+			new_player.ForceUpdate()
+		},
+	})
+
 	/*
-			BindChar('l', Keybind{
-				Description: "Toggle loop",
-				KeyName:     "L",
+			BindChar('b', Keybind{
+				Description: "Save song to playlist",
+				KeyName:     "B",
 				Handler: func(mpv *player.MPV) {
-					loop, err := mpv.Player.GetLoopStatus()
-					// avoid crashing when the player is starting
-					if err != nil {
-						fmt.Println("Cannot get MPV loop status")
-						return
+					mpv.Saving = !mpv.Saving
+					mpv.Update()
+					if mpv.Saving {
+						mpv.Save()
 					}
-					newLoop := mpris.LoopNone
-
-					if loop == mpris.LoopNone {
-						newLoop = mpris.LoopTrack
-					} else if loop == mpris.LoopTrack && mpv.IsPlaylist() {
-						newLoop = mpris.LoopPlaylist
-					}
-
-					err = mpv.Player.SetLoopStatus(newLoop)
-					utils.HandleError(err, "Cannot set loop status")
 				},
 			})
-
-			BindChar('p', Keybind{
-				Description: "Toggle lyric",
-				KeyName:     "P",
-				Handler: func(mpv *player.MPV) {
-					if len(mpv.LyricLines) == 0 {
-						go mpv.FetchLyric()
-					}
-					mpv.ShowLyric = !mpv.ShowLyric
-					mpv.Update()
-				},
-			})
-
-		BindChar('w', Keybind{
-			Description: "Scroll lyric up",
-			KeyName:     "W",
-			Handler: func(mpv *player.MPV) {
-				if mpv.LyricIndex > 0 {
-					mpv.LyricIndex = mpv.LyricIndex - 1
-					mpv.Update()
-				}
-			},
-		})
-
-		BindChar('s', Keybind{
-			Description: "Scroll lyric down",
-			KeyName:     "S",
-			Handler: func(mpv *player.MPV) {
-				if mpv.LyricIndex < len(mpv.LyricLines) {
-					mpv.LyricIndex = mpv.LyricIndex + 1
-					mpv.Update()
-				}
-			},
-		})
-
-		BindChar('u', Keybind{
-			Description: "Show video URL",
-			KeyName:     "U",
-			Handler: func(mpv *player.MPV) {
-				mpv.ShowURL = !mpv.ShowURL
-				mpv.Update()
-			},
-		})
-
-		BindChar('b', Keybind{
-			Description: "Save song to playlist",
-			KeyName:     "B",
-			Handler: func(mpv *player.MPV) {
-				mpv.Saving = !mpv.Saving
-				mpv.Update()
-				if mpv.Saving {
-					mpv.Save()
-				}
-			},
-		})
 
 		BindChar('>', Keybind{
 			Description: "Next song in playlist",

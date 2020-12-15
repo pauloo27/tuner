@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/Pauloo27/tuner/new_keybind"
 	"github.com/Pauloo27/tuner/new_player"
 	"github.com/Pauloo27/tuner/utils"
 	"golang.org/x/term"
@@ -85,7 +86,36 @@ func DisplayPlayer() {
 			extra,
 			utils.ColorReset,
 		)
+
 		fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, new_player.State.Volume, utils.ColorReset)
+
+		if new_player.State.ShowURL {
+			fmt.Printf("%s%s%s\n", utils.ColorBlue, result.URL(), utils.ColorReset)
+		}
+
+		if new_player.State.ShowHelp {
+			fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
+			for _, bind := range new_keybind.ListBinds() {
+				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
+			}
+		}
+
+		if new_player.State.ShowLyric {
+			fmt.Println(utils.ColorBlue)
+			lyric := new_player.State.Lyric
+			lines := len(lyric.Lines)
+			if lines == 0 {
+				fmt.Println("Fetching lyric...")
+			}
+			for i := lyric.Index; i < lyric.Index+14; i++ {
+				if i == lines {
+					break
+				}
+				fmt.Println(lyric.Lines[i])
+			}
+		}
+
+		fmt.Print(utils.ColorReset)
 	}
 
 	new_player.RegisterHooks(
@@ -94,6 +124,7 @@ func DisplayPlayer() {
 		},
 		new_player.HOOK_PLAYBACK_PAUSED, new_player.HOOK_PLAYBACK_RESUMED,
 		new_player.HOOK_VOLUME_CHANGED, new_player.HOOK_POSITION_CHANGED,
+		new_player.HOOK_GENERIC_UPDATE,
 	)
 
 	render()

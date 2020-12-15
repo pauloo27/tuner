@@ -3,8 +3,8 @@ package new_player
 import "github.com/Pauloo27/tuner/search"
 
 type SongLyric struct {
-	Lines     []string
-	LineIndex int
+	Lines []string
+	Index int
 }
 type PlayerState struct {
 	Paused                       bool
