@@ -19,15 +19,19 @@ var (
 	horizontalBars = []string{"▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"}
 )
 
-func DisplayPlayer() {
+func StartPlayerDisplay() {
 	var lock sync.Mutex
 
 	render := func() {
 		lock.Lock()
 		defer lock.Unlock()
-		utils.ClearScreen()
 
 		result := new_player.State.GetPlaying()
+		if result == nil {
+			return
+		}
+
+		utils.ClearScreen()
 
 		// TODO: fix the progress bar
 		if !result.Live && false {
@@ -122,8 +126,6 @@ func DisplayPlayer() {
 		new_player.HOOK_PLAYBACK_PAUSED, new_player.HOOK_PLAYBACK_RESUMED,
 		new_player.HOOK_VOLUME_CHANGED, new_player.HOOK_POSITION_CHANGED,
 		new_player.HOOK_GENERIC_UPDATE, new_player.HOOK_LOOP_PLAYLIST_CHANGED,
-		new_player.HOOK_LOOP_TRACK_CHANGED,
+		new_player.HOOK_LOOP_TRACK_CHANGED, new_player.HOOK_FILE_LOAD_STARTED,
 	)
-
-	render()
 }

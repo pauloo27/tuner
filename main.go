@@ -32,7 +32,6 @@ func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 		new_player.PlayFromYouTube(result)
 	}
 	go new_keybind.Listen()
-	go new_display.DisplayPlayer()
 	// wait to the player to exit
 	<-playing
 	keyboard.Close()
@@ -132,6 +131,8 @@ func main() {
 	}, new_player.HOOK_FILE_ENDED)
 
 	new_keybind.RegisterDefaultKeybinds()
+
+	new_display.StartPlayerDisplay()
 
 	commands.SetupDefaultCommands()
 	// handle sigterm (Ctrl+C)
