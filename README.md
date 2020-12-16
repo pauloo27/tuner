@@ -76,6 +76,12 @@ There are a few commands you can type in the search bar:
 - `/album` or `/a`: Toggle option to show album art (default is false).
 - `/help` or `/h`: List all commands.
 
+## Storage
+
+Tuner data (cache and config) is stored at `~/.cache/tuner`. Tuner doesn't keep
+the songs downloaded, the only cached data is the album art (if the feature is
+enabled) and the info of playlist entries.
+
 ## License
 
 <img src="https://i.imgur.com/AuQQfiB.png" alt="GPL Logo" height="100px" />
