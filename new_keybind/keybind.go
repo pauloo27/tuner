@@ -86,30 +86,23 @@ func RegisterDefaultKeybinds() {
 		},
 	})
 
-	/*
-		BindChar('l', Keybind{
-			Description: "Toggle loop",
-			KeyName:     "L",
-			Handler: func(mpv *player.MPV) {
-				loop, err := mpv.Player.GetLoopStatus()
-				// avoid crashing when the player is starting
-				if err != nil {
-					fmt.Println("Cannot get MPV loop status")
-					return
-				}
-				newLoop := mpris.LoopNone
+	BindChar('l', Keybind{
+		Description: "Toggle loop",
+		KeyName:     "L",
+		Handler: func() {
+			loop := new_player.State.Loop
 
-				if loop == mpris.LoopNone {
-					newLoop = mpris.LoopTrack
-				} else if loop == mpris.LoopTrack && mpv.IsPlaylist() {
-					newLoop = mpris.LoopPlaylist
-				}
+			if loop == new_player.LOOP_NONE {
+				new_player.LoopTrack()
+				return
+				// TODO: playlist
+				//} else if loop == new_player.LOOP_TRACK && new_player.State.IsPlaylist() {
+				//newLoop = mpris.LoopPlaylist
+			}
 
-				err = mpv.Player.SetLoopStatus(newLoop)
-				utils.HandleError(err, "Cannot set loop status")
-			},
-		})
-	*/
+			new_player.LoopNone()
+		},
+	})
 
 	BindChar('p', Keybind{
 		Description: "Toggle lyric",

@@ -67,16 +67,12 @@ func DisplayPlayer() {
 		}
 
 		extra := ""
-		// TODO: loop
-		/*
-			if status, err := mpv.Player.GetLoopStatus(); err == nil {
-				if status == mpris.LoopTrack {
-					extra += utils.ColorWhite + "  "
-				} else if status == mpris.LoopPlaylist {
-					extra += utils.ColorBlue + "  "
-				}
-			}
-		*/
+		switch new_player.State.Loop {
+		case new_player.LOOP_TRACK:
+			extra += utils.ColorWhite + "  "
+		case new_player.LOOP_PLAYLIST:
+			extra += utils.ColorBlue + "  "
+		}
 
 		fmt.Printf(" %s  %s %sfrom %s%s%s\n",
 			icon,
@@ -124,7 +120,8 @@ func DisplayPlayer() {
 		},
 		new_player.HOOK_PLAYBACK_PAUSED, new_player.HOOK_PLAYBACK_RESUMED,
 		new_player.HOOK_VOLUME_CHANGED, new_player.HOOK_POSITION_CHANGED,
-		new_player.HOOK_GENERIC_UPDATE,
+		new_player.HOOK_GENERIC_UPDATE, new_player.HOOK_LOOP_PLAYLIST_CHANGED,
+		new_player.HOOK_LOOP_TRACK_CHANGED,
 	)
 
 	render()

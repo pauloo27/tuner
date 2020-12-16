@@ -49,6 +49,12 @@ func Initialize() {
 	err = MpvInstance.ObserveProperty(0, "volume", mpv.FORMAT_DOUBLE)
 	utils.HandleError(err, "Cannot observer volume property")
 
+	err = MpvInstance.ObserveProperty(0, "loop-file", mpv.FORMAT_FLAG)
+	utils.HandleError(err, "Cannot observer loo-file property")
+
+	err = MpvInstance.ObserveProperty(0, "loop-playlist", mpv.FORMAT_FLAG)
+	utils.HandleError(err, "Cannot observer loop-playlist property")
+
 	// start event listener
 	startEventHandler()
 
@@ -60,22 +66,43 @@ func Initialize() {
 		0.0,
 		false, false, false,
 		SongLyric{},
+		LOOP_NONE,
 	}
 
-	// internal hooks
-	RegisterHook(func(params ...interface{}) {
-		Play()
-		ClearPlaylist()
-	}, HOOK_FILE_LOAD_STARTED)
-	RegisterHook(func(params ...interface{}) {
-		State.Volume = params[0].(float64)
-	}, HOOK_VOLUME_CHANGED)
+	registerInternalHooks()
 
 	// start the player
 	err = MpvInstance.Initialize()
 	utils.HandleError(err, "Cannot initialize mpv")
 
 	callHooks(HOOK_PLAYER_INITIALIZED, err)
+}
+
+func registerInternalHooks() {
+	RegisterHook(func(params ...interface{}) {
+		Play()
+		ClearPlaylist()
+	}, HOOK_FILE_LOAD_STARTED)
+
+	RegisterHook(func(params ...interface{}) {
+		State.Volume = params[0].(float64)
+	}, HOOK_VOLUME_CHANGED)
+
+	RegisterHook(func(params ...interface{}) {
+		if State.Loop == LOOP_NONE {
+			State.Loop = LOOP_TRACK
+		} else {
+			State.Loop = LOOP_NONE
+		}
+	}, HOOK_LOOP_TRACK_CHANGED)
+
+	RegisterHook(func(params ...interface{}) {
+		if State.Loop == LOOP_NONE {
+			State.Loop = LOOP_PLAYLIST
+		} else {
+			State.Loop = LOOP_NONE
+		}
+	}, HOOK_LOOP_PLAYLIST_CHANGED)
 }
 
 func ClearPlaylist() error {
@@ -123,6 +150,33 @@ func Pause() error {
 
 func Play() error {
 	return MpvInstance.SetProperty("pause", mpv.FORMAT_FLAG, false)
+}
+
+func LoopNone() error {
+	err := MpvInstance.SetProperty("loop-file", mpv.FORMAT_FLAG, false)
+	if err != nil {
+		return err
+	}
+	err = MpvInstance.SetProperty("loop-playlist", mpv.FORMAT_FLAG, false)
+	return err
+}
+
+func LoopTrack() error {
+	err := MpvInstance.SetProperty("loop-file", mpv.FORMAT_FLAG, true)
+	if err != nil {
+		return err
+	}
+	err = MpvInstance.SetProperty("loop-playlist", mpv.FORMAT_FLAG, false)
+	return err
+}
+
+func LoopPlaylist() error {
+	err := MpvInstance.SetProperty("loop-file", mpv.FORMAT_FLAG, false)
+	if err != nil {
+		return err
+	}
+	err = MpvInstance.SetProperty("loop-playlist", mpv.FORMAT_FLAG, true)
+	return err
 }
 
 func SetVolume(volume float64) error {

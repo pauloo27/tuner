@@ -12,6 +12,10 @@ func handlePropertyChange(data *mpv.EventProperty) {
 	case "volume":
 		volume := *(*float64)(data.Data.(unsafe.Pointer))
 		callHooks(HOOK_VOLUME_CHANGED, volume)
+	case "loop-file":
+		callHooks(HOOK_LOOP_TRACK_CHANGED)
+	case "loop-playlist":
+		callHooks(HOOK_LOOP_PLAYLIST_CHANGED)
 	}
 }
 
