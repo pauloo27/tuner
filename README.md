@@ -44,6 +44,7 @@ Install:
 > $ make install
 
 ## Screenshots
+![Screenshot with MOTD](https://i.imgur.com/9f6XonE.png)
 ![Screenshot search](https://i.imgur.com/7KRlSnS.jpg)
 ![Screenshot playing with CAVA](https://i.imgur.com/YGhMcwK.jpg)
 
