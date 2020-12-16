@@ -47,6 +47,29 @@ First install [Überzug](https://github.com/seebye/ueberzug)
 
 Then open Tuner and type `/a` in the search bar and restart Tuner.
 
+## Keybinds
+
+_TIP: You can see the keybinds inside Tuner by pressing `?`._
+
+Keybinds:
+- Arrow Left: Seek 5 seconds back
+- Arrow Right: Seek 5 seconds
+- Ctrl C: Stop the player
+- Space: Play/Pause song
+- Arrow Down: Decrease the volume
+- Arrow Up: Increase the volume
+- ?: Toggle keybind list
+- L: Toggle loop
+- P: Toggle lyric
+- W: Scroll lyric up
+- S: Scroll lyric down
+- U: Show video URL
+- B: Save song to playlist
+- >: Next song in playlist
+- <: Previous song in playlist
+
+
+
 ## License
 
 <img src="https://i.imgur.com/AuQQfiB.png" alt="GPL Logo" height="100px" />
