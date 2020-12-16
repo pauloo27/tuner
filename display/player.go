@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"github.com/Pauloo27/tuner/keybind"
-	"github.com/Pauloo27/tuner/new_player"
+	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/utils"
 	"golang.org/x/term"
 )
@@ -26,7 +26,7 @@ func startPlayerHooks() {
 		lock.Lock()
 		defer lock.Unlock()
 
-		result := new_player.State.GetPlaying()
+		result := player.State.GetPlaying()
 		if result == nil {
 			return
 		}
@@ -35,8 +35,8 @@ func startPlayerHooks() {
 
 		// TODO: fix the progress bar
 		if !result.Live && false {
-			length := new_player.State.Duration
-			position, err := new_player.GetPosition()
+			length := player.State.Duration
+			position, err := player.GetPosition()
 			if err == nil && position > 0 {
 				columns, _, err := term.GetSize(0)
 				utils.HandleError(err, "Cannot get term size")
@@ -55,25 +55,25 @@ func startPlayerHooks() {
 			}
 		}
 
-		if new_player.State.IsPlaylist() {
+		if player.State.IsPlaylist() {
 			fmt.Printf("Playing: %s (%d/%d)\n",
-				new_player.State.Playlist.Name,
-				new_player.State.PlaylistIndex+1,
-				len(new_player.State.Playlist.Songs),
+				player.State.Playlist.Name,
+				player.State.PlaylistIndex+1,
+				len(player.State.Playlist.Songs),
 			)
 		}
 
 		icon := playingIcon
 
-		if new_player.State.Paused {
+		if player.State.Paused {
 			icon = pausedIcon
 		}
 
 		extra := ""
-		switch new_player.State.Loop {
-		case new_player.LOOP_TRACK:
+		switch player.State.Loop {
+		case player.LOOP_TRACK:
 			extra += utils.ColorWhite + "  "
-		case new_player.LOOP_PLAYLIST:
+		case player.LOOP_PLAYLIST:
 			extra += utils.ColorBlue + "  "
 		}
 
@@ -86,22 +86,22 @@ func startPlayerHooks() {
 			utils.ColorReset,
 		)
 
-		fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, new_player.State.Volume, utils.ColorReset)
+		fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, player.State.Volume, utils.ColorReset)
 
-		if new_player.State.ShowURL {
+		if player.State.ShowURL {
 			fmt.Printf("%s%s%s\n", utils.ColorBlue, result.URL(), utils.ColorReset)
 		}
 
-		if new_player.State.ShowHelp {
+		if player.State.ShowHelp {
 			fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
 			for _, bind := range keybind.ListBinds() {
 				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
 			}
 		}
 
-		if new_player.State.ShowLyric {
+		if player.State.ShowLyric {
 			fmt.Println(utils.ColorBlue)
-			lyric := new_player.State.Lyric
+			lyric := player.State.Lyric
 			lines := len(lyric.Lines)
 			if lines == 0 {
 				fmt.Println("Fetching lyric...")
@@ -117,14 +117,14 @@ func startPlayerHooks() {
 		fmt.Print(utils.ColorReset)
 	}
 
-	new_player.RegisterHooks(
+	player.RegisterHooks(
 		func(param ...interface{}) {
 			render()
 		},
-		new_player.HOOK_PLAYBACK_PAUSED, new_player.HOOK_PLAYBACK_RESUMED,
-		new_player.HOOK_VOLUME_CHANGED, new_player.HOOK_POSITION_CHANGED,
-		new_player.HOOK_GENERIC_UPDATE, new_player.HOOK_LOOP_PLAYLIST_CHANGED,
-		new_player.HOOK_LOOP_TRACK_CHANGED, new_player.HOOK_FILE_LOAD_STARTED,
-		new_player.HOOK_FILE_ENDED,
+		player.HOOK_PLAYBACK_PAUSED, player.HOOK_PLAYBACK_RESUMED,
+		player.HOOK_VOLUME_CHANGED, player.HOOK_POSITION_CHANGED,
+		player.HOOK_GENERIC_UPDATE, player.HOOK_LOOP_PLAYLIST_CHANGED,
+		player.HOOK_LOOP_TRACK_CHANGED, player.HOOK_FILE_LOAD_STARTED,
+		player.HOOK_FILE_ENDED,
 	)
 }

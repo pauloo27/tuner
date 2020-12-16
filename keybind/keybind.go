@@ -2,7 +2,7 @@ package keybind
 
 import (
 	"github.com/Pauloo27/keyboard"
-	"github.com/Pauloo27/tuner/new_player"
+	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/utils"
 )
 
@@ -32,7 +32,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Seek 5 seconds back",
 		KeyName:     "Arrow Left",
 		Handler: func() {
-			new_player.Seek(-5)
+			player.Seek(-5)
 		},
 	})
 
@@ -40,7 +40,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Seek 5 seconds",
 		KeyName:     "Arrow Right",
 		Handler: func() {
-			new_player.Seek(+5)
+			player.Seek(+5)
 		},
 	})
 
@@ -48,7 +48,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Stop the player",
 		KeyName:     "Ctrl C",
 		Handler: func() {
-			new_player.Stop()
+			player.Stop()
 		},
 	})
 
@@ -56,7 +56,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Play/Pause song",
 		KeyName:     "Space",
 		Handler: func() {
-			new_player.PlayPause()
+			player.PlayPause()
 		},
 	})
 
@@ -64,7 +64,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Decrease the volume",
 		KeyName:     "Arrow Down",
 		Handler: func() {
-			new_player.SetVolume(new_player.State.Volume - 5.0)
+			player.SetVolume(player.State.Volume - 5.0)
 		},
 	})
 
@@ -72,7 +72,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Increase the volume",
 		KeyName:     "Arrow Up",
 		Handler: func() {
-			new_player.SetVolume(new_player.State.Volume + 5.0)
+			player.SetVolume(player.State.Volume + 5.0)
 		},
 	})
 
@@ -80,8 +80,8 @@ func RegisterDefaultKeybinds() {
 		Description: "Toggle keybind list",
 		KeyName:     "?",
 		Handler: func() {
-			new_player.State.ShowHelp = !new_player.State.ShowHelp
-			new_player.ForceUpdate()
+			player.State.ShowHelp = !player.State.ShowHelp
+			player.ForceUpdate()
 		},
 	})
 
@@ -89,17 +89,17 @@ func RegisterDefaultKeybinds() {
 		Description: "Toggle loop",
 		KeyName:     "L",
 		Handler: func() {
-			loop := new_player.State.Loop
+			loop := player.State.Loop
 
-			if loop == new_player.LOOP_NONE {
-				new_player.LoopTrack()
+			if loop == player.LOOP_NONE {
+				player.LoopTrack()
 				return
-			} else if loop == new_player.LOOP_TRACK && new_player.State.IsPlaylist() {
-				new_player.LoopPlaylist()
+			} else if loop == player.LOOP_TRACK && player.State.IsPlaylist() {
+				player.LoopPlaylist()
 				return
 			}
 
-			new_player.LoopNone()
+			player.LoopNone()
 		},
 	})
 
@@ -107,11 +107,11 @@ func RegisterDefaultKeybinds() {
 		Description: "Toggle lyric",
 		KeyName:     "P",
 		Handler: func() {
-			if len(new_player.State.Lyric.Lines) == 0 {
-				go new_player.FetchLyric()
+			if len(player.State.Lyric.Lines) == 0 {
+				go player.FetchLyric()
 			}
-			new_player.State.ShowLyric = !new_player.State.ShowLyric
-			new_player.ForceUpdate()
+			player.State.ShowLyric = !player.State.ShowLyric
+			player.ForceUpdate()
 		},
 	})
 
@@ -119,9 +119,9 @@ func RegisterDefaultKeybinds() {
 		Description: "Scroll lyric up",
 		KeyName:     "W",
 		Handler: func() {
-			if new_player.State.Lyric.Index > 0 {
-				new_player.State.Lyric.Index--
-				new_player.ForceUpdate()
+			if player.State.Lyric.Index > 0 {
+				player.State.Lyric.Index--
+				player.ForceUpdate()
 			}
 		},
 	})
@@ -130,9 +130,9 @@ func RegisterDefaultKeybinds() {
 		Description: "Scroll lyric down",
 		KeyName:     "S",
 		Handler: func() {
-			if new_player.State.Lyric.Index < len(new_player.State.Lyric.Lines) {
-				new_player.State.Lyric.Index++
-				new_player.ForceUpdate()
+			if player.State.Lyric.Index < len(player.State.Lyric.Lines) {
+				player.State.Lyric.Index++
+				player.ForceUpdate()
 			}
 		},
 	})
@@ -141,8 +141,8 @@ func RegisterDefaultKeybinds() {
 		Description: "Show video URL",
 		KeyName:     "U",
 		Handler: func() {
-			new_player.State.ShowURL = !new_player.State.ShowURL
-			new_player.ForceUpdate()
+			player.State.ShowURL = !player.State.ShowURL
+			player.ForceUpdate()
 		},
 	})
 
@@ -150,7 +150,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Save song to playlist",
 		KeyName:     "B",
 		Handler: func() {
-			new_player.SaveToPlaylist()
+			player.SaveToPlaylist()
 		},
 	})
 
@@ -158,7 +158,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Next song in playlist",
 		KeyName:     ">",
 		Handler: func() {
-			new_player.PlaylistNext()
+			player.PlaylistNext()
 		},
 	})
 
@@ -166,7 +166,7 @@ func RegisterDefaultKeybinds() {
 		Description: "Previous song in playlist",
 		KeyName:     "<",
 		Handler: func() {
-			new_player.PlaylistPrevious()
+			player.PlaylistPrevious()
 		},
 	})
 }

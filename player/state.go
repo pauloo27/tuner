@@ -1,4 +1,4 @@
-package new_player
+package player
 
 import (
 	"github.com/Pauloo27/tuner/search"

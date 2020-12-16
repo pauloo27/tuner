@@ -12,7 +12,7 @@ import (
 	"github.com/Pauloo27/tuner/display"
 	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/keybind"
-	"github.com/Pauloo27/tuner/new_player"
+	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
@@ -22,7 +22,7 @@ import (
 var playing chan bool
 
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
-	new_player.PlayFromYouTube(result, playlist)
+	player.PlayFromYouTube(result, playlist)
 	go keybind.Listen()
 	// wait to the player to exit
 	playing = make(chan bool)
@@ -117,13 +117,13 @@ func promptEntry() {
 
 func main() {
 	state.Start()
-	new_player.Initialize()
+	player.Initialize()
 
-	new_player.RegisterHook(func(params ...interface{}) {
+	player.RegisterHook(func(params ...interface{}) {
 		if playing != nil {
 			playing <- false
 		}
-	}, new_player.HOOK_IDLE)
+	}, player.HOOK_IDLE)
 
 	keybind.RegisterDefaultKeybinds()
 

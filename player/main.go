@@ -1,10 +1,10 @@
-package new_player
+package player
 
 import (
 	"math"
 	"strconv"
 
-	"github.com/Pauloo27/tuner/new_player/mpv"
+	"github.com/Pauloo27/tuner/player/mpv"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"

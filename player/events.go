@@ -1,9 +1,9 @@
-package new_player
+package player
 
 import (
 	"unsafe"
 
-	"github.com/Pauloo27/tuner/new_player/mpv"
+	"github.com/Pauloo27/tuner/player/mpv"
 	"github.com/Pauloo27/tuner/utils"
 )
 
