@@ -30,7 +30,7 @@ type PlayerState struct {
 }
 
 func (s *PlayerState) IsPlaylist() bool {
-	return s.playing == nil
+	return s.playlist != nil
 }
 
 func (s *PlayerState) GetPlaying() *search.YouTubeResult {
