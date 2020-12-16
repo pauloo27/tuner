@@ -3,21 +3,17 @@ package main
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"strconv"
 	"time"
 
 	"github.com/Pauloo27/keyboard"
-	"github.com/Pauloo27/tuner/album"
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/display"
 	"github.com/Pauloo27/tuner/img"
-	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/new_display"
 	"github.com/Pauloo27/tuner/new_keybind"
 	"github.com/Pauloo27/tuner/new_player"
-	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
@@ -27,25 +23,6 @@ import (
 var (
 	playing = make(chan bool)
 )
-
-func parametersFor(result *search.YouTubeResult,
-	playlist *storage.Playlist) (parameters []string) {
-	if result == nil {
-		for _, song := range playlist.Songs {
-			parameters = append(parameters, song.URL())
-		}
-	} else {
-		parameters = append(parameters, result.URL())
-	}
-
-	if !state.Data.ShowVideo {
-		parameters = append(parameters, "--no-video", "--ytdl-format=worst")
-	}
-	if !state.Data.Cache {
-		parameters = append(parameters, "--cache=no")
-	}
-	return
-}
 
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 	if result == nil {
@@ -59,31 +36,6 @@ func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 	// wait to the player to exit
 	<-playing
 	keyboard.Close()
-}
-
-func playOld(result *search.YouTubeResult, playlist *storage.Playlist) {
-	state.Playing = true
-	cmd := exec.Command("mpv", parametersFor(result, playlist)...)
-
-	go func() {
-		if state.MPVInstance != nil && !state.MPVInstance.Exitted {
-			state.MPVInstance.Exit()
-		}
-		state.MPVInstance = player.ConnectToMPV(cmd, result, playlist,
-			display.ShowPlaying, display.SaveToPlaylist, album.FetchAlbum,
-		)
-		go keybind.Listen()
-	}()
-
-	err := cmd.Run()
-
-	if err != nil && err.Error() != "exit status 4" && err.Error() != "signal: killed" {
-		utils.HandleError(err, "Cannot run MPV")
-	}
-
-	keyboard.Close()
-	state.Playing = false
-	state.MPVInstance.Exit()
 }
 
 func promptEntry() {
