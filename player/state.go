@@ -19,6 +19,7 @@ const (
 )
 
 type PlayerState struct {
+	Data                         *storage.TunerData
 	Paused                       bool
 	Result                       *search.YouTubeResult
 	Playlist                     *storage.Playlist

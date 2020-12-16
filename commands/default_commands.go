@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/Pauloo27/tuner/command"
-	"github.com/Pauloo27/tuner/state"
+	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/storage"
 )
 
@@ -32,20 +32,9 @@ func SetupDefaultCommands() {
 			"(default is false)",
 		Aliases: []string{"c"},
 		Handle: func(input string) string {
-			state.Data.Cache = !state.Data.Cache
-			storage.Save(state.Data)
-			return fmt.Sprintf("Cache set to %v", state.Data.Cache)
-		},
-	}
-
-	showVideo := command.Command{
-		Name:        "video",
-		Description: "Toggle the option to show the video (default is false)",
-		Aliases:     []string{"v"},
-		Handle: func(input string) string {
-			state.Data.ShowVideo = !state.Data.ShowVideo
-			storage.Save(state.Data)
-			return fmt.Sprintf("Show video set to %v", state.Data.ShowVideo)
+			player.State.Data.Cache = !player.State.Data.Cache
+			storage.Save(player.State.Data)
+			return fmt.Sprintf("Cache set to %v", player.State.Data.Cache)
 		},
 	}
 
@@ -54,11 +43,11 @@ func SetupDefaultCommands() {
 		Description: "Toggle the option to show album art (default is false)",
 		Aliases:     []string{"a"},
 		Handle: func(input string) string {
-			state.Data.FetchAlbum = !state.Data.FetchAlbum
-			storage.Save(state.Data)
-			return fmt.Sprintf("Show album set to %v", state.Data.FetchAlbum)
+			player.State.Data.FetchAlbum = !player.State.Data.FetchAlbum
+			storage.Save(player.State.Data)
+			return fmt.Sprintf("Show album set to %v", player.State.Data.FetchAlbum)
 		},
 	}
 
-	command.RegisterCommands(help, keepLiveCache, showVideo, fetchAlbum)
+	command.RegisterCommands(help, keepLiveCache, fetchAlbum)
 }

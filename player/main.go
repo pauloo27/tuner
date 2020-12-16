@@ -25,14 +25,19 @@ func Initialize() {
 	// create a mpv instance
 	MpvInstance = mpv.Create()
 
+	// load data
+	data := storage.Load()
+
 	// set options
 	// disable video
 	err = MpvInstance.SetOptionString("video", "no")
 	utils.HandleError(err, "Cannot set mpv video option")
 
 	// disable cache
-	err = MpvInstance.SetOptionString("cache", "no")
-	utils.HandleError(err, "Cannot set mpv cache option")
+	if data.Cache {
+		err = MpvInstance.SetOptionString("cache", "no")
+		utils.HandleError(err, "Cannot set mpv cache option")
+	}
 
 	// set default volume value
 	err = MpvInstance.SetOption("volume", mpv.FORMAT_DOUBLE, initialVolume)
@@ -61,6 +66,7 @@ func Initialize() {
 
 	// create the state
 	State = &PlayerState{
+		data,
 		false,
 		nil, nil, 0,
 		initialVolume,
@@ -81,6 +87,15 @@ func Initialize() {
 }
 
 func registerInternalHooks() {
+	RegisterHook(func(param ...interface{}) {
+		if State.GetPlaying().Live {
+			return
+		}
+		duration, err := MpvInstance.GetProperty("duration", mpv.FORMAT_DOUBLE)
+		utils.HandleError(err, "Cannot get duration")
+		State.Duration = duration.(float64)
+	}, HOOK_FILE_LOADED)
+
 	RegisterHook(func(params ...interface{}) {
 		pos, err := MpvInstance.GetProperty("playlist-pos", mpv.FORMAT_INT64)
 		if err != nil {

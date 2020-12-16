@@ -9,13 +9,12 @@ import (
 	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
-	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
 )
 
 func ListPlaylists() {
-	for i, playlist := range state.Data.Playlists {
+	for i, playlist := range player.State.Data.Playlists {
 		bold := ""
 		if i%2 == 0 {
 			bold = utils.ColorBold
@@ -44,7 +43,7 @@ func saveToPlaylist(params ...interface{}) {
 	result := player.State.GetPlaying()
 
 	fmt.Printf("Save to:\n")
-	for i, playlist := range state.Data.Playlists {
+	for i, playlist := range player.State.Data.Playlists {
 		bold := ""
 		if i%2 == 0 {
 			bold = utils.ColorBold
@@ -67,15 +66,15 @@ func saveToPlaylist(params ...interface{}) {
 		if strings.HasPrefix(rawPlaylist, "#") {
 			index, err := strconv.ParseInt(strings.TrimPrefix(rawPlaylist, "#"), 10, 64)
 
-			if err == nil && index <= int64(len(state.Data.Playlists)) && index > 0 {
+			if err == nil && index <= int64(len(player.State.Data.Playlists)) && index > 0 {
 				index--
-				state.Data.Playlists[index].Songs = append(state.Data.Playlists[index].Songs, result)
-				storage.Save(state.Data)
+				player.State.Data.Playlists[index].Songs = append(player.State.Data.Playlists[index].Songs, result)
+				storage.Save(player.State.Data)
 			}
 		} else {
 			newPlaylist := &storage.Playlist{Name: rawPlaylist, Songs: []*search.YouTubeResult{result}}
-			state.Data.Playlists = append(state.Data.Playlists, newPlaylist)
-			storage.Save(state.Data)
+			player.State.Data.Playlists = append(player.State.Data.Playlists, newPlaylist)
+			storage.Save(player.State.Data)
 		}
 	}
 

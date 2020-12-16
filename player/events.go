@@ -4,7 +4,6 @@ import (
 	"unsafe"
 
 	"github.com/Pauloo27/tuner/player/mpv"
-	"github.com/Pauloo27/tuner/utils"
 )
 
 func handlePropertyChange(data *mpv.EventProperty) {
@@ -30,10 +29,7 @@ func startEventHandler() {
 				data := event.Data.(*mpv.EventProperty)
 				handlePropertyChange(data)
 			case mpv.EVENT_FILE_LOADED:
-				duration, err := MpvInstance.GetProperty("duration", mpv.FORMAT_DOUBLE)
-				utils.HandleError(err, "Cannot get duration")
-				State.Duration = duration.(float64)
-				callHooks(HOOK_FILE_LOADED, err, duration)
+				callHooks(HOOK_FILE_LOADED)
 			case mpv.EVENT_PAUSE:
 				State.Paused = true
 				callHooks(HOOK_PLAYBACK_PAUSED)

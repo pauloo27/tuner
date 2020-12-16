@@ -14,12 +14,12 @@ import (
 	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
-	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
 )
 
 var playing chan bool
+var warning string
 
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 	player.PlayFromYouTube(result, playlist)
@@ -37,9 +37,9 @@ func promptEntry() {
 	display.ListPlaylists()
 	fmt.Printf("%sUse #<id> to start a playlist%s\n", utils.ColorBlue, utils.ColorReset)
 
-	if state.Warning != "" {
-		fmt.Printf("%s%s%s\n", utils.ColorYellow, state.Warning, utils.ColorReset)
-		state.Warning = ""
+	if warning != "" {
+		fmt.Printf("%s%s%s\n", utils.ColorYellow, warning, utils.ColorReset)
+		warning = ""
 	}
 
 	fmt.Println()
@@ -47,7 +47,7 @@ func promptEntry() {
 	utils.HandleError(err, "Cannot read user input")
 
 	if rawInput == "" {
-		state.Warning = "Missing search term"
+		warning = "Missing search term"
 		return
 	}
 
@@ -60,9 +60,9 @@ func promptEntry() {
 	case '/':
 		found, msg := command.InvokeCommand(unprefixed)
 		if found {
-			state.Warning = msg
+			warning = msg
 		} else {
-			state.Warning = "Command not found"
+			warning = "Command not found"
 		}
 		return
 	case '!':
@@ -71,11 +71,11 @@ func promptEntry() {
 	case '#':
 		rawInput = unprefixed
 		index, err := strconv.Atoi(rawInput)
-		if err != nil || index <= 0 || index > len(state.Data.Playlists) {
-			state.Warning = "Invalid playlist"
+		if err != nil || index <= 0 || index > len(player.State.Data.Playlists) {
+			warning = "Invalid playlist"
 			return
 		}
-		play(nil, state.Data.Playlists[index-1])
+		play(nil, player.State.Data.Playlists[index-1])
 		return
 	}
 
@@ -91,7 +91,7 @@ func promptEntry() {
 	<-c
 
 	if len(results) == 0 {
-		state.Warning = "No results found for " + rawInput
+		warning = "No results found for " + rawInput
 		return
 	}
 
@@ -103,12 +103,12 @@ func promptEntry() {
 	display.ListResults(results)
 	index, err := utils.AskForInt("Insert index of the video")
 	if err != nil {
-		state.Warning = "Invalid input"
+		warning = "Invalid input"
 		return
 	}
 
 	if index <= 0 || index > len(results) {
-		state.Warning = "Invalid index"
+		warning = "Invalid index"
 		return
 	}
 	index--
@@ -116,7 +116,6 @@ func promptEntry() {
 }
 
 func main() {
-	state.Start()
 	player.Initialize()
 
 	player.RegisterHook(func(params ...interface{}) {
@@ -136,7 +135,7 @@ func main() {
 		fmt.Println("Bye!")
 		os.Exit(0)
 	})
-	if state.Data.FetchAlbum {
+	if player.State.Data.FetchAlbum {
 		img.StartDaemon()
 	}
 	// loop
