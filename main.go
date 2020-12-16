@@ -25,12 +25,7 @@ var (
 )
 
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
-	if result == nil {
-		fmt.Println("Not supported yet (1)")
-		os.Exit(-1)
-	} else {
-		new_player.PlayFromYouTube(result)
-	}
+	new_player.PlayFromYouTube(result, playlist)
 	go new_keybind.Listen()
 	// wait to the player to exit
 	<-playing

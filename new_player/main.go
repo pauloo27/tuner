@@ -6,6 +6,7 @@ import (
 
 	"github.com/Pauloo27/tuner/new_player/mpv"
 	"github.com/Pauloo27/tuner/search"
+	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
 )
 
@@ -61,7 +62,7 @@ func Initialize() {
 	// create the state
 	State = &PlayerState{
 		false,
-		nil,
+		nil, nil,
 		initialVolume,
 		0.0,
 		false, false, false,
@@ -79,11 +80,6 @@ func Initialize() {
 }
 
 func registerInternalHooks() {
-	RegisterHook(func(params ...interface{}) {
-		Play()
-		ClearPlaylist()
-	}, HOOK_FILE_LOAD_STARTED)
-
 	RegisterHook(func(params ...interface{}) {
 		State.Volume = params[0].(float64)
 	}, HOOK_VOLUME_CHANGED)
@@ -121,13 +117,41 @@ func ForceUpdate() {
 	callHooks(HOOK_GENERIC_UPDATE)
 }
 
-func PlayFromYouTube(result *search.YouTubeResult) error {
+func PlayFromYouTube(result *search.YouTubeResult, playlist *storage.Playlist) error {
+	// remove all entries from playlist
+	ClearPlaylist()
+	// remove pause
+	Play()
+
 	State.playing = result
-	return LoadFile(result.URL())
+	State.playlist = playlist
+
+	if result == nil {
+		var err error
+		for i, song := range playlist.Songs {
+			if i == 0 {
+				err = LoadFile(song.URL())
+			} else {
+				err = AppendFile(song.URL())
+			}
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	} else {
+		return LoadFile(result.URL())
+	}
 }
 
 func LoadFile(filePath string) error {
 	err := MpvInstance.Command([]string{"loadfile", filePath})
+	callHooks(HOOK_FILE_LOAD_STARTED, err, filePath)
+	return err
+}
+
+func AppendFile(filePath string) error {
+	err := MpvInstance.Command([]string{"loadfile", filePath, "append"})
 	callHooks(HOOK_FILE_LOAD_STARTED, err, filePath)
 	return err
 }
