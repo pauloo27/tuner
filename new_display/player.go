@@ -29,7 +29,8 @@ func DisplayPlayer() {
 
 		result := new_player.State.GetPlaying()
 
-		if !result.Live {
+		// TODO: fix the progress bar
+		if !result.Live && false {
 			length := new_player.State.Duration
 			position, err := new_player.GetPosition()
 			if err == nil && position > 0 {
