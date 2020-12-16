@@ -65,7 +65,7 @@ Keybinds:
 - S: Scroll lyric down
 - U: Show video URL
 - B: Save song to playlist
-- >: Next song in playlist
+- \>: Next song in playlist
 - <: Previous song in playlist
 
 
