@@ -132,11 +132,9 @@ func main() {
 	commands.SetupDefaultCommands()
 	// handle sigterm (Ctrl+C)
 	utils.OnSigTerm(func(sig *os.Signal) {
-		if !state.Playing {
-			utils.ClearScreen()
-			fmt.Println("Bye!")
-			os.Exit(0)
-		}
+		utils.ClearScreen()
+		fmt.Println("Bye!")
+		os.Exit(0)
 	})
 	if state.Data.FetchAlbum {
 		img.StartDaemon()
