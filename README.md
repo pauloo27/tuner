@@ -51,24 +51,30 @@ Then open Tuner and type `/a` in the search bar and restart Tuner.
 
 _TIP: You can see the keybinds inside Tuner by pressing `?`._
 
-Keybinds:
-- Arrow Left: Seek 5 seconds back
-- Arrow Right: Seek 5 seconds
-- Ctrl C: Stop the player
-- Space: Play/Pause song
-- Arrow Down: Decrease the volume
-- Arrow Up: Increase the volume
-- ?: Toggle keybind list
-- L: Toggle loop
-- P: Toggle lyric
-- W: Scroll lyric up
-- S: Scroll lyric down
-- U: Show video URL
-- B: Save song to playlist
-- \>: Next song in playlist
-- <: Previous song in playlist
+- Arrow Left: Seek 5 seconds back.
+- Arrow Right: Seek 5 seconds.
+- Ctrl C: Stop the player.
+- Space: Play/Pause song.
+- Arrow Down: Decrease the volume.
+- Arrow Up: Increase the volume.
+- ?: Toggle keybind list.
+- L: Toggle loop.
+- P: Toggle lyric.
+- W: Scroll lyric up.
+- S: Scroll lyric down.
+- U: Show video URL.
+- B: Save song to playlist.
+- \>: Next song in playlist.
+- <: Previous song in playlist.
 
+## Commands
 
+There are a few commands you can type in the search bar:
+
+- `/cache` or `/c`: Toggle option to keep cache (default is false).
+- `/video` or `/v`: Toggle option to show video (default is false).
+- `/album` or `/a`: Toggle option to show album art (default is false).
+- `/help` or `/h`: List all commands.
 
 ## License
 
