@@ -42,6 +42,8 @@ func startEventHandler() {
 				callHooks(HOOK_PLAYBACK_RESUMED)
 			case mpv.EVENT_END_FILE:
 				callHooks(HOOK_FILE_ENDED)
+			case mpv.EVENT_IDLE:
+				callHooks(HOOK_IDLE)
 			}
 		}
 	}()

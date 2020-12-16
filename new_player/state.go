@@ -22,6 +22,7 @@ type PlayerState struct {
 	Paused                       bool
 	playing                      *search.YouTubeResult
 	playlist                     *storage.Playlist
+	playlistIndex                int
 	Volume                       float64
 	Duration                     float64
 	ShowHelp, ShowURL, ShowLyric bool
@@ -35,7 +36,7 @@ func (s *PlayerState) IsPlaylist() bool {
 
 func (s *PlayerState) GetPlaying() *search.YouTubeResult {
 	if s.IsPlaylist() {
-		return s.playlist.Songs[0]
+		return s.playlist.Songs[s.playlistIndex]
 	}
 	return s.playing
 }

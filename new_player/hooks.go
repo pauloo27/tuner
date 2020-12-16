@@ -14,6 +14,7 @@ const (
 	HOOK_GENERIC_UPDATE
 	HOOK_LOOP_TRACK_CHANGED
 	HOOK_LOOP_PLAYLIST_CHANGED
+	HOOK_IDLE
 )
 
 type HookCallback func(params ...interface{})

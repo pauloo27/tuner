@@ -62,7 +62,7 @@ func Initialize() {
 	// create the state
 	State = &PlayerState{
 		false,
-		nil, nil,
+		nil, nil, 0,
 		initialVolume,
 		0.0,
 		false, false, false,

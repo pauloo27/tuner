@@ -20,14 +20,13 @@ import (
 	"github.com/Pauloo27/tuner/utils"
 )
 
-var (
-	playing = make(chan bool)
-)
+var playing chan bool
 
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 	new_player.PlayFromYouTube(result, playlist)
 	go new_keybind.Listen()
 	// wait to the player to exit
+	playing = make(chan bool)
 	<-playing
 	keyboard.Close()
 }
@@ -122,8 +121,10 @@ func main() {
 	new_player.Initialize()
 
 	new_player.RegisterHook(func(params ...interface{}) {
-		playing <- false
-	}, new_player.HOOK_FILE_ENDED)
+		if playing != nil {
+			playing <- false
+		}
+	}, new_player.HOOK_IDLE)
 
 	new_keybind.RegisterDefaultKeybinds()
 
