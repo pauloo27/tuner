@@ -4,6 +4,16 @@ Tuner search for YouTube videos to play in MPV.
 
 ![Screenshot](https://i.imgur.com/v5GbcaL.png)
 
+## Table of Contents
+- [Features](#features)
+- [Compile](#compile)
+- [Screenshots](#screenshots)
+- [Album Art (experimental)](#album-art-experimental)
+- [Keybinds](#keybinds)
+- [Commands](#commands)
+- [Storage](#storage)
+- [License](#license)
+
 ## Features
 - Playlists
 - Lyrics
@@ -34,6 +44,7 @@ Install:
 > $ make install
 
 ## Screenshots
+![Screenshot with MOTD](https://i.imgur.com/9f6XonE.png)
 ![Screenshot search](https://i.imgur.com/7KRlSnS.jpg)
 ![Screenshot playing with CAVA](https://i.imgur.com/YGhMcwK.jpg)
 
@@ -46,6 +57,41 @@ First install [Überzug](https://github.com/seebye/ueberzug)
 (on Arch Linux, install the `ueberzug` package)...
 
 Then open Tuner and type `/a` in the search bar and restart Tuner.
+
+## Keybinds
+
+_TIP: You can see the keybinds inside Tuner by pressing `?`._
+
+- Arrow Left: Seek 5 seconds back.
+- Arrow Right: Seek 5 seconds.
+- Ctrl C: Stop the player.
+- Space: Play/Pause song.
+- Arrow Down: Decrease the volume.
+- Arrow Up: Increase the volume.
+- ?: Toggle keybind list.
+- L: Toggle loop.
+- P: Toggle lyric.
+- W: Scroll lyric up.
+- S: Scroll lyric down.
+- U: Show video URL.
+- B: Save song to playlist.
+- \>: Next song in playlist.
+- <: Previous song in playlist.
+
+## Commands
+
+There are a few commands you can type in the search bar:
+
+- `/cache` or `/c`: Toggle option to keep cache (default is false).
+- `/video` or `/v`: Toggle option to show video (default is false).
+- `/album` or `/a`: Toggle option to show album art (default is false).
+- `/help` or `/h`: List all commands.
+
+## Storage
+
+Tuner data (cache and config) is stored at `~/.cache/tuner`. Tuner doesn't keep
+the songs downloaded, the only cached data is the album art (if the feature is
+enabled) and the info of playlist entries.
 
 ## License
 
