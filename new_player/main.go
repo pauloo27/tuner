@@ -128,6 +128,14 @@ func Stop() error {
 	return MpvInstance.Command([]string{"stop"})
 }
 
+func PlaylistNext() error {
+	return MpvInstance.Command([]string{"playlist-next"})
+}
+
+func PlaylistPrevious() error {
+	return MpvInstance.Command([]string{"playlist-prev"})
+}
+
 func ForceUpdate() {
 	callHooks(HOOK_GENERIC_UPDATE)
 }

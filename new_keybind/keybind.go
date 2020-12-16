@@ -148,34 +148,34 @@ func RegisterDefaultKeybinds() {
 	})
 
 	/*
-			BindChar('b', Keybind{
-				Description: "Save song to playlist",
-				KeyName:     "B",
-				Handler: func(mpv *player.MPV) {
-					mpv.Saving = !mpv.Saving
-					mpv.Update()
-					if mpv.Saving {
-						mpv.Save()
-					}
-				},
-			})
-
-		BindChar('>', Keybind{
-			Description: "Next song in playlist",
-			KeyName:     ">",
+		BindChar('b', Keybind{
+			Description: "Save song to playlist",
+			KeyName:     "B",
 			Handler: func(mpv *player.MPV) {
-				mpv.Next()
-			},
-		})
-
-		BindChar('<', Keybind{
-			Description: "Previous song in playlist",
-			KeyName:     "<",
-			Handler: func(mpv *player.MPV) {
-				mpv.Previous()
+				mpv.Saving = !mpv.Saving
+				mpv.Update()
+				if mpv.Saving {
+					mpv.Save()
+				}
 			},
 		})
 	*/
+
+	BindChar('>', Keybind{
+		Description: "Next song in playlist",
+		KeyName:     ">",
+		Handler: func() {
+			new_player.PlaylistNext()
+		},
+	})
+
+	BindChar('<', Keybind{
+		Description: "Previous song in playlist",
+		KeyName:     "<",
+		Handler: func() {
+			new_player.PlaylistPrevious()
+		},
+	})
 }
 
 func HandlePress(c rune, key keyboard.Key) {
