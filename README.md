@@ -4,6 +4,16 @@ Tuner search for YouTube videos to play in MPV.
 
 ![Screenshot](https://i.imgur.com/v5GbcaL.png)
 
+## Table of Contents
+- [Features](#features)
+- [Compile](#compile)
+- [Screenshots](#screenshots)
+- [Album Art (experimental)](#album-art-experimental)
+- [Keybinds](#keybinds)
+- [Commands](#commands)
+- [Storage](#storage)
+- [License](#license)
+
 ## Features
 - Playlists
 - Lyrics
