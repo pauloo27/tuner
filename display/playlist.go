@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/Pauloo27/keyboard"
-	"github.com/Pauloo27/tuner/new_keybind"
+	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/new_player"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/state"
@@ -81,6 +81,6 @@ func saveToPlaylist(params ...interface{}) {
 
 	// restore keyboard
 	new_player.State.SavingToPlaylist = false
-	go new_keybind.Listen()
+	go keybind.Listen()
 	new_player.ForceUpdate()
 }

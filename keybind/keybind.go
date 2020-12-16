@@ -1,4 +1,4 @@
-package new_keybind
+package keybind
 
 import (
 	"github.com/Pauloo27/keyboard"

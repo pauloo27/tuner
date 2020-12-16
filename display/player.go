@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/Pauloo27/tuner/new_keybind"
+	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/new_player"
 	"github.com/Pauloo27/tuner/utils"
 	"golang.org/x/term"
@@ -94,7 +94,7 @@ func startPlayerHooks() {
 
 		if new_player.State.ShowHelp {
 			fmt.Println("\n" + utils.ColorBlue + "Keybinds:")
-			for _, bind := range new_keybind.ListBinds() {
+			for _, bind := range keybind.ListBinds() {
 				fmt.Printf("  %s: %s\n", bind.KeyName, bind.Description)
 			}
 		}
