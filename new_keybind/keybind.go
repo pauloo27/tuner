@@ -109,8 +109,7 @@ func RegisterDefaultKeybinds() {
 		KeyName:     "P",
 		Handler: func() {
 			if len(new_player.State.Lyric.Lines) == 0 {
-				// TODO
-				//go new_player.FetchLyric()
+				go new_player.FetchLyric()
 			}
 			new_player.State.ShowLyric = !new_player.State.ShowLyric
 			new_player.ForceUpdate()
