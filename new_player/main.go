@@ -87,10 +87,13 @@ func registerInternalHooks() {
 		}
 		newPos := int(pos.(int64))
 		if newPos != State.PlaylistIndex {
+			if newPos == -1 {
+				newPos = 0
+			}
 			State.PlaylistIndex = newPos
 			callHooks(HOOK_PLAYLIST_SONG_CHANGED)
 		}
-	}, HOOK_PLAYBACK_RESTARTED)
+	}, HOOK_FILE_ENDED)
 
 	RegisterHook(func(params ...interface{}) {
 		State.Volume = params[0].(float64)
