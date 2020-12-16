@@ -81,6 +81,18 @@ func Initialize() {
 
 func registerInternalHooks() {
 	RegisterHook(func(params ...interface{}) {
+		pos, err := MpvInstance.GetProperty("playlist-pos", mpv.FORMAT_INT64)
+		if err != nil {
+			return
+		}
+		newPos := int(pos.(int64))
+		if newPos != State.PlaylistIndex {
+			State.PlaylistIndex = newPos
+			callHooks(HOOK_PLAYLIST_SONG_CHANGED)
+		}
+	}, HOOK_PLAYBACK_RESTARTED)
+
+	RegisterHook(func(params ...interface{}) {
 		State.Volume = params[0].(float64)
 	}, HOOK_VOLUME_CHANGED)
 
@@ -123,8 +135,8 @@ func PlayFromYouTube(result *search.YouTubeResult, playlist *storage.Playlist) e
 	// remove pause
 	Play()
 
-	State.playing = result
-	State.playlist = playlist
+	State.Result = result
+	State.Playlist = playlist
 
 	if result == nil {
 		var err error

@@ -20,9 +20,9 @@ const (
 
 type PlayerState struct {
 	Paused                       bool
-	playing                      *search.YouTubeResult
-	playlist                     *storage.Playlist
-	playlistIndex                int
+	Result                       *search.YouTubeResult
+	Playlist                     *storage.Playlist
+	PlaylistIndex                int
 	Volume                       float64
 	Duration                     float64
 	ShowHelp, ShowURL, ShowLyric bool
@@ -31,12 +31,12 @@ type PlayerState struct {
 }
 
 func (s *PlayerState) IsPlaylist() bool {
-	return s.playlist != nil
+	return s.Playlist != nil
 }
 
 func (s *PlayerState) GetPlaying() *search.YouTubeResult {
 	if s.IsPlaylist() {
-		return s.playlist.Songs[s.playlistIndex]
+		return s.Playlist.Songs[s.PlaylistIndex]
 	}
-	return s.playing
+	return s.Result
 }

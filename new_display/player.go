@@ -55,15 +55,13 @@ func StartPlayerDisplay() {
 			}
 		}
 
-		/*
-			if mpv.IsPlaylist() {
-				fmt.Printf("Playing: %s (%d/%d)\n",
-					mpv.Playlist.Name,
-					mpv.PlaylistIndex+1,
-					len(mpv.Playlist.Songs),
-				)
-			}
-		*/
+		if new_player.State.IsPlaylist() {
+			fmt.Printf("Playing: %s (%d/%d)\n",
+				new_player.State.Playlist.Name,
+				new_player.State.PlaylistIndex+1,
+				len(new_player.State.Playlist.Songs),
+			)
+		}
 
 		icon := playingIcon
 
@@ -127,5 +125,6 @@ func StartPlayerDisplay() {
 		new_player.HOOK_VOLUME_CHANGED, new_player.HOOK_POSITION_CHANGED,
 		new_player.HOOK_GENERIC_UPDATE, new_player.HOOK_LOOP_PLAYLIST_CHANGED,
 		new_player.HOOK_LOOP_TRACK_CHANGED, new_player.HOOK_FILE_LOAD_STARTED,
+		new_player.HOOK_PLAYLIST_SONG_CHANGED,
 	)
 }
