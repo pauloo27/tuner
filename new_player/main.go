@@ -68,6 +68,7 @@ func Initialize() {
 		false, false, false,
 		SongLyric{},
 		LOOP_NONE,
+		false,
 	}
 
 	registerInternalHooks()
@@ -138,6 +139,11 @@ func PlaylistPrevious() error {
 
 func ForceUpdate() {
 	callHooks(HOOK_GENERIC_UPDATE)
+}
+
+func SaveToPlaylist() {
+	State.SavingToPlaylist = true
+	callHooks(HOOK_SAVING_TRACK_TO_PLAYLIST)
 }
 
 func PlayFromYouTube(result *search.YouTubeResult, playlist *storage.Playlist) error {

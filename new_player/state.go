@@ -28,6 +28,7 @@ type PlayerState struct {
 	ShowHelp, ShowURL, ShowLyric bool
 	Lyric                        SongLyric
 	Loop                         LoopStatus
+	SavingToPlaylist             bool
 }
 
 func (s *PlayerState) IsPlaylist() bool {

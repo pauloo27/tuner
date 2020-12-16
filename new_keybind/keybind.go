@@ -3,7 +3,6 @@ package new_keybind
 import (
 	"github.com/Pauloo27/keyboard"
 	"github.com/Pauloo27/tuner/new_player"
-	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/utils"
 )
 
@@ -147,19 +146,13 @@ func RegisterDefaultKeybinds() {
 		},
 	})
 
-	/*
-		BindChar('b', Keybind{
-			Description: "Save song to playlist",
-			KeyName:     "B",
-			Handler: func(mpv *player.MPV) {
-				mpv.Saving = !mpv.Saving
-				mpv.Update()
-				if mpv.Saving {
-					mpv.Save()
-				}
-			},
-		})
-	*/
+	BindChar('b', Keybind{
+		Description: "Save song to playlist",
+		KeyName:     "B",
+		Handler: func() {
+			new_player.SaveToPlaylist()
+		},
+	})
 
 	BindChar('>', Keybind{
 		Description: "Next song in playlist",
@@ -196,9 +189,7 @@ func Listen() {
 	for {
 		c, key, err := keyboard.GetKey()
 		if err != nil {
-			if !state.Playing {
-				break
-			}
+			break
 		} else {
 			HandlePress(c, key)
 		}

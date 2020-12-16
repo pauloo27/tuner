@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/Pauloo27/keyboard"
-	"github.com/Pauloo27/tuner/keybind"
-	"github.com/Pauloo27/tuner/player"
+	"github.com/Pauloo27/tuner/new_keybind"
+	"github.com/Pauloo27/tuner/new_player"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/storage"
@@ -32,10 +32,16 @@ func ListPlaylists() {
 	}
 }
 
-func SaveToPlaylist(result *search.YouTubeResult, mpv *player.MPV) {
+func startPlaylistSaveHooks() {
+	new_player.RegisterHook(saveToPlaylist, new_player.HOOK_SAVING_TRACK_TO_PLAYLIST)
+}
+
+func saveToPlaylist(params ...interface{}) {
 	// stop keyboard
 	keyboard.Close()
 	utils.ClearScreen()
+
+	result := new_player.State.GetPlaying()
 
 	fmt.Printf("Save to:\n")
 	for i, playlist := range state.Data.Playlists {
@@ -74,7 +80,7 @@ func SaveToPlaylist(result *search.YouTubeResult, mpv *player.MPV) {
 	}
 
 	// restore keyboard
-	mpv.Saving = false
-	go keybind.Listen()
-	mpv.Update()
+	new_player.State.SavingToPlaylist = false
+	go new_keybind.Listen()
+	new_player.ForceUpdate()
 }

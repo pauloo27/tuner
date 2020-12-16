@@ -16,6 +16,7 @@ const (
 	HOOK_PLAYLIST_SONG_CHANGED
 	HOOK_LOOP_PLAYLIST_CHANGED
 	HOOK_IDLE
+	HOOK_SAVING_TRACK_TO_PLAYLIST
 )
 
 type HookCallback func(params ...interface{})

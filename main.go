@@ -11,7 +11,6 @@ import (
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/display"
 	"github.com/Pauloo27/tuner/img"
-	"github.com/Pauloo27/tuner/new_display"
 	"github.com/Pauloo27/tuner/new_keybind"
 	"github.com/Pauloo27/tuner/new_player"
 	"github.com/Pauloo27/tuner/search"
@@ -128,7 +127,7 @@ func main() {
 
 	new_keybind.RegisterDefaultKeybinds()
 
-	new_display.StartPlayerDisplay()
+	display.RegisterHooks()
 
 	commands.SetupDefaultCommands()
 	// handle sigterm (Ctrl+C)
