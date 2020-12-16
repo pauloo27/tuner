@@ -95,9 +95,9 @@ func RegisterDefaultKeybinds() {
 			if loop == new_player.LOOP_NONE {
 				new_player.LoopTrack()
 				return
-				// TODO: playlist
-				//} else if loop == new_player.LOOP_TRACK && new_player.State.IsPlaylist() {
-				//newLoop = mpris.LoopPlaylist
+			} else if loop == new_player.LOOP_TRACK && new_player.State.IsPlaylist() {
+				new_player.LoopPlaylist()
+				return
 			}
 
 			new_player.LoopNone()
