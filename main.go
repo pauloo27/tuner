@@ -22,6 +22,12 @@ import (
 var playing chan bool
 var warning string
 
+func exit() {
+	utils.ClearScreen()
+	fmt.Println("Bye!")
+	os.Exit(0)
+}
+
 func play(result *search.YouTubeResult, playlist *storage.Playlist) {
 	player.PlayFromYouTube(result, playlist)
 	go keybind.Listen()
@@ -45,7 +51,9 @@ func promptEntry() {
 
 	fmt.Println()
 	rawInput, err := utils.AskFor("Search")
-	utils.HandleError(err, "Cannot read user input")
+	if err != nil {
+		exit()
+	}
 
 	if rawInput == "" {
 		warning = "Missing search term"
@@ -133,9 +141,7 @@ func main() {
 	commands.SetupDefaultCommands()
 	// handle sigterm (Ctrl+C)
 	utils.OnSigTerm(func(sig *os.Signal) {
-		utils.ClearScreen()
-		fmt.Println("Bye!")
-		os.Exit(0)
+		exit()
 	})
 	if player.State.Data.FetchAlbum {
 		img.StartDaemon()
