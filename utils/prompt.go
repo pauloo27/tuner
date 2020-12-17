@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"golang.org/x/term"
 )
 
 var reader = bufio.NewReader(os.Stdin)
@@ -24,15 +26,38 @@ func WaitForEnter(message string) error {
 }
 
 func AskFor(message string, validValues ...string) (string, error) {
-	if len(validValues) == 0 {
-		fmt.Printf("%s » %s%s: ", ColorBlue, message, ColorReset)
-	} else {
-		fmt.Printf("%s » %s %v%s: ", ColorBlue, message, validValues, ColorReset)
+	fd := int(os.Stdout.Fd())
+	isTerminal := term.IsTerminal(fd)
+
+	if isTerminal {
+		oldState, err := term.MakeRaw(fd)
+		if err != nil {
+			return "", err
+		}
+
+		defer term.Restore(fd, oldState)
 	}
 
-	line, err := reader.ReadString('\n')
-	if err != nil {
-		return "", err
+	if len(validValues) == 0 {
+		fmt.Printf("%s > %s%s: ", ColorBlue, message, ColorReset)
+	} else {
+		fmt.Printf("%s > %s %v%s: ", ColorBlue, message, validValues, ColorReset)
+	}
+
+	var err error
+	var line string
+
+	if isTerminal {
+		terminal := term.NewTerminal(os.Stdout, "")
+		line, err = terminal.ReadLine()
+		if err != nil {
+			return "", err
+		}
+	} else {
+		line, err = reader.ReadString('\n')
+		if err != nil {
+			return "", err
+		}
 	}
 
 	response := strings.TrimSuffix(line, "\n")
