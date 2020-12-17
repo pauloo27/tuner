@@ -189,7 +189,9 @@ func Listen() {
 	for {
 		c, key, err := keyboard.GetKey()
 		if err != nil {
-			break
+			if player.State.Idle {
+				break
+			}
 		} else {
 			HandlePress(c, key)
 		}
