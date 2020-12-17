@@ -32,11 +32,7 @@ Before running Tuner you need to install
 [youtube-dl](https://github.com/ytdl-org/youtube-dl/) and 
 [mpv-mpris](https://github.com/hoyon/mpv-mpris).
 
-On Arch Linux, the dependencies packages are `mpv youtube-dl mpv-mpris-git`
-(mpv-mpris-git come from AUR). 
-
-**If you use the mpv-mpris-git package, you will
-need to copy the `usr/share/mpv/scripts/mpris.so` file to `~/.config/mpv/scripts`**
+On Arch Linux, the dependencies packages are `mpv youtube-dl`
 
 ### Build
 
@@ -86,7 +82,6 @@ _TIP: You can see the keybinds inside Tuner by pressing `?`._
 There are a few commands you can type in the search bar:
 
 - `/cache` or `/c`: Toggle option to keep cache (default is false).
-- `/video` or `/v`: Toggle option to show video (default is false).
 - `/album` or `/a`: Toggle option to show album art (default is false).
 - `/help` or `/h`: List all commands.
 
