@@ -37,7 +37,10 @@ func startPlayerHooks() {
 		if !result.Live {
 			length := player.State.Duration
 			position, err := player.GetPosition()
-			if err == nil && position > 0 {
+			if position < 0 {
+				position = 0
+			}
+			if err == nil {
 				columns, _, err := term.GetSize(0)
 				utils.HandleError(err, "Cannot get term size")
 				barSize := float64(columns) * float64(len(horizontalBars))
