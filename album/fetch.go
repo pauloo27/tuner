@@ -3,17 +3,30 @@ package album
 import (
 	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/player"
-	"github.com/Pauloo27/tuner/search"
-	"github.com/Pauloo27/tuner/state"
 	"github.com/Pauloo27/tuner/utils"
 	"golang.org/x/term"
 )
 
-func FetchAlbum(result *search.YouTubeResult, mpv *player.MPV) {
-	if !state.Data.FetchAlbum || mpv.Exitted {
+func RegisterHooks() {
+	if !player.State.Data.FetchAlbum {
+		return
+	}
+
+	player.RegisterHook(func(param ...interface{}) {
+		fetchAlbum()
+	}, player.HOOK_FILE_LOAD_STARTED)
+
+	player.RegisterHook(func(param ...interface{}) {
+		img.SendCommand(`{"action": "remove", "identifier": "album"}`)
+	}, player.HOOK_FILE_ENDED)
+}
+
+func fetchAlbum() {
+	if !player.State.Data.FetchAlbum {
 		return
 	}
 	go func() {
+		result := player.State.GetPlaying()
 		videoInfo, err := FetchVideoInfo(result)
 		if err != nil {
 			return

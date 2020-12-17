@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/Pauloo27/keyboard"
+	"github.com/Pauloo27/tuner/album"
 	"github.com/Pauloo27/tuner/command"
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/display"
@@ -118,6 +119,7 @@ func promptEntry() {
 func main() {
 	player.Initialize()
 
+	// 'lock' for the prompt
 	player.RegisterHook(func(params ...interface{}) {
 		if playing != nil {
 			playing <- false
@@ -125,8 +127,8 @@ func main() {
 	}, player.HOOK_IDLE)
 
 	keybind.RegisterDefaultKeybinds()
-
 	display.RegisterHooks()
+	album.RegisterHooks()
 
 	commands.SetupDefaultCommands()
 	// handle sigterm (Ctrl+C)
