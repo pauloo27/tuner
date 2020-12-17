@@ -67,7 +67,7 @@ func Initialize() {
 	// create the state
 	State = &PlayerState{
 		data,
-		false,
+		false, false,
 		nil, nil, 0,
 		initialVolume,
 		0.0,
@@ -130,6 +130,14 @@ func registerInternalHooks() {
 			State.Loop = LOOP_NONE
 		}
 	}, HOOK_LOOP_PLAYLIST_CHANGED)
+
+	RegisterHook(func(param ...interface{}) {
+		State.Idle = true
+	}, HOOK_IDLE)
+
+	RegisterHook(func(param ...interface{}) {
+		State.Idle = false
+	}, HOOK_FILE_LOAD_STARTED)
 }
 
 func ClearPlaylist() error {

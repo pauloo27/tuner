@@ -3,6 +3,7 @@ package display
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/player"
@@ -34,7 +35,7 @@ func startPlayerHooks() {
 		utils.ClearScreen()
 
 		// TODO: fix the progress bar
-		if !result.Live && false {
+		if !result.Live {
 			length := player.State.Duration
 			position, err := player.GetPosition()
 			if err == nil && position > 0 {
@@ -127,4 +128,14 @@ func startPlayerHooks() {
 		player.HOOK_LOOP_TRACK_CHANGED, player.HOOK_FILE_LOAD_STARTED,
 		player.HOOK_FILE_ENDED,
 	)
+
+	// progress bar updater
+	go func() {
+		for {
+			if !player.State.Idle && !player.State.Paused {
+				render()
+			}
+			time.Sleep(1 * time.Second)
+		}
+	}()
 }
