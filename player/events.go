@@ -40,6 +40,8 @@ func startEventHandler() {
 				callHooks(HOOK_FILE_ENDED)
 			case mpv.EVENT_IDLE:
 				callHooks(HOOK_IDLE)
+			case mpv.EVENT_SEEK:
+				callHooks(HOOK_SEEK)
 			}
 		}
 	}()

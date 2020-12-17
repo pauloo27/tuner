@@ -34,7 +34,6 @@ func startPlayerHooks() {
 
 		utils.ClearScreen()
 
-		// TODO: fix the progress bar
 		if !result.Live {
 			length := player.State.Duration
 			position, err := player.GetPosition()
@@ -126,7 +125,7 @@ func startPlayerHooks() {
 		player.HOOK_VOLUME_CHANGED, player.HOOK_POSITION_CHANGED,
 		player.HOOK_GENERIC_UPDATE, player.HOOK_LOOP_PLAYLIST_CHANGED,
 		player.HOOK_LOOP_TRACK_CHANGED, player.HOOK_FILE_LOAD_STARTED,
-		player.HOOK_FILE_ENDED,
+		player.HOOK_FILE_ENDED, player.HOOK_SEEK,
 	)
 
 	// progress bar updater
