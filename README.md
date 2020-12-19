@@ -29,9 +29,8 @@ Arch Linux, you should install the `go` package.
 ### Dependencies
 
 Before running Tuner you need to install 
-[MPV](https://github.com/mpv-player/mpv),
-[youtube-dl](https://github.com/ytdl-org/youtube-dl/) and 
-[mpv-mpris](https://github.com/hoyon/mpv-mpris).
+[MPV](https://github.com/mpv-player/mpv) and
+[youtube-dl](https://github.com/ytdl-org/youtube-dl/).
 
 On Arch Linux, the dependencies packages are `mpv youtube-dl`
 
