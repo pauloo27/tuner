@@ -6,3 +6,7 @@ run: build
 
 install: build
 	sudo cp ./tuner /usr/bin/
+
+# (build but with a smaller binary)
+dist:
+	go build -ldflags="-w -s" -gcflags=all=-l -v
