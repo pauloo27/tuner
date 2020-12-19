@@ -134,10 +134,13 @@ func main() {
 		}
 	}, player.HOOK_IDLE)
 
+	if player.State.Data.FetchAlbum {
+		img.StartDaemon()
+	}
+
 	// load mpv-mpris
 	if player.State.Data.LoadMPRIS {
 		scriptFile := utils.GetUserHome() + "/.config/mpv/scripts/mpris.so"
-		fmt.Println(scriptFile)
 		err := player.MpvInstance.Command([]string{"load-script", scriptFile})
 		if err != nil {
 			player.State.Data.LoadMPRIS = false
@@ -156,9 +159,7 @@ func main() {
 	utils.OnSigTerm(func(sig *os.Signal) {
 		exit()
 	})
-	if player.State.Data.FetchAlbum {
-		img.StartDaemon()
-	}
+
 	// loop
 	for {
 		promptEntry()

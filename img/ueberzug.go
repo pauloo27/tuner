@@ -5,6 +5,8 @@ import (
 	"io"
 	"os/exec"
 
+	"github.com/Pauloo27/tuner/player"
+	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
 )
 
@@ -18,9 +20,10 @@ func StartDaemon() {
 	go func() {
 		err := cmd.Run()
 		if err != nil {
+			player.State.Data.FetchAlbum = false
+			storage.Save(player.State.Data)
+			fmt.Printf("%sShow album disabled...%s\n", utils.ColorYellow, utils.ColorReset)
 			utils.HandleError(err, "Cannot start ueberzug")
-		} else {
-			fmt.Println("done")
 		}
 	}()
 }
