@@ -15,6 +15,9 @@ func ListResults(results []*search.SearchResult) {
 		}
 		defaultColor := bold + utils.ColorWhite
 		altColor := bold + utils.ColorGreen
+		if result.SourceName == "soundcloud" {
+			altColor = bold + utils.ColorYellow
+		}
 
 		duration := result.Duration
 
@@ -22,11 +25,12 @@ func ListResults(results []*search.SearchResult) {
 			duration = utils.ColorRed + "LIVE"
 		}
 
-		fmt.Printf("  %s%d: %s %sfrom %s - %s%s\n",
+		fmt.Printf("  %s%d: %s %sfrom %s %s- %s%s\n",
 			defaultColor, i+1,
 			altColor+result.Title,
 			defaultColor,
 			altColor+result.Uploader,
+			defaultColor,
 			defaultColor+duration,
 			utils.ColorReset,
 		)

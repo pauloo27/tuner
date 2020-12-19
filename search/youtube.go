@@ -97,12 +97,13 @@ func (s *YouTubeSource) Search(searchTerm string, limit int) (results []*SearchR
 		}
 
 		results = append(results, &SearchResult{
-			Title:    title,
-			Uploader: uploader,
-			Duration: duration,
-			ID:       id,
-			URL:      fmt.Sprintf("https://youtube.com/watch?v=%s", id),
-			Live:     live,
+			Title:      title,
+			Uploader:   uploader,
+			Duration:   duration,
+			ID:         id,
+			URL:        fmt.Sprintf("https://youtube.com/watch?v=%s", id),
+			Live:       live,
+			SourceName: "youtube",
 		})
 	})
 
