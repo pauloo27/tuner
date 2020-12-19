@@ -2,6 +2,7 @@ package search
 
 import (
 	"net/http"
+	"regexp"
 	"strconv"
 
 	"github.com/Pauloo27/tuner/utils"
@@ -11,6 +12,8 @@ import (
 type SoundCloudSource struct{}
 
 var sc *soundcloudapi.API
+
+var re = regexp.MustCompile(`large\.(\w{3})$`)
 
 func (s *SoundCloudSource) Search(query string, limit int) (results []*SearchResult) {
 	var err error
@@ -33,6 +36,7 @@ func (s *SoundCloudSource) Search(query string, limit int) (results []*SearchRes
 		}
 
 		duration := utils.FormatTime(int(track.FullDurationMS / 1000))
+		album := re.ReplaceAllString(track.ArtworkURL, "original.$1")
 
 		results = append(results, &SearchResult{
 			SourceName: "soundcloud",
@@ -41,7 +45,7 @@ func (s *SoundCloudSource) Search(query string, limit int) (results []*SearchRes
 			ID:         strconv.Itoa(int(track.ID)),
 			Duration:   duration,
 			URL:        track.URI,
-			Extra:      []string{track.ArtworkURL},
+			Extra:      []string{album},
 		})
 	}
 	return
