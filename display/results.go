@@ -7,7 +7,7 @@ import (
 	"github.com/Pauloo27/tuner/utils"
 )
 
-func ListResults(results []*search.YouTubeResult) {
+func ListResults(results []*search.SearchResult) {
 	for i, result := range results {
 		bold := ""
 		if i%2 == 0 {

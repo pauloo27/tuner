@@ -31,7 +31,7 @@ func exit() {
 	os.Exit(0)
 }
 
-func play(result *search.YouTubeResult, playlist *storage.Playlist) {
+func play(result *search.SearchResult, playlist *storage.Playlist) {
 	player.PlayFromYouTube(result, playlist)
 	go keybind.Listen()
 	// wait to the player to exit

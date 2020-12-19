@@ -13,7 +13,7 @@ var dataFile string
 
 type Playlist struct {
 	Name  string
-	Songs []*search.YouTubeResult
+	Songs []*search.SearchResult
 }
 
 type TunerData struct {

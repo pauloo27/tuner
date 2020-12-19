@@ -22,7 +22,7 @@ type PlayerState struct {
 	Data                         *storage.TunerData
 	Paused                       bool
 	Idle                         bool
-	Result                       *search.YouTubeResult
+	Result                       *search.SearchResult
 	Playlist                     *storage.Playlist
 	PlaylistIndex                int
 	Volume                       float64
@@ -37,7 +37,7 @@ func (s *PlayerState) IsPlaylist() bool {
 	return s.Playlist != nil
 }
 
-func (s *PlayerState) GetPlaying() *search.YouTubeResult {
+func (s *PlayerState) GetPlaying() *search.SearchResult {
 	if s.IsPlaylist() {
 		return s.Playlist.Songs[s.PlaylistIndex]
 	}

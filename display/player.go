@@ -92,7 +92,7 @@ func startPlayerHooks() {
 		fmt.Printf("Volume: %s%.0f%%%s\n", utils.ColorGreen, player.State.Volume, utils.ColorReset)
 
 		if player.State.ShowURL {
-			fmt.Printf("%s%s%s\n", utils.ColorBlue, result.URL(), utils.ColorReset)
+			fmt.Printf("%s%s%s\n", utils.ColorBlue, result.URL, utils.ColorReset)
 		}
 
 		if player.State.ShowHelp {

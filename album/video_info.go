@@ -19,12 +19,12 @@ func GetYouTubeDLPath() string {
 	return "/usr/bin/youtube-dl"
 }
 
-func FetchVideoInfo(result *search.YouTubeResult) (*VideoInfo, error) {
+func FetchVideoInfo(result *search.SearchResult) (*VideoInfo, error) {
 	if youtubeDLPath == "" {
 		youtubeDLPath = GetYouTubeDLPath()
 	}
 
-	cmd := exec.Command(youtubeDLPath, result.URL(), "-j")
+	cmd := exec.Command(youtubeDLPath, result.URL, "-j")
 
 	buffer, err := cmd.Output()
 	if err != nil {

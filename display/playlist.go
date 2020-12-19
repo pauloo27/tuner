@@ -72,7 +72,7 @@ func saveToPlaylist(params ...interface{}) {
 				storage.Save(player.State.Data)
 			}
 		} else {
-			newPlaylist := &storage.Playlist{Name: rawPlaylist, Songs: []*search.YouTubeResult{result}}
+			newPlaylist := &storage.Playlist{Name: rawPlaylist, Songs: []*search.SearchResult{result}}
 			player.State.Data.Playlists = append(player.State.Data.Playlists, newPlaylist)
 			storage.Save(player.State.Data)
 		}
