@@ -32,14 +32,15 @@ func (s *SoundCloudSource) Search(query string, limit int) (results []*SearchRes
 			return
 		}
 
+		duration := utils.FormatTime(int(track.FullDurationMS / 1000))
+
 		results = append(results, &SearchResult{
 			SourceName: "soundcloud",
 			Title:      track.Title,
 			Uploader:   track.User.Username,
 			ID:         strconv.Itoa(int(track.ID)),
-			// TODO duration
-			Duration: "???",
-			URL:      track.URI,
+			Duration:   duration,
+			URL:        track.URI,
 		})
 	}
 	return
