@@ -14,7 +14,7 @@ func RegisterHooks() {
 
 	player.RegisterHook(func(param ...interface{}) {
 		fetchAlbum()
-	}, player.HOOK_FILE_LOAD_STARTED)
+	}, player.HOOK_FILE_LOADED)
 
 	player.RegisterHook(func(param ...interface{}) {
 		img.SendCommand(`{"action": "remove", "identifier": "album"}`)
