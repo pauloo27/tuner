@@ -134,6 +134,19 @@ func main() {
 		}
 	}, player.HOOK_IDLE)
 
+	// load mpv-mpris
+	if player.State.Data.LoadMPRIS {
+		scriptFile := utils.GetUserHome() + "/.config/mpv/scripts/mpris.so"
+		fmt.Println(scriptFile)
+		err := player.MpvInstance.Command([]string{"load-script", scriptFile})
+		if err != nil {
+			player.State.Data.LoadMPRIS = false
+			storage.Save(player.State.Data)
+			fmt.Printf("%sLoad MPRIS disabled...%s\n", utils.ColorYellow, utils.ColorReset)
+			utils.HandleError(err, "Cannot load mpris script at "+scriptFile)
+		}
+	}
+
 	keybind.RegisterDefaultKeybinds()
 	display.RegisterHooks()
 	album.RegisterHooks()

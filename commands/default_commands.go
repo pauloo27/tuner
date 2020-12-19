@@ -49,5 +49,16 @@ func SetupDefaultCommands() {
 		},
 	}
 
-	command.RegisterCommands(help, keepLiveCache, fetchAlbum)
+	loadMPRIS := command.Command{
+		Name:        "mpris",
+		Description: "Toggle the option to load mpv-mpris (default is false)",
+		Aliases:     []string{"m"},
+		Handle: func(input string) string {
+			player.State.Data.LoadMPRIS = !player.State.Data.LoadMPRIS
+			storage.Save(player.State.Data)
+			return fmt.Sprintf("Load MPRIS set to %v", player.State.Data.LoadMPRIS)
+		},
+	}
+
+	command.RegisterCommands(help, keepLiveCache, fetchAlbum, loadMPRIS)
 }
