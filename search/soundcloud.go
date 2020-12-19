@@ -41,6 +41,7 @@ func (s *SoundCloudSource) Search(query string, limit int) (results []*SearchRes
 			ID:         strconv.Itoa(int(track.ID)),
 			Duration:   duration,
 			URL:        track.URI,
+			Extra:      []string{track.ArtworkURL},
 		})
 	}
 	return

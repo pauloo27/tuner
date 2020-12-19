@@ -27,17 +27,26 @@ func fetchAlbum() {
 	}
 	go func() {
 		result := player.State.GetPlaying()
-		videoInfo, err := FetchVideoInfo(result)
-		if err != nil {
-			return
+
+		var artURL string
+
+		if result.SourceName == "soundcloud" {
+			artURL = result.Extra[0]
+		} else {
+			videoInfo, err := FetchVideoInfo(result)
+			if err != nil {
+				return
+			}
+
+			trackInfo, err := FetchTrackInfo(videoInfo.Artist, videoInfo.Track)
+			if err != nil {
+				return
+			}
+			artURL = trackInfo.Album.ImageURL
 		}
 
-		trackInfo, err := FetchTrackInfo(videoInfo.Artist, videoInfo.Track)
-		if err != nil {
-			return
-		}
 		path := utils.LoadDataFolder() + "/album"
-		utils.DownloadFile(trackInfo.Album.ImageURL, path)
+		utils.DownloadFile(artURL, path)
 
 		size := 25
 		width, _, err := term.GetSize(0)
