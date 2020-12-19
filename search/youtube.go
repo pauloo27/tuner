@@ -97,6 +97,7 @@ func SearchYouTube(searchTerm string, limit int) (results []*SearchResult) {
 			Title:    title,
 			Uploader: uploader,
 			Duration: duration,
+			ID:       id,
 			URL:      fmt.Sprintf("https://youtube.com/watch?v=%s", id),
 			Live:     live,
 		})

@@ -1,9 +1,9 @@
 package search
 
 type SearchResult struct {
-	Title, Uploader, URL, Duration string
-	Live                           bool
-	SourceName                     string
+	Title, Uploader, URL, Duration, ID string
+	Live                               bool
+	SourceName                         string
 }
 
 type SearchSource interface {
