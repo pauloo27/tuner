@@ -13,6 +13,9 @@ import (
 	"github.com/buger/jsonparser"
 )
 
+type YouTubeSource struct {
+}
+
 func getContent(data []byte, index int) []byte {
 	id := fmt.Sprintf("[%d]", index)
 	contents, _, _, _ := jsonparser.Get(data, "contents", "twoColumnSearchResultsRenderer", "primaryContents", "sectionListRenderer", "contents", id, "itemSectionRenderer", "contents")
@@ -21,7 +24,7 @@ func getContent(data []byte, index int) []byte {
 
 var httpClient = &http.Client{}
 
-func SearchYouTube(searchTerm string, limit int) (results []*SearchResult) {
+func (s *YouTubeSource) Search(searchTerm string, limit int) (results []*SearchResult) {
 	url := fmt.Sprintf("https://www.youtube.com/results?search_query=%s", url.QueryEscape(searchTerm))
 
 	req, err := http.NewRequest("GET", url, nil)
