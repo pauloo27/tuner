@@ -7,6 +7,17 @@ import (
 )
 
 var dataFolder = ""
+var userHome = ""
+
+func GetUserHome() string {
+	if userHome != "" {
+		return userHome
+	}
+	var err error
+	userHome, err = os.UserHomeDir()
+	HandleError(err, "Cannot get user home")
+	return userHome
+}
 
 func createDataFolder(dataFolder string) {
 	err := os.Mkdir(dataFolder, 0744)
@@ -17,12 +28,10 @@ func LoadDataFolder() string {
 	if dataFolder != "" {
 		return dataFolder
 	}
-	home, err := os.UserHomeDir()
-	HandleError(err, "Cannot get user home")
 
-	dataFolder = home + "/.cache/tuner"
+	dataFolder = GetUserHome() + "/.cache/tuner"
 
-	_, err = os.Stat(dataFolder)
+	_, err := os.Stat(dataFolder)
 	if os.IsNotExist(err) {
 		createDataFolder(dataFolder)
 	}
