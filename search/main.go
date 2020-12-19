@@ -11,6 +11,11 @@ type SearchSource interface {
 	Search(query string, limit int) []*SearchResult
 }
 
+var (
+	YOUTUBE_SOURCE    = YouTubeSource{}
+	SOUNDCLOUD_SOURCE = SoundCloudSource{}
+)
+
 func Search(query string, limit int, sources ...SearchSource) []*SearchResult {
 	results := []*SearchResult{}
 	sourcesCount := len(sources)

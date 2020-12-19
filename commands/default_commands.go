@@ -60,5 +60,16 @@ func SetupDefaultCommands() {
 		},
 	}
 
-	command.RegisterCommands(help, keepLiveCache, fetchAlbum, loadMPRIS)
+	searchSoundCloud := command.Command{
+		Name:        "soundcloud",
+		Description: "Toggle the option to search on SoundCloud (default is false)",
+		Aliases:     []string{"sc"},
+		Handle: func(input string) string {
+			player.State.Data.SearchSoundCloud = !player.State.Data.SearchSoundCloud
+			storage.Save(player.State.Data)
+			return fmt.Sprintf("Search SoundCloud set to %v", player.State.Data.SearchSoundCloud)
+		},
+	}
+
+	command.RegisterCommands(help, keepLiveCache, fetchAlbum, loadMPRIS, searchSoundCloud)
 }

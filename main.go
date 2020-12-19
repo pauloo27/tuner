@@ -20,8 +20,10 @@ import (
 	"github.com/Pauloo27/tuner/version"
 )
 
-var playing chan bool
-var warning string
+var (
+	playing chan bool
+	warning string
+)
 
 const VERSION = "0.0.2-pre"
 
@@ -95,9 +97,11 @@ func promptEntry() {
 	c := make(chan bool)
 	go utils.PrintWithLoadIcon(utils.Fmt("Searching for %s", rawInput), c, 100*time.Millisecond, true)
 	// do search
-	results := search.Search(rawInput, searchLimit,
-		&search.YouTubeSource{}, &search.SoundCloudSource{},
-	)
+	sources := []search.SearchSource{search.YOUTUBE_SOURCE}
+	if player.State.Data.SearchSoundCloud {
+		sources = append(sources, &search.SOUNDCLOUD_SOURCE)
+	}
+	results := search.Search(rawInput, searchLimit, sources...)
 
 	// ask the loading message to stop
 	c <- true

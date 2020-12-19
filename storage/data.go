@@ -17,9 +17,9 @@ type Playlist struct {
 }
 
 type TunerData struct {
-	Version                      string
-	Playlists                    []*Playlist
-	Cache, FetchAlbum, LoadMPRIS bool
+	Version                                        string
+	Playlists                                      []*Playlist
+	Cache, FetchAlbum, LoadMPRIS, SearchSoundCloud bool
 }
 
 func CreateDataFolder(dataFolder string) {

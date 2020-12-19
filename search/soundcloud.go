@@ -15,7 +15,7 @@ var sc *soundcloudapi.API
 
 var re = regexp.MustCompile(`large\.(\w{3})$`)
 
-func (s *SoundCloudSource) Search(query string, limit int) (results []*SearchResult) {
+func (s SoundCloudSource) Search(query string, limit int) (results []*SearchResult) {
 	var err error
 	if sc == nil {
 		sc, err = soundcloudapi.New("", http.DefaultClient)

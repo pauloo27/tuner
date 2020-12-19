@@ -24,7 +24,7 @@ func getContent(data []byte, index int) []byte {
 
 var httpClient = &http.Client{}
 
-func (s *YouTubeSource) Search(searchTerm string, limit int) (results []*SearchResult) {
+func (s YouTubeSource) Search(searchTerm string, limit int) (results []*SearchResult) {
 	url := fmt.Sprintf("https://www.youtube.com/results?search_query=%s", url.QueryEscape(searchTerm))
 
 	req, err := http.NewRequest("GET", url, nil)
