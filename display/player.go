@@ -24,6 +24,10 @@ func startPlayerHooks() {
 	var lock sync.Mutex
 
 	render := func() {
+		if player.State.SavingToPlaylist {
+			return
+		}
+
 		lock.Lock()
 		defer lock.Unlock()
 
