@@ -17,6 +17,7 @@ type Playlist struct {
 }
 
 type TunerData struct {
+	Version                      string
 	Playlists                    []*Playlist
 	Cache, FetchAlbum, LoadMPRIS bool
 }

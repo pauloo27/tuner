@@ -17,10 +17,13 @@ import (
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
+	"github.com/Pauloo27/tuner/version"
 )
 
 var playing chan bool
 var warning string
+
+const VERSION = "0.0.2-pre"
 
 func exit() {
 	utils.ClearScreen()
@@ -153,6 +156,7 @@ func main() {
 	keybind.RegisterDefaultKeybinds()
 	display.RegisterHooks()
 	album.RegisterHooks()
+	version.Migrate(VERSION)
 
 	commands.SetupDefaultCommands()
 	// handle sigterm (Ctrl+C)
