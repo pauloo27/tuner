@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path"
 )
 
 var dataFolder = ""
@@ -29,7 +30,7 @@ func LoadDataFolder() string {
 		return dataFolder
 	}
 
-	dataFolder = GetUserHome() + "/.cache/tuner"
+	dataFolder = path.Join(GetUserHome(), ".cache", "tuner")
 
 	_, err := os.Stat(dataFolder)
 	if os.IsNotExist(err) {

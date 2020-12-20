@@ -1,6 +1,8 @@
 package album
 
 import (
+	"path"
+
 	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/utils"
@@ -45,7 +47,7 @@ func fetchAlbum() {
 			artURL = trackInfo.Album.ImageURL
 		}
 
-		path := utils.LoadDataFolder() + "/album"
+		path := path.Join(utils.LoadDataFolder(), "album")
 		utils.DownloadFile(artURL, path)
 
 		size := 25

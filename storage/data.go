@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"path"
 
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
@@ -29,7 +30,7 @@ func CreateDataFolder(dataFolder string) {
 
 func Load() *TunerData {
 	dataFolder := utils.LoadDataFolder()
-	dataFile = dataFolder + "/data.json"
+	dataFile = path.Join(dataFolder, "data.json")
 
 	_, err := os.Stat(dataFile)
 
