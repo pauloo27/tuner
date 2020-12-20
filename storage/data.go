@@ -23,11 +23,6 @@ type TunerData struct {
 	Cache, FetchAlbum, LoadMPRIS, SearchSoundCloud bool
 }
 
-func CreateDataFolder(dataFolder string) {
-	err := os.Mkdir(dataFolder, 0744)
-	utils.HandleError(err, "Cannot create data folder at "+dataFolder)
-}
-
 func Load() *TunerData {
 	dataFolder := utils.LoadDataFolder()
 	dataFile = path.Join(dataFolder, "data.json")
