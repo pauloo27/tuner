@@ -5,19 +5,11 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Pauloo27/tuner/icons"
 	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/utils"
 	"golang.org/x/term"
-)
-
-const (
-	pausedIcon  = ""
-	playingIcon = ""
-)
-
-var (
-	horizontalBars = []string{"▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"}
 )
 
 func startPlayerHooks() {
@@ -47,16 +39,16 @@ func startPlayerHooks() {
 			if err == nil {
 				columns, _, err := term.GetSize(0)
 				utils.HandleError(err, "Cannot get term size")
-				barSize := float64(columns) * float64(len(horizontalBars))
+				barSize := float64(columns) * float64(len(icons.HORIZONTAL_BARS))
 				progress := int((barSize * position) / length)
-				fullBlocks := progress / len(horizontalBars)
-				missing := progress % len(horizontalBars)
+				fullBlocks := progress / len(icons.HORIZONTAL_BARS)
+				missing := progress % len(icons.HORIZONTAL_BARS)
 				fmt.Print(utils.ColorBlue)
 				for i := 0; i < fullBlocks; i++ {
-					fmt.Print(horizontalBars[len(horizontalBars)-1])
+					fmt.Print(icons.HORIZONTAL_BARS[len(icons.HORIZONTAL_BARS)-1])
 				}
 				if missing != 0 {
-					fmt.Print(horizontalBars[missing-1])
+					fmt.Print(icons.HORIZONTAL_BARS[missing-1])
 				}
 				fmt.Println(utils.ColorReset)
 			}
@@ -70,18 +62,18 @@ func startPlayerHooks() {
 			)
 		}
 
-		icon := playingIcon
+		icon := icons.PLAYING
 
 		if player.State.Paused {
-			icon = pausedIcon
+			icon = icons.PAUSED
 		}
 
 		extra := ""
 		switch player.State.Loop {
 		case player.LOOP_TRACK:
-			extra += utils.ColorWhite + "  "
+			extra += utils.ColorWhite + icons.LOOPED
 		case player.LOOP_PLAYLIST:
-			extra += utils.ColorBlue + "  "
+			extra += utils.ColorBlue + icons.LOOPED
 		}
 
 		fmt.Printf(" %s  %s %sfrom %s%s%s\n",

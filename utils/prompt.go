@@ -8,12 +8,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Pauloo27/tuner/icons"
 	"golang.org/x/term"
 )
 
 var reader = bufio.NewReader(os.Stdin)
-var brailleChars = [8]string{"⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"}
-var brailleFull = "⣿"
 
 func WaitForEnter(message string) error {
 	fmt.Printf("%s%s%s", ColorGreen, message, ColorReset)
@@ -124,15 +123,15 @@ func PrintWithLoadIcon(message string, c chan bool, stepTime time.Duration, clea
 	go func() {
 		i := 0
 		for !done {
-			print("%s%s%s %s\n", ColorBlue, brailleChars[i], ColorReset, message)
+			print("%s%s%s %s\n", ColorBlue, icons.LOADING[i], ColorReset, message)
 			i++
 
-			if i >= len(brailleChars) {
+			if i >= len(icons.LOADING) {
 				i = 0
 			}
 			time.Sleep(stepTime)
 		}
-		print("%s%s%s %s\n", ColorGreen, brailleFull, ColorReset, message)
+		print("%s%s%s %s\n", ColorGreen, icons.LOADED, ColorReset, message)
 		c <- true
 	}()
 
