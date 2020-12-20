@@ -5,6 +5,7 @@ Tuner search for YouTube videos to play in MPV.
 ![Screenshot](https://i.imgur.com/v5GbcaL.png)
 
 ## Table of Contents
+
 - [Features](#features)
 - [Compile](#compile)
 - [Screenshots](#screenshots)
@@ -16,6 +17,7 @@ Tuner search for YouTube videos to play in MPV.
 - [License](#license)
 
 ## Features
+
 - Playlists
 - Lyrics
 - No "search rate limits" (Tuner doesn't use the youtube API)
@@ -34,6 +36,10 @@ Before running Tuner you need to install
 
 On Arch Linux, the dependencies packages are `mpv youtube-dl`
 
+
+**Font Awesome 5 is also required to display the icons. You can also customize
+the icons in the `icons/icons.go` file.**
+
 ### Build
 
 Clone the repository: 
@@ -43,6 +49,7 @@ Install:
 > $ make install
 
 ## Screenshots
+
 ![Screenshot with MOTD](https://i.imgur.com/9f6XonE.png)
 ![Screenshot search](https://i.imgur.com/7KRlSnS.jpg)
 ![Screenshot playing with CAVA](https://i.imgur.com/YGhMcwK.jpg)
