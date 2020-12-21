@@ -21,7 +21,7 @@ func GetUserHome() string {
 }
 
 func createDataFolder(dataFolder string) {
-	err := os.Mkdir(dataFolder, 0744)
+	err := os.MkdirAll(dataFolder, 0744)
 	HandleError(err, "Cannot create data folder at "+dataFolder)
 }
 
