@@ -40,10 +40,12 @@ func play(result *search.SearchResult, playlist *storage.Playlist) {
 	playing = make(chan bool)
 	<-playing
 	keyboard.Close()
+	utils.ShowCursor()
 }
 
 func promptEntry() {
 	utils.ClearScreen()
+	utils.ShowCursor()
 
 	fmt.Printf("%sPlaylists:\n", utils.ColorBlue)
 	display.ListPlaylists()

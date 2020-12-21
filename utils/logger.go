@@ -16,6 +16,7 @@ const (
 
 func HandleError(err error, message string) {
 	if err != nil {
+		ShowCursor()
 		log.Panicln(ColorRed, message, "\n", err)
 	}
 }

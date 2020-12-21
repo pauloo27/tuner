@@ -13,46 +13,72 @@ import (
 )
 
 func startPlayerHooks() {
-	var lock sync.Mutex
+	var playerLock sync.Mutex
+	var progressBarLock sync.Mutex
 
-	render := func() {
+	renderProgressBar := func() {
 		if player.State.SavingToPlaylist {
 			return
 		}
 
-		lock.Lock()
-		defer lock.Unlock()
+		progressBarLock.Lock()
+		defer progressBarLock.Unlock()
 
 		result := player.State.GetPlaying()
 		if result == nil {
 			return
 		}
 
-		utils.ClearScreen()
-
-		if !result.Live {
-			length := player.State.Duration
-			position, err := player.GetPosition()
-			if position < 0 {
-				position = 0
-			}
-			if err == nil {
-				columns, _, err := term.GetSize(0)
-				utils.HandleError(err, "Cannot get term size")
-				barSize := float64(columns) * float64(len(icons.HORIZONTAL_BARS))
-				progress := int((barSize * position) / length)
-				fullBlocks := progress / len(icons.HORIZONTAL_BARS)
-				missing := progress % len(icons.HORIZONTAL_BARS)
-				fmt.Print(utils.ColorBlue)
-				for i := 0; i < fullBlocks; i++ {
-					fmt.Print(icons.HORIZONTAL_BARS[len(icons.HORIZONTAL_BARS)-1])
-				}
-				if missing != 0 {
-					fmt.Print(icons.HORIZONTAL_BARS[missing-1])
-				}
-				fmt.Println(utils.ColorReset)
-			}
+		if result.Live {
+			return
 		}
+
+		utils.MoveCursorTo(1, 1)
+		utils.ClearLine()
+		utils.HideCursor()
+
+		length := player.State.Duration
+		position, err := player.GetPosition()
+		if position < 0 {
+			position = 0
+		}
+		if err == nil {
+			columns, _, err := term.GetSize(0)
+			utils.HandleError(err, "Cannot get term size")
+			barSize := float64(columns) * float64(len(icons.HORIZONTAL_BARS))
+			progress := int((barSize * position) / length)
+			fullBlocks := progress / len(icons.HORIZONTAL_BARS)
+			missing := progress % len(icons.HORIZONTAL_BARS)
+			fmt.Print(utils.ColorBlue)
+			for i := 0; i < fullBlocks; i++ {
+				fmt.Print(icons.HORIZONTAL_BARS[len(icons.HORIZONTAL_BARS)-1])
+			}
+			if missing != 0 {
+				fmt.Print(icons.HORIZONTAL_BARS[missing-1])
+			}
+			fmt.Println(utils.ColorReset)
+		}
+	}
+
+	renderPlayer := func() {
+		if player.State.SavingToPlaylist {
+			return
+		}
+
+		playerLock.Lock()
+		defer playerLock.Unlock()
+
+		result := player.State.GetPlaying()
+		if result == nil {
+			return
+		}
+
+		if result.Live {
+			utils.MoveCursorTo(1, 0)
+		} else {
+			utils.MoveCursorTo(2, 0)
+		}
+		utils.ClearAfterCursor()
 
 		if player.State.IsPlaylist() {
 			fmt.Printf("Playing: %s (%d/%d)\n",
@@ -118,20 +144,23 @@ func startPlayerHooks() {
 
 	player.RegisterHooks(
 		func(param ...interface{}) {
-			render()
+			renderPlayer()
 		},
 		player.HOOK_PLAYBACK_PAUSED, player.HOOK_PLAYBACK_RESUMED,
 		player.HOOK_VOLUME_CHANGED, player.HOOK_POSITION_CHANGED,
 		player.HOOK_GENERIC_UPDATE, player.HOOK_LOOP_PLAYLIST_CHANGED,
 		player.HOOK_LOOP_TRACK_CHANGED, player.HOOK_FILE_LOAD_STARTED,
-		player.HOOK_FILE_ENDED, player.HOOK_SEEK,
+		player.HOOK_FILE_ENDED,
 	)
 
 	// progress bar updater
+	player.RegisterHook(func(param ...interface{}) {
+		renderProgressBar()
+	}, player.HOOK_SEEK)
 	go func() {
 		for {
 			if !player.State.Idle && !player.State.Paused {
-				render()
+				renderProgressBar()
 			}
 			time.Sleep(1 * time.Second)
 		}

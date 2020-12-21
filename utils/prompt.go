@@ -86,13 +86,25 @@ func AskForInt(message string) (int, error) {
 	return v, nil
 }
 
+func HideCursor() {
+	fmt.Printf("\033[?25l")
+}
+
+func ShowCursor() {
+	fmt.Printf("\033[?25h")
+}
+
 func ClearScreen() {
 	MoveCursorTo(1, 1)
 	ClearAfterCursor()
 }
 
+func ClearLine() {
+	fmt.Print("\033[K")
+}
+
 func ClearAfterCursor() {
-	fmt.Printf("\033[J")
+	fmt.Print("\033[J")
 }
 
 func MoveCursorTo(line, column int) {
@@ -100,7 +112,7 @@ func MoveCursorTo(line, column int) {
 }
 
 func MoveCursorUp(lineCount int) {
-	fmt.Printf("\x1b[%dF", lineCount)
+	fmt.Printf("\033[%dF", lineCount)
 }
 
 func EditLastLine() {
