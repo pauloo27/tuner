@@ -97,6 +97,10 @@ func registerInternalHooks() {
 	}, HOOK_FILE_LOADED)
 
 	RegisterHook(func(params ...interface{}) {
+		// remove lyric from state
+		State.Lyric.Lines = []string{}
+		State.Lyric.Index = 0
+
 		pos, err := MpvInstance.GetProperty("playlist-pos", mpv.FORMAT_INT64)
 		if err != nil {
 			return
