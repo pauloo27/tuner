@@ -81,10 +81,15 @@ func startPlayerHooks() {
 		utils.ClearAfterCursor()
 
 		if player.State.IsPlaylist() {
-			fmt.Printf("Playing: %s (%d/%d)\n",
+			shuffled := ""
+			if player.State.Playlist.IsShuffled() {
+				shuffled = icons.PLAYLIST_SHUFFLED
+			}
+			fmt.Printf("Playing: %s (%d/%d) %s\n",
 				player.State.Playlist.Name,
 				player.State.PlaylistIndex+1,
 				len(player.State.Playlist.Songs),
+				shuffled,
 			)
 		}
 

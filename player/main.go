@@ -173,7 +173,7 @@ func SaveToPlaylist() {
 	callHooks(HOOK_SAVING_TRACK_TO_PLAYLIST)
 }
 
-func PlayFromYouTube(result *search.SearchResult, playlist *storage.Playlist) error {
+func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) error {
 	// remove all entries from playlist
 	ClearPlaylist()
 	// remove pause
@@ -184,7 +184,9 @@ func PlayFromYouTube(result *search.SearchResult, playlist *storage.Playlist) er
 
 	if result == nil {
 		var err error
-		for i, song := range playlist.Songs {
+
+		for i := range playlist.Songs {
+			song := playlist.SongAt(i)
 			if i == 0 {
 				err = LoadFile(song.URL)
 			} else {

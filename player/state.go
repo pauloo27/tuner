@@ -39,7 +39,7 @@ func (s *PlayerState) IsPlaylist() bool {
 
 func (s *PlayerState) GetPlaying() *search.SearchResult {
 	if s.IsPlaylist() {
-		return s.Playlist.Songs[s.PlaylistIndex]
+		return s.Playlist.SongAt(s.PlaylistIndex)
 	}
 	return s.Result
 }

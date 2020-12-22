@@ -3,8 +3,10 @@ package storage
 import (
 	"encoding/json"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"path"
+	"time"
 
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
@@ -13,8 +15,36 @@ import (
 var dataFile string
 
 type Playlist struct {
-	Name  string
-	Songs []*search.SearchResult
+	Name     string
+	Songs    []*search.SearchResult
+	shuffled bool
+	// shuffledIndexes
+	shufIndexes []int
+}
+
+func (pl *Playlist) IsShuffled() bool {
+	return pl.shuffled
+}
+
+func (pl *Playlist) Shuffle() {
+	pl.shuffled = true
+	pl.shufIndexes = []int{}
+	for i := 0; i < len(pl.Songs); i++ {
+		pl.shufIndexes = append(pl.shufIndexes, i)
+	}
+
+	rand.Seed(time.Now().Unix())
+	rand.Shuffle(len(pl.Songs), func(i, j int) {
+		pl.shufIndexes[i], pl.shufIndexes[j] = pl.shufIndexes[j], pl.shufIndexes[i]
+	})
+}
+
+func (pl *Playlist) SongAt(i int) *search.SearchResult {
+	if pl.shuffled {
+		return pl.Songs[pl.shufIndexes[i]]
+	} else {
+		return pl.Songs[i]
+	}
 }
 
 type TunerData struct {

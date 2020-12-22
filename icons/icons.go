@@ -3,9 +3,10 @@ package icons
 // Player status
 const (
 	// Font Awesome 5
-	PAUSED  = ""
-	PLAYING = ""
-	LOOPED  = ""
+	PAUSED            = ""
+	PLAYING           = ""
+	LOOPED            = ""
+	PLAYLIST_SHUFFLED = ""
 )
 
 // Progress bar

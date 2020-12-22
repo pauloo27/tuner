@@ -169,6 +169,18 @@ func RegisterDefaultKeybinds() {
 			player.PlaylistPrevious()
 		},
 	})
+
+	BindChar('r', Keybind{
+		Description: "Shuffle playlist",
+		KeyName:     "R",
+		Handler: func() {
+			if player.State.IsPlaylist() {
+				player.State.Playlist.Shuffle()
+				// update the mpv playlist
+				player.PlaySearchResult(nil, player.State.Playlist)
+			}
+		},
+	})
 }
 
 func HandlePress(c rune, key keyboard.Key) {

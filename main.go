@@ -34,7 +34,7 @@ func exit() {
 }
 
 func play(result *search.SearchResult, playlist *storage.Playlist) {
-	player.PlayFromYouTube(result, playlist)
+	player.PlaySearchResult(result, playlist)
 	go keybind.Listen()
 	// wait to the player to exit
 	playing = make(chan bool)
