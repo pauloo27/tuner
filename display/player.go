@@ -94,7 +94,7 @@ func startPlayerHooks() {
 			icon = icons.PAUSED
 		}
 
-		extra := ""
+		extra := " "
 		switch player.State.Loop {
 		case player.LOOP_TRACK:
 			extra += utils.ColorWhite + icons.LOOPED
@@ -102,7 +102,7 @@ func startPlayerHooks() {
 			extra += utils.ColorBlue + icons.LOOPED
 		}
 
-		fmt.Printf(" %s  %s %sfrom %s%s%s\n",
+		fmt.Printf(" %s %s %sfrom %s%s%s\n",
 			icon,
 			utils.ColorGreen+result.Title,
 			utils.ColorWhite,
