@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- SoundCloud search support.
+- Shuffle playlist (keybinded to R).
 
 ### Removed
 - MPRIS dependency, use libmpv instead.
-
+- Progress bar update from renderPlayer().
 
 ## [0.0.1] 2020-12-17
 
