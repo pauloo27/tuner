@@ -20,7 +20,7 @@ var State *PlayerState
 func Initialize() {
 	var err error
 
-	initialVolume := 50.0
+	initialVolume := 100.0
 
 	// create a mpv instance
 	MpvInstance = mpv.Create()
