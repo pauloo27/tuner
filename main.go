@@ -13,6 +13,7 @@ import (
 	"github.com/Pauloo27/tuner/display"
 	"github.com/Pauloo27/tuner/img"
 	"github.com/Pauloo27/tuner/keybind"
+	"github.com/Pauloo27/tuner/mpris"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/storage"
@@ -150,16 +151,7 @@ func main() {
 	}
 
 	// load mpv-mpris
-	if player.State.Data.LoadMPRIS {
-		scriptFile := utils.GetUserHome() + "/.config/mpv/scripts/mpris.so"
-		err := player.MpvInstance.Command([]string{"load-script", scriptFile})
-		if err != nil {
-			player.State.Data.LoadMPRIS = false
-			storage.Save(player.State.Data)
-			fmt.Printf("%sLoad MPRIS disabled...%s\n", utils.ColorYellow, utils.ColorReset)
-			utils.HandleError(err, "Cannot load mpris script at "+scriptFile)
-		}
-	}
+	mpris.LoadScript()
 
 	keybind.RegisterDefaultKeybinds()
 	display.RegisterHooks()
