@@ -137,6 +137,9 @@ func registerInternalHooks() {
 
 	RegisterHook(func(param ...interface{}) {
 		State.Idle = true
+		if State.IsPlaylist() {
+			State.Playlist.Unshuffle()
+		}
 	}, HOOK_IDLE)
 
 	RegisterHook(func(param ...interface{}) {

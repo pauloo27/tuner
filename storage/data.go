@@ -39,6 +39,10 @@ func (pl *Playlist) Shuffle() {
 	})
 }
 
+func (pl *Playlist) Unshuffle() {
+	pl.shuffled = false
+}
+
 func (pl *Playlist) SongAt(i int) *search.SearchResult {
 	if pl.shuffled {
 		return pl.Songs[pl.shufIndexes[i]]
