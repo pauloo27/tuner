@@ -276,7 +276,5 @@ func GetPosition() (float64, error) {
 }
 
 func SetPosition(pos float64) error {
-	err := MpvInstance.SetProperty("time-pos", mpv.FORMAT_DOUBLE, pos)
-	callHooks(HOOK_POSITION_CHANGED, err, pos)
-	return err
+	return MpvInstance.SetProperty("time-pos", mpv.FORMAT_DOUBLE, pos)
 }

@@ -152,10 +152,9 @@ func startPlayerHooks() {
 			renderPlayer()
 		},
 		player.HOOK_PLAYBACK_PAUSED, player.HOOK_PLAYBACK_RESUMED,
-		player.HOOK_VOLUME_CHANGED, player.HOOK_POSITION_CHANGED,
-		player.HOOK_GENERIC_UPDATE, player.HOOK_LOOP_PLAYLIST_CHANGED,
-		player.HOOK_LOOP_TRACK_CHANGED, player.HOOK_FILE_LOAD_STARTED,
-		player.HOOK_FILE_ENDED,
+		player.HOOK_VOLUME_CHANGED, player.HOOK_GENERIC_UPDATE,
+		player.HOOK_LOOP_PLAYLIST_CHANGED, player.HOOK_LOOP_TRACK_CHANGED,
+		player.HOOK_FILE_LOAD_STARTED, player.HOOK_FILE_ENDED,
 	)
 
 	// progress bar updater
