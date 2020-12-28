@@ -99,7 +99,7 @@ There are a few commands you can type in the search bar:
 
 - `/cache` or `/c`: Toggle option to keep cache (default is false).
 - `/album` or `/a`: Toggle option to show album art (default is false).
-- `/mpris or `/m`: Toggle option to load mpv-mpris (default is false).
+- `/mpris` or `/m`: Toggle option to load mpv-mpris (default is false).
 - `/help` or `/h`: List all commands.
 
 ## Storage
