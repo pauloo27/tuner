@@ -147,7 +147,7 @@ func RegisterDefaultKeybinds() {
 	})
 
 	BindChar('b', Keybind{
-		Description: "Save song to playlist",
+		Description: "Save song to playlist OR edit current playlist",
 		KeyName:     "B",
 		Handler: func() {
 			player.SaveToPlaylist()
