@@ -62,7 +62,8 @@ enable it:
 First install [Überzug](https://github.com/seebye/ueberzug) 
 (on Arch Linux, install the `ueberzug` package)...
 
-Then open Tuner and type `/a` in the search bar and restart Tuner.
+Then open Tuner and type `/a` in the search bar and restart your Terminal and 
+Tuner.
 
 ## MPRIS
 
@@ -89,7 +90,7 @@ _TIP: You can see the keybinds inside Tuner by pressing `?`._
 - W: Scroll lyric up.
 - S: Scroll lyric down.
 - U: Show video URL.
-- B: Save song to playlist.
+- B: Save song to playlist and edit current playlist.
 - \>: Next song in playlist.
 - <: Previous song in playlist.
 
