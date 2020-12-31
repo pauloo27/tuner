@@ -62,7 +62,7 @@ func saveToPlaylist(params ...interface{}) {
 	if player.State.IsPlaylist() {
 		fmt.Printf("%sTo edit the current playlist, use:\n", utils.ColorYellow)
 		fmt.Printf("  %s%sD%s%s to delete current playlist\n%s",
-			utils.ColorYellow, utils.ColorBold, utils.ColorReset, utils.ColorYellow,
+			utils.ColorRed, utils.ColorBold, utils.ColorReset, utils.ColorRed,
 			utils.ColorReset,
 		)
 		fmt.Printf("  %s%sR%s%s to remove the current song from the playlist\n%s",
