@@ -42,6 +42,14 @@ func saveToPlaylist(params ...interface{}) {
 
 	result := player.State.GetPlaying()
 
+	restore := func(forceUpdate bool) {
+		player.State.SavingToPlaylist = false
+		go keybind.Listen()
+		if forceUpdate {
+			player.ForceUpdate()
+		}
+	}
+
 	fmt.Printf("Save to:\n")
 	for i, playlist := range player.State.Data.Playlists {
 		bold := ""
@@ -99,6 +107,8 @@ func saveToPlaylist(params ...interface{}) {
 					player.State.Playlist.Songs = songs
 					storage.Save(player.State.Data)
 					player.PlaySearchResult(nil, player.State.Playlist)
+					restore(false)
+					return
 				}
 			case "d":
 				if player.State.IsPlaylist() {
@@ -130,8 +140,5 @@ func saveToPlaylist(params ...interface{}) {
 		}
 	}
 
-	// restore keyboard
-	player.State.SavingToPlaylist = false
-	go keybind.Listen()
-	player.ForceUpdate()
+	restore(true)
 }
