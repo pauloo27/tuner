@@ -22,6 +22,9 @@ Tuner search for YouTube videos to play in MPV.
 - Lyrics
 - No "search rate limits" (Tuner doesn't use the youtube API)
 - Show album art (experimental)
+- SoundCloud search support
+- "I'm Feeling Lucky" (play the first result when `!` is used as a prefix for the
+search query)
 
 ## Compile
 
@@ -91,6 +94,7 @@ _TIP: You can see the keybinds inside Tuner by pressing `?`._
 - S: Scroll lyric down.
 - U: Show video URL.
 - B: Save song to playlist and edit current playlist.
+- R: Shuffle playlist.
 - \>: Next song in playlist.
 - <: Previous song in playlist.
 
