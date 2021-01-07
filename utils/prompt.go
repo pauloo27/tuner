@@ -72,6 +72,20 @@ func AskFor(message string, validValues ...string) (string, error) {
 	return "", fmt.Errorf("Invalid response. Valid responses are %v.", validValues)
 }
 
+func AskForConfirmation(message string, yesByDefault bool) bool {
+	var input string
+	var err error
+	if yesByDefault {
+		input, err = AskFor(message, "Y", "n")
+	} else {
+		input, err = AskFor(message, "y", "N")
+	}
+	if err != nil {
+		return yesByDefault
+	}
+	return strings.EqualFold("y", input)
+}
+
 func AskForInt(message string) (int, error) {
 	input, err := AskFor(message)
 	if err != nil {
