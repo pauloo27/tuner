@@ -26,7 +26,7 @@ var (
 	warning string
 )
 
-const VERSION = "0.0.2-pre"
+const VERSION = "0.0.2"
 
 func exit() {
 	utils.ClearScreen()
