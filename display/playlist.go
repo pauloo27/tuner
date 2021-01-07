@@ -112,15 +112,19 @@ func saveToPlaylist(params ...interface{}) {
 				}
 			case "d":
 				if player.State.IsPlaylist() {
-					filteredPlaylist := []*storage.Playlist{}
-					for _, playlist := range player.State.Data.Playlists {
-						if playlist.Name != player.State.Playlist.Name {
-							filteredPlaylist = append(filteredPlaylist, playlist)
+					utils.ClearScreen()
+					confirmMessage := utils.Fmt("Are you sure you want to delete %s", player.State.Playlist.Name)
+					if utils.AskForConfirmation(confirmMessage, false) {
+						filteredPlaylist := []*storage.Playlist{}
+						for _, playlist := range player.State.Data.Playlists {
+							if playlist.Name != player.State.Playlist.Name {
+								filteredPlaylist = append(filteredPlaylist, playlist)
+							}
 						}
+						player.State.Data.Playlists = filteredPlaylist
+						storage.Save(player.State.Data)
+						player.Stop()
 					}
-					player.State.Data.Playlists = filteredPlaylist
-					storage.Save(player.State.Data)
-					player.Stop()
 				}
 			default:
 				duplicate := false
