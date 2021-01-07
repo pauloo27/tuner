@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SoundCloud search support.
 - Shuffle playlist (keybinded to R).
+- Simple migration for `data.json`.
+- Menu to delete playlist and remove the current song from the playlist.
 
 ### Removed
 - MPRIS dependency, use libmpv instead.
