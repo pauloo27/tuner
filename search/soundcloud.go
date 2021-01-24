@@ -1,7 +1,6 @@
 package search
 
 import (
-	"net/http"
 	"regexp"
 	"strconv"
 
@@ -18,7 +17,7 @@ var re = regexp.MustCompile(`large\.(\w{3})$`)
 func (s SoundCloudSource) Search(query string, limit int) (results []*SearchResult) {
 	var err error
 	if sc == nil {
-		sc, err = soundcloudapi.New("", http.DefaultClient)
+		sc, err = soundcloudapi.New(soundcloudapi.APIOptions{})
 		utils.HandleError(err, "Cannot start soundcloud API")
 	}
 
