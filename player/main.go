@@ -179,8 +179,9 @@ func SaveToPlaylist() {
 func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) error {
 	// remove all entries from playlist
 	ClearPlaylist()
+
 	// remove pause
-	Play()
+	defer Play()
 
 	State.Result = result
 	State.Playlist = playlist
