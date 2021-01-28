@@ -1,7 +1,6 @@
 package album
 
 import (
-	"fmt"
 	"os/exec"
 
 	"github.com/Pauloo27/tuner/search"
@@ -31,26 +30,11 @@ func FetchVideoInfo(result *search.SearchResult) (*VideoInfo, error) {
 		return nil, err
 	}
 
-	artist, err := jsonparser.GetString(buffer, "artist")
-	if err != nil {
-		return nil, fmt.Errorf("Cannot get artist: %v", err)
-	}
-	track, err := jsonparser.GetString(buffer, "track")
-	if err != nil {
-		return nil, fmt.Errorf("Cannot get track: %v", err)
-	}
-	title, err := jsonparser.GetString(buffer, "title")
-	if err != nil {
-		return nil, fmt.Errorf("Cannot get title: %v", err)
-	}
-	id, err := jsonparser.GetString(buffer, "id")
-	if err != nil {
-		return nil, fmt.Errorf("Cannot get id: %v", err)
-	}
-	duration, err := jsonparser.GetInt(buffer, "duration")
-	if err != nil {
-		return nil, fmt.Errorf("Cannot get duration: %v", err)
-	}
+	id, _ := jsonparser.GetString(buffer, "id")
+	duration, _ := jsonparser.GetInt(buffer, "duration")
+	title, _ := jsonparser.GetString(buffer, "title")
+	artist, _ := jsonparser.GetString(buffer, "artist")
+	track, _ := jsonparser.GetString(buffer, "track")
 
 	return &VideoInfo{artist, track, title, id, duration}, nil
 }

@@ -39,12 +39,13 @@ func fetchAlbum() {
 			if err != nil {
 				return
 			}
-
-			trackInfo, err := FetchTrackInfo(videoInfo.Artist, videoInfo.Track)
-			if err != nil {
-				return
+			artURL = utils.Fmt("https://i1.ytimg.com/vi/%s/hqdefault.jpg", videoInfo.ID)
+			if videoInfo.Artist != "" && videoInfo.Track != "" {
+				trackInfo, err := FetchTrackInfo(videoInfo.Artist, videoInfo.Track)
+				if err == nil {
+					artURL = trackInfo.Album.ImageURL
+				}
 			}
-			artURL = trackInfo.Album.ImageURL
 		}
 
 		path := path.Join(utils.LoadDataFolder(), "album")
