@@ -7,6 +7,7 @@ Tuner search for YouTube videos to play in MPV.
 ## Table of Contents
 
 - [Features](#features)
+- [Installing](#installing)
 - [Compile](#compile)
 - [Screenshots](#screenshots)
 - [Album Art (experimental)](#album-art-experimental)
@@ -25,6 +26,15 @@ Tuner search for YouTube videos to play in MPV.
 - SoundCloud search support
 - "I'm Feeling Lucky" (play the first result when `!` is used as a prefix for the
 search query)
+
+## Installing
+
+Unless you are using Arch Linux, you need to compile tuner yourself. See 
+[Compile](#compile).
+
+### Arch Linux
+
+Install from the AUR (`yay -S go-tuner-git`).
 
 ## Compile
 
