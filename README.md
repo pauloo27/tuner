@@ -2,7 +2,7 @@
 
 Tuner search for YouTube videos to play in MPV.
 
-![Screenshot](https://i.imgur.com/v5GbcaL.png)
+![Screenshot](https://i.imgur.com/REvt9Kw.png)
 
 ## Table of Contents
 
