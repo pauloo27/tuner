@@ -138,7 +138,7 @@ func RegisterDefaultKeybinds() {
 	})
 
 	BindChar('u', Keybind{
-		Description: "Show video URL",
+		Description: "Toggle video URL",
 		KeyName:     "U",
 		Handler: func() {
 			player.State.ShowURL = !player.State.ShowURL
