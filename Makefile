@@ -1,11 +1,16 @@
+BINARY_NAME = tuner
+
 build:
 	go build -v
 
 run: build
-	./tuner
+	./$(BINARY_NAME) 
 
 install: build
-	sudo cp ./tuner /usr/bin/
+	sudo cp ./$(BINARY_NAME) /usr/bin/
+
+update_mod:
+	go build -v -mod=mod
 
 # (build but with a smaller binary)
 dist:
@@ -13,4 +18,4 @@ dist:
 
 # (even smaller binary)
 pack: dist
-	upx ./tuner
+	upx ./$(BINARY_NAME)
