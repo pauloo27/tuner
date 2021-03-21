@@ -2,6 +2,9 @@
 
 Tuner search for YouTube videos to play in MPV.
 
+_If you want a GUI application with more features, take a look at
+[Neptune](https://github.com/Pauloo27/neptune)._
+
 ![Screenshot](https://i.imgur.com/REvt9Kw.png)
 
 ## Table of Contents
@@ -63,9 +66,29 @@ Install:
 
 ## Screenshots
 
+**Tuner + pfetch:**
+
+
 ![Screenshot with MOTD](https://i.imgur.com/9f6XonE.png)
+
+
+**Tuner search menu:**
+
+
 ![Screenshot search](https://i.imgur.com/glnKkUH.png)
+
+
+**Tuner + cava:**
+
+
 ![Screenshot playing with CAVA](https://i.imgur.com/K7Qtozn.png)
+
+
+**Tuner + lolcat:**
+
+
+![Screenshot playing with CAVA](https://i.imgur.com/Mb532M7.png)
+
 
 ## Album Art (experimental)
 
