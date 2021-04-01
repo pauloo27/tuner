@@ -24,6 +24,7 @@ _If you want a GUI application with more features, take a look at
 
 - Playlists
 - Lyrics
+- Discord Rich Presence
 - No "search rate limits" (Tuner doesn't use the youtube API)
 - Show album art (experimental)
 - SoundCloud search support
@@ -135,6 +136,7 @@ _TIP: You can see the keybinds inside Tuner by pressing `?`._
 
 There are a few commands you can type in the search bar:
 
+- `/discord` or `/dc`: Toggle option to show Tuner in Discord. 
 - `/cache` or `/c`: Toggle option to keep cache (default is false).
 - `/album` or `/a`: Toggle option to show album art (default is false).
 - `/mpris` or `/m`: Toggle option to load mpv-mpris (default is false).
