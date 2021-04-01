@@ -78,6 +78,11 @@ Install:
 
 ![Screenshot search](https://i.imgur.com/glnKkUH.png)
 
+**Tuner + Discord:**
+
+![Screenshot of Discord Rich Presence](https://i.imgur.com/8JISw0a.png)
+
+_Icon made by Becris from [FlatIcon](https://flaticon.com)_
 
 **Tuner + cava:**
 
