@@ -12,6 +12,7 @@ import (
 	"github.com/Pauloo27/tuner/commands"
 	"github.com/Pauloo27/tuner/display"
 	"github.com/Pauloo27/tuner/img"
+	"github.com/Pauloo27/tuner/integrations"
 	"github.com/Pauloo27/tuner/keybind"
 	"github.com/Pauloo27/tuner/mpris"
 	"github.com/Pauloo27/tuner/player"
@@ -148,6 +149,10 @@ func main() {
 
 	if player.State.Data.FetchAlbum {
 		img.StartDaemon()
+	}
+
+	if player.State.Data.ShowInDiscord {
+		integrations.ConnectToDiscord()
 	}
 
 	// load mpv-mpris

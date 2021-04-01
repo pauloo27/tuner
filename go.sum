@@ -1,5 +1,7 @@
 github.com/Pauloo27/keyboard v0.0.0-20201213171310-472d2a9ecf6c h1:K3vtWaSg9/WUYgxQHC0YmkbqZ+RQ3YKm2OqT7jc9t3Q=
 github.com/Pauloo27/keyboard v0.0.0-20201213171310-472d2a9ecf6c/go.mod h1:f/fpTvqPMAknHb2cgxTh4ITDyGTv4oNLv7wdB3vESdw=
+github.com/ananagame/rich-go v0.0.0-20210220192218-7960b995f880 h1:mU0hfQcHsPNLTkiWGpPTK+sInsTrRIOpf6t33tu82XE=
+github.com/ananagame/rich-go v0.0.0-20210220192218-7960b995f880/go.mod h1:U9YxCfeNzWcDUs4O8lQfUyz9txKHTojVykpQicaZhyU=
 github.com/anaskhan96/soup v1.2.4 h1:or+sKs9QbzJGZVTYFmTs2VBateEywoq00a6K14z331E=
 github.com/anaskhan96/soup v1.2.4/go.mod h1:6YnEp9A2yywlYdM4EgDz9NEHclocMepEtku7wg6Cq3s=
 github.com/buger/jsonparser v1.0.0 h1:etJTGF5ESxjI0Ic2UaLQs2LQQpa8G9ykQScukbh4L8A=
@@ -8,6 +10,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/godbus/dbus/v5 v5.0.3/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
 github.com/grafov/m3u8 v0.11.1 h1:igZ7EBIB2IAsPPazKwRKdbhxcoBKO3lO1UY57PZDeNA=
 github.com/grafov/m3u8 v0.11.1/go.mod h1:nqzOkfBiZJENr52zTVd/Dcl03yzphIMbJqkXGu+u080=
+github.com/hugolgst/rich-go v0.0.0-20210220192218-7960b995f880 h1:AvBpjRUB1kMxNRmTDaRfIyYwzVZSdgkPT8X82XCxVaU=
+github.com/hugolgst/rich-go v0.0.0-20210220192218-7960b995f880/go.mod h1:J5UWekI/HHIt5ID+GVPAW+M19kxXLTFnAdTGDl4mRF0=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

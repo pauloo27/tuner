@@ -52,9 +52,9 @@ func (pl *Playlist) SongAt(i int) *search.SearchResult {
 }
 
 type TunerData struct {
-	Version                                        string
-	Playlists                                      []*Playlist
-	Cache, FetchAlbum, LoadMPRIS, SearchSoundCloud bool
+	Version                                                       string
+	Playlists                                                     []*Playlist
+	Cache, FetchAlbum, LoadMPRIS, SearchSoundCloud, ShowInDiscord bool
 }
 
 func Load() *TunerData {

@@ -71,5 +71,16 @@ func SetupDefaultCommands() {
 		},
 	}
 
-	command.RegisterCommands(help, keepLiveCache, fetchAlbum, loadMPRIS, searchSoundCloud)
+	showInDiscord := command.Command{
+		Name:        "discord",
+		Description: "Toggle the option to show what's playing in Discord",
+		Aliases:     []string{"dc", "d"},
+		Handle: func(input string) string {
+			player.State.Data.ShowInDiscord = !player.State.Data.ShowInDiscord
+			storage.Save(player.State.Data)
+			return fmt.Sprintf("Show in Discord set to %v. Restart tuner.", player.State.Data.ShowInDiscord)
+		},
+	}
+
+	command.RegisterCommands(help, keepLiveCache, fetchAlbum, loadMPRIS, searchSoundCloud, showInDiscord)
 }
