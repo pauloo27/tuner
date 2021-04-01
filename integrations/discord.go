@@ -1,8 +1,6 @@
 package integrations
 
 import (
-	"os"
-
 	"github.com/Pauloo27/tuner/player"
 	"github.com/ananagame/rich-go/client"
 )
@@ -11,8 +9,8 @@ func setActivity(state, details string) {
 	err := client.SetActivity(client.Activity{
 		State:      state,
 		Details:    details,
-		LargeImage: "tune",
-		LargeText:  "Tune",
+		LargeImage: "music",
+		LargeText:  "Search and Play songs from YouTube inside your terminal",
 	})
 	if err != nil {
 		return
@@ -20,7 +18,7 @@ func setActivity(state, details string) {
 }
 
 func ConnectToDiscord() {
-	err := client.Login(os.Getenv("DISCORD_APP_ID"))
+	err := client.Login("827039629114867724")
 	if err != nil {
 		return
 	}
