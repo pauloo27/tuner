@@ -2,7 +2,7 @@ package lyric
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -26,7 +26,7 @@ func Fetch(path string) (lyric string, err error) {
 
 	defer res.Body.Close()
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 
 	if err != nil {
 		return
@@ -64,7 +64,7 @@ func SearchFor(query string) (string, error) {
 	}
 
 	defer res.Body.Close()
-	buffer, err := ioutil.ReadAll(res.Body)
+	buffer, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err
 	}
