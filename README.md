@@ -109,12 +109,13 @@ Tuner.
 
 ## MPRIS
 
-In version `v0.0.1`, Tuner used mpris to comunicate with MPV. In newer version
-Tuner uses libmpv instead. You can enable mpris by running the command `/mpris`.
-The script file should be placed at `~/.config/mpv/scripts/mpris.so`.
+To enable MPRIS, first install [mpv-mpris](https://github.com/hoyon/mpv-mpris)
+(it needs to be placed at `~/.config/mpv/scripts/mpris.so` or 
+`/etc/mpv/scripts/mpris.so`).
 
-If you installed the package `mpv-mpris-git` from the AUR, you need to copy the
-file `/usr/share/mpv/scripts/mpris.so` to `~/.config/mpv/scripts/mpris.so`.
+_if you are using Arch Linux and installed Tuner using the `go-tuner-git` AUR package, it's already installed._
+
+After that, use `/mpris` command and restart tuner.
 
 ## Keybinds
 
