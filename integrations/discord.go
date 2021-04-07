@@ -10,7 +10,7 @@ func setActivity(state, details string) {
 		State:      state,
 		Details:    details,
 		LargeImage: "music",
-		LargeText:  "Play songs from YouTube inside your terminal | github.com/Pauloo27/tuner",
+		LargeText:  "Play songs from YouTube inside your terminal",
 	})
 	if err != nil {
 		return
