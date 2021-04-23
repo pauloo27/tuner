@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/Pauloo27/keyboard"
@@ -27,7 +28,7 @@ var (
 	warning string
 )
 
-const VERSION = "0.0.2"
+const VERSION = "0.0.3-dev"
 
 func exit() {
 	utils.ClearScreen()
@@ -137,7 +138,42 @@ func promptEntry() {
 	play(results[index], nil)
 }
 
+func exitWithInvalidUsage() {
+	fmt.Println("Invalid mode. Valid modes are:")
+	for mode := range modes {
+		fmt.Println(mode)
+	}
+	os.Exit(-1)
+}
+
+func defaultMode() {
+	// loop
+	for {
+		promptEntry()
+	}
+}
+
+func playMode() {
+	query := strings.Join(os.Args[2:], " ")
+	results := search.Search(query, 1, search.YOUTUBE_SOURCE, search.SOUNDCLOUD_SOURCE)
+	play(results[0], nil)
+	exit()
+}
+
+var modes = map[string]func(){
+	"play":    playMode,
+	"default": defaultMode,
+}
+
 func main() {
+	var mode string
+
+	if len(os.Args) == 1 {
+		mode = "default"
+	} else {
+		mode = os.Args[1]
+	}
+
 	player.Initialize()
 
 	// 'lock' for the prompt
@@ -169,8 +205,9 @@ func main() {
 		exit()
 	})
 
-	// loop
-	for {
-		promptEntry()
+	modeHandler, ok := modes[mode]
+	if !ok {
+		exitWithInvalidUsage()
 	}
+	modeHandler()
 }
