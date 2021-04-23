@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -16,4 +17,10 @@ func OnSigTerm(callback SigCallback) {
 			callback(&sig)
 		}
 	}()
+}
+
+func Exit() {
+	ClearScreen()
+	fmt.Println("Bye!")
+	os.Exit(0)
 }
