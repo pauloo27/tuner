@@ -27,7 +27,9 @@ func exitWithInvalidUsage() {
 
 var modes = map[string]mode.Mode{
 	"play":        mode.PlayMode,
+	"p":           mode.PlayMode,
 	"simple-play": mode.SimplePlayMode,
+	"sp":          mode.SimplePlayMode,
 	"default":     mode.DefaultMode,
 }
 
