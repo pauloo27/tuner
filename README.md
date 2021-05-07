@@ -15,6 +15,7 @@ _If you want a GUI application with more features, take a look at
 - [Screenshots](#screenshots)
 - [Album Art (experimental)](#album-art-experimental)
 - [MPRIS](#mpris)
+- [Discord](#discord)
 - [Keybinds](#keybinds)
 - [Commands](#commands)
 - [Storage](#storage)
@@ -116,6 +117,10 @@ To enable MPRIS, first install [mpv-mpris](https://github.com/hoyon/mpv-mpris)
 _if you are using Arch Linux and installed Tuner using the `go-tuner-git` AUR package, it's already installed._
 
 After that, use `/mpris` command and restart tuner.
+
+## Discord
+
+To enable or disable the integration with Discord, type `/discord` in the search bar.
 
 ## Keybinds
 
