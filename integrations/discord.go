@@ -6,15 +6,12 @@ import (
 )
 
 func setActivity(state, details string) {
-	err := client.SetActivity(client.Activity{
+	client.SetActivity(client.Activity{
 		State:      state,
 		Details:    details,
 		LargeImage: "music",
 		LargeText:  "Play songs from YouTube inside your terminal",
 	})
-	if err != nil {
-		return
-	}
 }
 
 func ConnectToDiscord() {
