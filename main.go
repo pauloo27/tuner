@@ -20,7 +20,7 @@ const VERSION = "0.0.3-dev"
 func exitWithInvalidUsage() {
 	fmt.Println("Invalid mode. Valid modes are:")
 	for mode := range modes {
-		fmt.Println(mode)
+		fmt.Printf(" %s\n", mode)
 	}
 	os.Exit(-1)
 }

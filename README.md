@@ -10,6 +10,7 @@ _If you want a GUI application with more features, take a look at
 ## Table of Contents
 
 - [Features](#features)
+- [Usage](#usage)
 - [Installing](#installing)
 - [Compile](#compile)
 - [Screenshots](#screenshots)
@@ -31,6 +32,17 @@ _If you want a GUI application with more features, take a look at
 - SoundCloud search support
 - "I'm Feeling Lucky" (play the first result when `!` is used as a prefix for the
 search query)
+
+## Usage
+
+Using tuner is simple. Just install it and then run `tuner` inside your terminal.
+That will launch a interactive player. If that's not what you want, here are some
+alternative modes:
+
+- `tuner play <search term>` (or p): plays the first result found for the search term 
+(a terminal is required).
+- `tuner simple-play <search term>` (or sp): plays the first result found for the
+search term but without the visual player (does not require a terminal).
 
 ## Installing
 
