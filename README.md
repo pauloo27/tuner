@@ -66,8 +66,8 @@ Before running Tuner you need to install
 
 On Arch Linux, the dependencies packages are `mpv youtube-dl`
 
-On Debian based (Ubuuntu, PopOs, Linux Mint, etc), install `libmpv-dev` via APT
-and `youtube-dl` via PIP.
+On Debian based (Ubuntu, PopOs, Linux Mint, etc), install `libmpv-dev` via APT
+and `youtube-dl` via PIP (`sudo -H pip3 install --upgrade youtube-dl`).
 
 **Font Awesome 5 is also required to display the icons. You can also customize
 the icons in the `icons/icons.go` file.**
