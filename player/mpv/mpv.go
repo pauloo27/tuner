@@ -363,15 +363,6 @@ func (m *Mpv) GetSubApi(api SubApi) unsafe.Pointer {
 	return unsafe.Pointer(C.mpv_get_sub_api(m.handle, C.mpv_sub_api(api)))
 }
 
-func (m *Mpv) GetSubApiGL() *MpvGL {
-	mgl := &MpvGL{}
-	mgl.ctx = (*C.mpv_opengl_cb_context)(C.mpv_get_sub_api(m.handle, C.MPV_SUB_API_OPENGL_CB))
-	if mgl.ctx == nil {
-		return nil
-	}
-	return mgl
-}
-
 func data2Ptr(format Format, data interface{}) unsafe.Pointer {
 	var ptr unsafe.Pointer = nil
 	switch format {
