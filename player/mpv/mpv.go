@@ -2,7 +2,6 @@ package mpv
 
 /*
 #include <mpv/client.h>
-#include <mpv/opengl_cb.h>
 #include <stdlib.h>
 #cgo LDFLAGS: -lmpv
 
