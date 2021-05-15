@@ -1,5 +1,7 @@
 github.com/Pauloo27/keyboard v0.0.0-20201213171310-472d2a9ecf6c h1:K3vtWaSg9/WUYgxQHC0YmkbqZ+RQ3YKm2OqT7jc9t3Q=
 github.com/Pauloo27/keyboard v0.0.0-20201213171310-472d2a9ecf6c/go.mod h1:f/fpTvqPMAknHb2cgxTh4ITDyGTv4oNLv7wdB3vESdw=
+github.com/Pauloo27/keyboard v0.0.0-20210515010213-2640675c1598 h1:zSSE8VSzbh+hLDC6Eiz8wcKxBZudvYS5JuQohOn4cuU=
+github.com/Pauloo27/keyboard v0.0.0-20210515010213-2640675c1598/go.mod h1:f/fpTvqPMAknHb2cgxTh4ITDyGTv4oNLv7wdB3vESdw=
 github.com/ananagame/rich-go v0.0.0-20210220192218-7960b995f880 h1:mU0hfQcHsPNLTkiWGpPTK+sInsTrRIOpf6t33tu82XE=
 github.com/ananagame/rich-go v0.0.0-20210220192218-7960b995f880/go.mod h1:U9YxCfeNzWcDUs4O8lQfUyz9txKHTojVykpQicaZhyU=
 github.com/anaskhan96/soup v1.2.4 h1:or+sKs9QbzJGZVTYFmTs2VBateEywoq00a6K14z331E=
