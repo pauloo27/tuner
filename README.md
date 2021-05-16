@@ -46,12 +46,15 @@ search term but without the visual player (does not require a terminal).
 
 ## Installing
 
-Unless you are using Arch Linux, you need to compile tuner yourself. See 
-[Compile](#compile).
-
 ### Arch Linux
 
 Install from the AUR (`yay -S go-tuner-git`).
+
+### Debian (also Ubuntu, Linux Mint and PopOS)
+
+Use this install script:
+
+> $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/Pauloo27/tuner/master/install.sh)"
 
 ## Compile
 
