@@ -10,10 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `pack` rule to Makefile.
 - YouTube thumbnail as Album Art fallback.
+- AUR name in the README.
+- Terminal resize listener (used to improve album art feature).
+- Discord Rich Presence integration (`/discord` in the search bar).
+- `play` and `simple-play` modes.
+- GitHub action that compiles the code.
+- A install script for debian based distros.
 
 ### Changed
 - README screenshot.
 
+### Removed
+- `io.ReadAll` calls to keep Tuner compatible with older GoLang versions.
+- Unused libmpv files.
 
 ## [0.0.2] 2021-12-07
 
