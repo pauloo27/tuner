@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `io.ReadAll` calls to keep Tuner compatible with older GoLang versions.
 - Unused libmpv files.
 
-## [0.0.2] 2021-12-07
+## [0.0.2] 2021-02-07
 
 ### Added
 - SoundCloud search support.
