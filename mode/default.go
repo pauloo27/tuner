@@ -15,6 +15,7 @@ import (
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
+	"github.com/Pauloo27/tuner/version"
 )
 
 var (
@@ -36,6 +37,7 @@ func promptEntry() {
 	utils.ClearScreen()
 	utils.ShowCursor()
 
+	fmt.Printf("%sTuner %s\n", utils.ColorGreen, version.Current)
 	fmt.Printf("%sPlaylists:\n", utils.ColorBlue)
 	display.ListPlaylists()
 	fmt.Printf("%sUse #<id> to start a playlist%s\n", utils.ColorBlue, utils.ColorReset)

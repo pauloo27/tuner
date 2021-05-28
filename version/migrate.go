@@ -8,7 +8,10 @@ import (
 	"github.com/Pauloo27/tuner/storage"
 )
 
+var Current string
+
 func Migrate(currentVersion string) {
+	Current = currentVersion
 	if currentVersion != player.State.Data.Version {
 		switch strings.Split(currentVersion, "-")[0] {
 		case "0.0.2":
