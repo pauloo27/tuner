@@ -141,6 +141,11 @@ To enable or disable the integration with Discord, type `/discord` in the search
 
 ## Keybinds
 
+**If keybinds aren't working, try running Tuner with `TERM="xterm" tuner`.
+If it doesn't work, restart you terminal and open a issue on GitHub with 
+the output of `echo $TERM`. If it does work, you can also open the issue or set
+a alias.**
+
 _TIP: You can see the keybinds inside Tuner by pressing `?`._
 
 - Arrow Left: Seek 5 seconds back.
