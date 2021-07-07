@@ -29,7 +29,7 @@ func listenToResizes() {
 		x := width - size
 
 		img.SendCommand(
-			utils.Fmt(`{"action": "add", "x": %d, "y": 1, "width": %d, "height": %d, "path": "%s", "identifier": "album"}`,
+			utils.Fmt(`{"action": "add", "x": %d, "y": 2, "width": %d, "height": %d, "path": "%s", "identifier": "album"}`,
 				x, size, size, albumPath,
 			),
 		)
