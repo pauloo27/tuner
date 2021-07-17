@@ -1,0 +1,32 @@
+version: v0
+
+runs:
+  - name: Build Tuner
+    tasks:
+      - name: build
+        runtime:
+          type: pod
+          arch: amd64
+          containers:
+            - image: golang:1.16-stretch
+        steps:
+          - clone:
+          - restore_cache:
+              keys:
+                - pkg-cache-sum-{{ md5sum "go.sum" }}-{{ year }}-{{ month }}-{{ day }}
+              dest_dir: /go/pkg
+          - restore_cache:
+              keys:
+                - build-cache-sum-{{ md5sum "go.sum" }}-{{ year }}-{{ month }}-{{ day }}
+              dest_dir: ~/.cache/go-build
+          - run:
+              name: build tuner
+              command: make build 
+          - save_cache:
+              key: pkg-cache-sum-{{ md5sum "go.sum" }}-{{ year }}-{{ month }}-{{ day }}
+              contents:
+                - source_dir: /go/pkg
+          - save_cache:
+              key: build-cache-sum-{{ md5sum "go.sum" }}-{{ year }}-{{ month }}-{{ day }}
+              contents:
+                - source_dir: ~/.cache/go-build
