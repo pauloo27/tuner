@@ -20,6 +20,9 @@ runs:
                 - build-cache-sum-{{ md5sum "go.sum" }}-{{ year }}-{{ month }}-{{ day }}
               dest_dir: ~/.cache/go-build
           - run:
+              name: install libmpv
+              command: apt-get update && apt-get install -y libmpv-dev --no-install-recommends
+          - run:
               name: build tuner
               command: make build 
           - save_cache:
