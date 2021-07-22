@@ -1,5 +1,20 @@
 #!/bin/bash
 
+C_DEEPSKYBLUE3="\033[38;5;32m"
+NO_FORMAT="\033[0m"
+
+echo -e "Debian-based install script for
+$C_DEEPSKYBLUE3
+████████╗██╗   ██╗███╗   ██╗███████╗██████╗ 
+╚══██╔══╝██║   ██║████╗  ██║██╔════╝██╔══██╗
+   ██║   ██║   ██║██╔██╗ ██║█████╗  ██████╔╝
+   ██║   ██║   ██║██║╚██╗██║██╔══╝  ██╔══██╗
+   ██║   ╚██████╔╝██║ ╚████║███████╗██║  ██║
+   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+$NO_FORMAT
+"
+
+echo "Your system info:"
 cat /etc/os-release
 
 echo "Installing libmpv-dev, python, git, make, GoLang and the Icon Font"
@@ -18,4 +33,3 @@ make install
 echo "Deleting Tuner local folder"
 cd ..
 rm -rf tuner
-
