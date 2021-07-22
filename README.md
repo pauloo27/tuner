@@ -11,6 +11,7 @@ _If you want a GUI application with more features, take a look at
 
 - [Features](#features)
 - [Usage](#usage)
+- [Quick play with dmenu](#quick-play-with-dmenu)
 - [Installing](#installing)
 - [Compile](#compile)
 - [Screenshots](#screenshots)
@@ -35,14 +36,45 @@ search query)
 
 ## Usage
 
-Using tuner is simple. Just install it and then run `tuner` inside your terminal.
+Using Tuner is simple. Just install it and then run `tuner` inside your terminal.
 That will launch a interactive player. If that's not what you want, here are some
 alternative modes:
 
-- `tuner play <search term>` (or p): plays the first result found for the search term 
-(a terminal is required).
-- `tuner simple-play <search term>` (or sp): plays the first result found for the
-search term but without the visual player (does not require a terminal).
+- `tuner play <search term>` (or `tuner p`): plays the first result found for 
+the search term (a terminal is required).
+- `tuner simple-play <search term>` (or `tuner sp`): plays the first result 
+found for the search term but without the interactive player (does not require a 
+terminal).
+
+### Quick play with dmenu
+
+You can create a script in `/usr/bin/play` (or any other folder in your path)
+with the following content:
+```bash
+#!/bin/bash
+
+search_query="$@"
+
+# when the search query is not defined
+if [ -z "$1" ]; then
+  search_query=$(echo "stop" | dmenu -p "Play: ")
+fi
+
+# when the search query is stop
+if [ "$search_query" = "stop" ]; then
+  killall tuner -w 
+  exit 0
+fi
+
+# when the search query is ok to be played
+tuner sp "$search_query"
+```
+
+With that, you can use dmenu to quickly play songs, by:
+- Creating a bind to `play` (that will open a dmenu prompt asking for the search
+ query).
+- Running `play <song name>` (where `song name` is not required) in dmenu_run
+(usually `super+d`).
 
 ## Installing
 
