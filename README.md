@@ -1,6 +1,9 @@
 # TUNER
 
-Tuner search for YouTube videos to play in MPV.
+Tuner searches and plays songs from YouTube and SoundCloud inside your terminal.
+
+[![CI status](https://ci.notagovernment.agency/api/v1alpha/badges/850c4691-ec10-4eb3-8182-c8ea5ec404b8?branch=master)](https://ci.notagovernment.agency/user/Pauloo27/projects/Tuner.proj)
+
 
 _If you want a GUI application with more features, take a look at
 [Neptune](https://github.com/Pauloo27/neptune)._
