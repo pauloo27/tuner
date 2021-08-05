@@ -9,6 +9,9 @@ run: build
 install: build
 	sudo cp ./$(BINARY_NAME) /usr/bin/
 
+lint:
+	revive -formatter friendly -config revive.toml -exclude ./player/mpv ./... 
+
 tidy:
 	go mod tidy
 
