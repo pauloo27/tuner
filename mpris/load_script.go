@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	USER_HOME_PATHS = []string{"/.config/mpv/scripts/mpris.so"}
-	SYSTEM_PATHS    = []string{"/etc/mpv/scripts/mpris.so"}
+	UserHomePaths = []string{"/.config/mpv/scripts/mpris.so"}
+	SystemPaths   = []string{"/etc/mpv/scripts/mpris.so"}
 )
 
 func LoadScript() {
@@ -35,13 +35,13 @@ func LoadScript() {
 	}
 
 	home := utils.GetUserHome()
-	for _, path := range USER_HOME_PATHS {
+	for _, path := range UserHomePaths {
 		if loadScript(home + path) {
 			return
 		}
 	}
 
-	for _, path := range SYSTEM_PATHS {
+	for _, path := range SystemPaths {
 		if loadScript(path) {
 			return
 		}

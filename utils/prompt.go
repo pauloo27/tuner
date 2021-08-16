@@ -69,7 +69,7 @@ func AskFor(message string, validValues ...string) (string, error) {
 			return value, nil
 		}
 	}
-	return "", fmt.Errorf("Invalid response. Valid responses are %v.", validValues)
+	return "", fmt.Errorf("Invalid response. Valid responses are %v", validValues)
 }
 
 func AskForConfirmation(message string, yesByDefault bool) bool {
@@ -149,15 +149,15 @@ func PrintWithLoadIcon(message string, c chan bool, stepTime time.Duration, clea
 	go func() {
 		i := 0
 		for !done {
-			print("%s%s%s %s\n", ColorBlue, icons.LOADING[i], ColorReset, message)
+			print("%s%s%s %s\n", ColorBlue, icons.Loading[i], ColorReset, message)
 			i++
 
-			if i >= len(icons.LOADING) {
+			if i >= len(icons.Loading) {
 				i = 0
 			}
 			time.Sleep(stepTime)
 		}
-		print("%s%s%s %s\n", ColorGreen, icons.LOADED, ColorReset, message)
+		print("%s%s%s %s\n", ColorGreen, icons.Loaded, ColorReset, message)
 		c <- true
 	}()
 

@@ -91,10 +91,10 @@ func RegisterDefaultKeybinds() {
 		Handler: func() {
 			loop := player.State.Loop
 
-			if loop == player.LOOP_NONE {
+			if loop == player.StatusLoopNone {
 				player.LoopTrack()
 				return
-			} else if loop == player.LOOP_TRACK && player.State.IsPlaylist() {
+			} else if loop == player.StatusLoopTrack && player.State.IsPlaylist() {
 				player.LoopPlaylist()
 				return
 			}

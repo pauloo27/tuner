@@ -26,8 +26,8 @@ type TrackInfo struct {
 }
 
 const (
-	API_KEY  = "12dec50313f885d407cf8132697b8712"
-	ENDPOINT = "https://ws.audioscrobbler.com/2.0"
+	APIKEY   = "12dec50313f885d407cf8132697b8712"
+	EndPoint = "https://ws.audioscrobbler.com/2.0"
 )
 
 func FetchTrackInfo(artist, track string) (*TrackInfo, error) {
@@ -37,7 +37,7 @@ func FetchTrackInfo(artist, track string) (*TrackInfo, error) {
 
 	reqPath := utils.Fmt(
 		"%s/?method=track.getInfo&api_key=%s&artist=%s&track=%s&format=json",
-		ENDPOINT, API_KEY, artist, track,
+		EndPoint, APIKEY, artist, track,
 	)
 
 	res, err := http.Get(reqPath)

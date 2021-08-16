@@ -11,7 +11,7 @@ import (
 	"github.com/anaskhan96/soup"
 )
 
-var lyricUrlRe = regexp.MustCompile(`https:\/\/genius.com/[^/]+-lyrics`)
+var lyricURLRe = regexp.MustCompile(`https:\/\/genius.com/[^/]+-lyrics`)
 
 func Fetch(path string) (lyric string, err error) {
 	res, err := http.Get(path)
@@ -77,7 +77,7 @@ func SearchFor(query string) (string, error) {
 	for _, result := range doc.FindAll("a", "class", "result__url") {
 		r := fmt.Sprintf("https://%s", strings.TrimSpace(result.Text()))
 
-		if lyricUrlRe.MatchString(r) {
+		if lyricURLRe.MatchString(r) {
 			return r, nil
 		}
 	}

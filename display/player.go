@@ -45,16 +45,16 @@ func startPlayerHooks() {
 		if err == nil {
 			columns, _, err := term.GetSize(0)
 			utils.HandleError(err, "Cannot get term size")
-			barSize := float64(columns) * float64(len(icons.HORIZONTAL_BARS))
+			barSize := float64(columns) * float64(len(icons.HorizontalBars))
 			progress := int((barSize * position) / length)
-			fullBlocks := progress / len(icons.HORIZONTAL_BARS)
-			missing := progress % len(icons.HORIZONTAL_BARS)
+			fullBlocks := progress / len(icons.HorizontalBars)
+			missing := progress % len(icons.HorizontalBars)
 			fmt.Print(utils.ColorBlue)
 			for i := 0; i < fullBlocks; i++ {
-				fmt.Print(icons.HORIZONTAL_BARS[len(icons.HORIZONTAL_BARS)-1])
+				fmt.Print(icons.HorizontalBars[len(icons.HorizontalBars)-1])
 			}
 			if missing != 0 {
-				fmt.Print(icons.HORIZONTAL_BARS[missing-1])
+				fmt.Print(icons.HorizontalBars[missing-1])
 			}
 			fmt.Println(utils.ColorReset)
 		}
@@ -83,7 +83,7 @@ func startPlayerHooks() {
 		if player.State.IsPlaylist() {
 			shuffled := ""
 			if player.State.Playlist.IsShuffled() {
-				shuffled = icons.PLAYLIST_SHUFFLED
+				shuffled = icons.PlaylistShuffled
 			}
 			fmt.Printf("Playing: %s (%d/%d) %s\n",
 				player.State.Playlist.Name,
@@ -93,18 +93,18 @@ func startPlayerHooks() {
 			)
 		}
 
-		icon := icons.PLAYING
+		icon := icons.Playing
 
 		if player.State.Paused {
-			icon = icons.PAUSED
+			icon = icons.Paused
 		}
 
 		extra := " "
 		switch player.State.Loop {
-		case player.LOOP_TRACK:
-			extra += utils.ColorWhite + icons.LOOPED
-		case player.LOOP_PLAYLIST:
-			extra += utils.ColorBlue + icons.LOOPED
+		case player.StatusLoopTrack:
+			extra += utils.ColorWhite + icons.Looped
+		case player.StatusLoopPlaylist:
+			extra += utils.ColorBlue + icons.Looped
 		}
 
 		fmt.Printf(" %s %s %sfrom %s%s%s\n",
@@ -151,16 +151,16 @@ func startPlayerHooks() {
 		func(param ...interface{}) {
 			renderPlayer()
 		},
-		player.HOOK_PLAYBACK_PAUSED, player.HOOK_PLAYBACK_RESUMED,
-		player.HOOK_VOLUME_CHANGED, player.HOOK_GENERIC_UPDATE,
-		player.HOOK_LOOP_PLAYLIST_CHANGED, player.HOOK_LOOP_TRACK_CHANGED,
-		player.HOOK_FILE_LOAD_STARTED, player.HOOK_FILE_ENDED,
+		player.HookPlaybackPaused, player.HookPlaybackResumed,
+		player.HookVolumeChanged, player.HookGenericUpdate,
+		player.HookLoopPlaylistChanged, player.HookLoopTrackChanged,
+		player.HookFileLoadStarted, player.HookFileEnded,
 	)
 
 	// progress bar updater
 	player.RegisterHook(func(param ...interface{}) {
 		renderProgressBar()
-	}, player.HOOK_SEEK)
+	}, player.HookSeek)
 	go func() {
 		for {
 			if !player.State.Idle && !player.State.Paused {

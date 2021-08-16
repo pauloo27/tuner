@@ -13,9 +13,9 @@ type SongLyric struct {
 type LoopStatus int
 
 const (
-	LOOP_NONE = iota
-	LOOP_TRACK
-	LOOP_PLAYLIST
+	StatusLoopNone = iota
+	StatusLoopTrack
+	StatusLoopPlaylist
 )
 
 type PlayerState struct {

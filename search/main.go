@@ -12,8 +12,8 @@ type SearchSource interface {
 }
 
 var (
-	YOUTUBE_SOURCE    = YouTubeSource{}
-	SOUNDCLOUD_SOURCE = SoundCloudSource{}
+	SourceYouTube    = YouTubeSource{}
+	SourceSoundCloud = SoundCloudSource{}
 )
 
 func Search(query string, limit int, sources ...SearchSource) []*SearchResult {

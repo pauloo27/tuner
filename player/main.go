@@ -73,7 +73,7 @@ func Initialize() {
 		0.0,
 		false, false, false,
 		SongLyric{},
-		LOOP_NONE,
+		StatusLoopNone,
 		false,
 	}
 
@@ -83,7 +83,7 @@ func Initialize() {
 	err = MpvInstance.Initialize()
 	utils.HandleError(err, "Cannot initialize mpv")
 
-	callHooks(HOOK_PLAYER_INITIALIZED, err)
+	callHooks(HookPlayerInitialized, err)
 }
 
 func registerInternalHooks() {
@@ -94,7 +94,7 @@ func registerInternalHooks() {
 		duration, err := MpvInstance.GetProperty("duration", mpv.FORMAT_DOUBLE)
 		utils.HandleError(err, "Cannot get duration")
 		State.Duration = duration.(float64)
-	}, HOOK_FILE_LOADED)
+	}, HookFileLoaded)
 
 	RegisterHook(func(params ...interface{}) {
 		// remove lyric from state
@@ -111,40 +111,40 @@ func registerInternalHooks() {
 				newPos = 0
 			}
 			State.PlaylistIndex = newPos
-			callHooks(HOOK_PLAYLIST_SONG_CHANGED)
+			callHooks(HookPlaylistSongChanged)
 		}
-	}, HOOK_FILE_ENDED)
+	}, HookFileEnded)
 
 	RegisterHook(func(params ...interface{}) {
 		State.Volume = params[0].(float64)
-	}, HOOK_VOLUME_CHANGED)
+	}, HookVolumeChanged)
 
 	RegisterHook(func(params ...interface{}) {
-		if State.Loop == LOOP_NONE {
-			State.Loop = LOOP_TRACK
+		if State.Loop == StatusLoopNone {
+			State.Loop = StatusLoopTrack
 		} else {
-			State.Loop = LOOP_NONE
+			State.Loop = StatusLoopNone
 		}
-	}, HOOK_LOOP_TRACK_CHANGED)
+	}, HookLoopTrackChanged)
 
 	RegisterHook(func(params ...interface{}) {
-		if State.Loop == LOOP_NONE {
-			State.Loop = LOOP_PLAYLIST
+		if State.Loop == StatusLoopNone {
+			State.Loop = StatusLoopPlaylist
 		} else {
-			State.Loop = LOOP_NONE
+			State.Loop = StatusLoopNone
 		}
-	}, HOOK_LOOP_PLAYLIST_CHANGED)
+	}, HookLoopPlaylistChanged)
 
 	RegisterHook(func(param ...interface{}) {
 		State.Idle = true
 		if State.IsPlaylist() {
 			State.Playlist.Unshuffle()
 		}
-	}, HOOK_IDLE)
+	}, HookIdle)
 
 	RegisterHook(func(param ...interface{}) {
 		State.Idle = false
-	}, HOOK_FILE_LOAD_STARTED)
+	}, HookFileLoadStarted)
 }
 
 func ClearPlaylist() error {
@@ -168,12 +168,12 @@ func PlaylistPrevious() error {
 }
 
 func ForceUpdate() {
-	callHooks(HOOK_GENERIC_UPDATE)
+	callHooks(HookGenericUpdate)
 }
 
 func SaveToPlaylist() {
 	State.SavingToPlaylist = true
-	callHooks(HOOK_SAVING_TRACK_TO_PLAYLIST)
+	callHooks(HookSavingTrackToPlaylist)
 }
 
 func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) error {
@@ -201,29 +201,27 @@ func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) e
 			}
 		}
 		return nil
-	} else {
-		return LoadFile(result.URL)
 	}
+	return LoadFile(result.URL)
 }
 
 func LoadFile(filePath string) error {
 	err := MpvInstance.Command([]string{"loadfile", filePath})
-	callHooks(HOOK_FILE_LOAD_STARTED, err, filePath)
+	callHooks(HookFileLoadStarted, err, filePath)
 	return err
 }
 
 func AppendFile(filePath string) error {
 	err := MpvInstance.Command([]string{"loadfile", filePath, "append"})
-	callHooks(HOOK_FILE_LOAD_STARTED, err, filePath)
+	callHooks(HookFileLoadStarted, err, filePath)
 	return err
 }
 
 func PlayPause() error {
 	if State.Paused {
 		return Play()
-	} else {
-		return Pause()
 	}
+	return Pause()
 }
 
 func Seek(seconds int) error {

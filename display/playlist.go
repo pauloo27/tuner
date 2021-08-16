@@ -32,7 +32,7 @@ func ListPlaylists() {
 }
 
 func startPlaylistSaveHooks() {
-	player.RegisterHook(saveToPlaylist, player.HOOK_SAVING_TRACK_TO_PLAYLIST)
+	player.RegisterHook(saveToPlaylist, player.HookSavingTrackToPlaylist)
 }
 
 func saveToPlaylist(params ...interface{}) {

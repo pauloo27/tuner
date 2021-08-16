@@ -90,9 +90,9 @@ func promptEntry() {
 	c := make(chan bool)
 	go utils.PrintWithLoadIcon(utils.Fmt("Searching for %s", rawInput), c, 100*time.Millisecond, true)
 	// do search
-	sources := []search.SearchSource{search.YOUTUBE_SOURCE}
+	sources := []search.SearchSource{search.SourceYouTube}
 	if player.State.Data.SearchSoundCloud {
-		sources = append(sources, &search.SOUNDCLOUD_SOURCE)
+		sources = append(sources, &search.SourceSoundCloud)
 	}
 	results := search.Search(rawInput, searchLimit, sources...)
 
@@ -132,7 +132,7 @@ func defaultModeHandler() {
 		if playing != nil {
 			playing <- false
 		}
-	}, player.HOOK_IDLE)
+	}, player.HookIdle)
 
 	commands.SetupDefaultCommands()
 	// handle sigterm (Ctrl+C)

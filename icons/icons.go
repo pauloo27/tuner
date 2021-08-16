@@ -3,25 +3,25 @@ package icons
 // Player status
 const (
 	// Font Awesome 5
-	PAUSED            = ""
-	PLAYING           = ""
-	LOOPED            = ""
-	PLAYLIST_SHUFFLED = ""
+	Paused           = ""
+	Playing          = ""
+	Looped           = ""
+	PlaylistShuffled = ""
 )
 
 // Progress bar
 var (
 	//
-	HORIZONTAL_BARS = [8]string{"▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"}
+	HorizontalBars = [8]string{"▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"}
 )
 
 // Loading icons
 var (
 	// Braille symbols
-	LOADING = [8]string{"⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"}
+	Loading = [8]string{"⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"}
 )
 
 const (
 	// Braille symbol
-	LOADED = "⣿"
+	Loaded = "⣿"
 )

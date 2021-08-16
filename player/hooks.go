@@ -1,20 +1,20 @@
 package player
 
 const (
-	HOOK_PLAYER_INITIALIZED = iota
-	HOOK_FILE_LOAD_STARTED
-	HOOK_PLAYBACK_PAUSED
-	HOOK_PLAYBACK_RESUMED
-	HOOK_VOLUME_CHANGED
-	HOOK_FILE_LOADED
-	HOOK_FILE_ENDED
-	HOOK_GENERIC_UPDATE
-	HOOK_LOOP_TRACK_CHANGED
-	HOOK_PLAYLIST_SONG_CHANGED
-	HOOK_LOOP_PLAYLIST_CHANGED
-	HOOK_IDLE
-	HOOK_SAVING_TRACK_TO_PLAYLIST
-	HOOK_SEEK
+	HookPlayerInitialized = iota
+	HookFileLoadStarted
+	HookPlaybackPaused
+	HookPlaybackResumed
+	HookVolumeChanged
+	HookFileLoaded
+	HookFileEnded
+	HookGenericUpdate
+	HookLoopTrackChanged
+	HookPlaylistSongChanged
+	HookLoopPlaylistChanged
+	HookIdle
+	HookSavingTrackToPlaylist
+	HookSeek
 )
 
 type HookCallback func(params ...interface{})

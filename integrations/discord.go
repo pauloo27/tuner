@@ -24,9 +24,9 @@ func ConnectToDiscord() {
 
 	player.RegisterHook(func(param ...interface{}) {
 		setActivity("Home screen", "Idle")
-	}, player.HOOK_IDLE)
+	}, player.HookIdle)
 
 	player.RegisterHook(func(param ...interface{}) {
 		setActivity(player.State.GetPlaying().Title, "Playing")
-	}, player.HOOK_FILE_LOADED)
+	}, player.HookFileLoaded)
 }

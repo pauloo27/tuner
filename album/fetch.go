@@ -43,12 +43,12 @@ func RegisterHooks() {
 
 	player.RegisterHook(func(param ...interface{}) {
 		fetchAlbum()
-	}, player.HOOK_FILE_LOADED)
+	}, player.HookFileLoaded)
 
 	player.RegisterHook(func(param ...interface{}) {
 		albumPath = ""
 		img.SendCommand(`{"action": "remove", "identifier": "album"}`)
-	}, player.HOOK_FILE_ENDED)
+	}, player.HookFileEnded)
 
 	go listenToResizes()
 }

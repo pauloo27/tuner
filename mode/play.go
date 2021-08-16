@@ -19,10 +19,10 @@ func playModeHandler() {
 		if playing != nil {
 			playing <- false
 		}
-	}, player.HOOK_IDLE)
+	}, player.HookIdle)
 
 	query := strings.Join(os.Args[2:], " ")
-	results := search.Search(query, 1, search.YOUTUBE_SOURCE, search.SOUNDCLOUD_SOURCE)
+	results := search.Search(query, 1, search.SourceYouTube, search.SourceSoundCloud)
 	player.PlaySearchResult(results[0], nil)
 	go keybind.Listen()
 
