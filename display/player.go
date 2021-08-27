@@ -29,13 +29,14 @@ func startPlayerHooks() {
 			return
 		}
 
+		utils.HideCursor()
+
 		if result.Live {
 			return
 		}
 
 		utils.MoveCursorTo(1, 1)
 		utils.ClearLine()
-		utils.HideCursor()
 
 		length := player.State.Duration
 		position, err := player.GetPosition()
