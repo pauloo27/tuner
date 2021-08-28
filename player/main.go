@@ -20,13 +20,18 @@ var State *PlayerState
 func Initialize() {
 	var err error
 
-	initialVolume := 100.0
-
 	// create a mpv instance
 	MpvInstance = mpv.Create()
 
 	// load data
 	data := storage.Load()
+
+	// math.Min is used to avoid high volumes
+	initialVolume := math.Min(data.DefaultVolume, 100)
+	// if none is defined, 50% is used
+	if initialVolume == 0.0 {
+		initialVolume = 50
+	}
 
 	// set options
 	// disable video
