@@ -15,7 +15,7 @@ import (
 	"github.com/Pauloo27/tuner/version"
 )
 
-const VERSION = "0.0.3"
+const VERSION = "0.0.4-dev"
 
 func exitWithInvalidUsage() {
 	fmt.Println("Invalid mode. Valid modes are:")
