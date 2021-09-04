@@ -1,7 +1,7 @@
 BINARY_NAME = tuner
 
 build:
-	go build -v
+	go build -o $(BINARY_NAME) -v ./cmd
 
 run: build
 	./$(BINARY_NAME) 
@@ -17,7 +17,7 @@ tidy:
 
 # (build but with a smaller binary)
 dist:
-	go build -ldflags="-w -s" -gcflags=all=-l -v
+	go build -o $(BINARY_NAME) -ldflags="-w -s" -gcflags=all=-l -v
 
 # (even smaller binary)
 pack: dist
