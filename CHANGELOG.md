@@ -8,21 +8,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- `pack` rule to Makefile.
+- Default volume option.
+- Version in the start screen.
+- Make file rule `pack`.
 - YouTube thumbnail as Album Art fallback.
 - AUR name in the README.
 - Terminal resize listener (used to improve album art feature).
 - Discord Rich Presence integration (`/discord` in the search bar).
-- `play` and `simple-play` modes.
-- GitHub action that compiles the code.
+- Modes `play` and `simple-play`.
+- Simple CI integration.
 - A install script for debian based distros.
+- Revive (go linter).
 
 ### Changed
 - README screenshot.
+- Album art placement to second line.
 
 ### Removed
 - `io.ReadAll` calls to keep Tuner compatible with older GoLang versions.
 - Unused libmpv files.
+
+### Fixed
+- Cursor not hidding while playing a live.
 
 ## [0.0.2] 2021-02-07
 
