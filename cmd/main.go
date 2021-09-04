@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"github.com/Pauloo27/tuner/ui"
+
+	// import all pages
+	_ "github.com/Pauloo27/tuner/ui/pages/home"
+)
 
 func main() {
-	fmt.Println("Hello =)")
+	err := ui.StartApp("home")
+	if err != nil {
+		panic(err)
+	}
 }
