@@ -15,6 +15,9 @@ lint:
 tidy:
 	go mod tidy
 
+dev:
+	fiber dev -t ./cmd
+
 # (build but with a smaller binary)
 dist:
 	go build -o $(BINARY_NAME) -ldflags="-w -s" -gcflags=all=-l -v
