@@ -7,6 +7,16 @@ import (
 
 var (
 	defaultTheme = &tview.Theme{
-		PrimitiveBackgroundColor: tcell.ColorDefault,
+		PrimitiveBackgroundColor:    tcell.ColorDefault,
+		ContrastBackgroundColor:     tcell.ColorBlue,
+		MoreContrastBackgroundColor: tcell.ColorGreen,
+		BorderColor:                 tcell.ColorWhite,
+		TitleColor:                  tcell.ColorWhite,
+		GraphicsColor:               tcell.ColorWhite,
+		PrimaryTextColor:            tcell.ColorWhite,
+		SecondaryTextColor:          tcell.ColorYellow,
+		TertiaryTextColor:           tcell.ColorGreen,
+		InverseTextColor:            tcell.ColorBlue,
+		ContrastSecondaryTextColor:  tcell.ColorDarkCyan,
 	}
 )
