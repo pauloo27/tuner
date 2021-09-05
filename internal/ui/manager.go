@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"github.com/Pauloo27/tuner/internal/utils"
 	"github.com/rivo/tview"
 )
 
@@ -30,10 +31,17 @@ func StartApp(defaultPageName string) error {
 	return app.SetRoot(pages, true).Run()
 }
 
+func SetFocus(component tview.Primitive) {
+	app.SetFocus(component)
+}
+
 func SwitchPage(pageName string) {
 	page, found := pageMap[pageName]
 	pages.SwitchToPage(pageName)
-	if found && page.OnStart != nil {
+	if !found {
+		panic(utils.Fmt("Page %s not found", pageName))
+	}
+	if page.OnStart != nil {
 		page.OnStart()
 	}
 }

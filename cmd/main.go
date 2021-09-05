@@ -5,6 +5,7 @@ import (
 
 	// import all pages
 	_ "github.com/Pauloo27/tuner/internal/ui/pages/home"
+	_ "github.com/Pauloo27/tuner/internal/ui/pages/searching"
 )
 
 func main() {
