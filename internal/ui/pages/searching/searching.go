@@ -1,6 +1,9 @@
 package searching
 
 import (
+	"strconv"
+
+	"github.com/Pauloo27/tuner/internal/providers/search"
 	"github.com/Pauloo27/tuner/internal/ui"
 	"github.com/Pauloo27/tuner/internal/utils"
 	"github.com/gdamore/tcell/v2"
@@ -16,14 +19,42 @@ func init() {
 	label := tview.NewTextView()
 	label.SetTextAlign(tview.AlignCenter)
 
+	resultList := tview.NewList()
+	resultList.SetSelectedBackgroundColor(tcell.ColorBlack)
+
 	container.AddItem(label, 0, 0, 1, 1, 0, 0, false)
-	//container.AddItem(searchInput, 1, 0, 1, 1, 0, 0, true)
+	container.AddItem(resultList, 1, 0, 1, 1, 0, 0, true)
 
 	ui.RegisterPage(&ui.Page{
 		Name: "searching", Container: container,
 		OnStart: func(params ...interface{}) {
-			searchQuery := params[0]
-			label.SetText(utils.Fmt("Results for %s", searchQuery))
+			searchQuery := params[0].(string)
+			resultList.Clear()
+			label.SetText(utils.Fmt("Searching for %s...", searchQuery))
+			go func() {
+				results, err := search.SearchInAll(searchQuery)
+				ui.App.QueueUpdateDraw(func() {
+					if err != nil {
+						label.SetText("Something went wrong =(")
+					}
+					label.SetText(utils.Fmt("Results for %s:", searchQuery))
+					for i, result := range results {
+						// limit results to 10
+						if i == 10 {
+							break
+						}
+						shortcut := strconv.Itoa(i + 1)
+						details := utils.Fmt("By [white]%s [green] - [white]%s[green]", result.Artist, result.Length)
+						// TODO: escape colors?
+						resultList.AddItem(
+							result.Title, details, rune(shortcut[len(shortcut)-1]), nil,
+						)
+					}
+					resultList.AddItem("Cancel", "Press c to cancel", 'c', func() {
+						ui.SwitchPage("home")
+					})
+				})
+			}()
 		},
 	})
 }
