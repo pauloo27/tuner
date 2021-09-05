@@ -35,13 +35,13 @@ func SetFocus(component tview.Primitive) {
 	app.SetFocus(component)
 }
 
-func SwitchPage(pageName string) {
+func SwitchPage(pageName string, params ...interface{}) {
 	page, found := pageMap[pageName]
 	pages.SwitchToPage(pageName)
 	if !found {
 		panic(utils.Fmt("Page %s not found", pageName))
 	}
 	if page.OnStart != nil {
-		page.OnStart()
+		page.OnStart(params...)
 	}
 }
