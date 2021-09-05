@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/Pauloo27/tuner/ui"
+	"github.com/Pauloo27/tuner/internal/ui"
 
 	// import all pages
-	_ "github.com/Pauloo27/tuner/ui/pages/home"
+	_ "github.com/Pauloo27/tuner/internal/ui/pages/home"
 )
 
 func main() {

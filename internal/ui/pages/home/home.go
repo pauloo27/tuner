@@ -1,9 +1,9 @@
 package pages
 
 import (
-	"github.com/Pauloo27/tuner/ui"
-	"github.com/Pauloo27/tuner/utils"
-	"github.com/Pauloo27/tuner/version"
+	"github.com/Pauloo27/tuner/internal/ui"
+	"github.com/Pauloo27/tuner/internal/utils"
+	"github.com/Pauloo27/tuner/internal/version"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
