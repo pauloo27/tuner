@@ -3,6 +3,9 @@ BINARY_NAME = tuner
 build:
 	go build -o $(BINARY_NAME) -v ./cmd
 
+test:
+	go test -cover -parallel 5 -failfast  ./...
+
 run: build
 	./$(BINARY_NAME) 
 
@@ -17,6 +20,7 @@ tidy:
 
 dev:
 	fiber dev -t ./cmd
+
 
 # (build but with a smaller binary)
 dist:
