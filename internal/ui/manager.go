@@ -5,8 +5,9 @@ import (
 )
 
 var (
-	app   *tview.Application
-	pages = tview.NewPages()
+	app     *tview.Application
+	pages   = tview.NewPages()
+	pageMap = make(map[string]*Page)
 )
 
 func init() {
@@ -18,12 +19,21 @@ func GetTheme() *tview.Theme {
 	return defaultTheme
 }
 
-func RegisterPage(name string, page tview.Primitive) {
-	pages.AddPage(name, page, true, false)
+func RegisterPage(page *Page) {
+	pageMap[page.Name] = page
+	pages.AddPage(page.Name, page.Container, true, false)
 }
 
-func StartApp(page string) error {
+func StartApp(defaultPageName string) error {
 	app = tview.NewApplication()
-	pages.SwitchToPage(page)
+	SwitchPage(defaultPageName)
 	return app.SetRoot(pages, true).Run()
+}
+
+func SwitchPage(pageName string) {
+	page, found := pageMap[pageName]
+	pages.SwitchToPage(pageName)
+	if found && page.OnStart != nil {
+		page.OnStart()
+	}
 }
