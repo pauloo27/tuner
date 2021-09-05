@@ -9,6 +9,10 @@ var (
 	pages = tview.NewPages()
 )
 
+func init() {
+	tview.Styles = *GetTheme()
+}
+
 func GetTheme() *tview.Theme {
 	// TODO: handle "theming"?
 	return defaultTheme
@@ -19,7 +23,6 @@ func RegisterPage(name string, page tview.Primitive) {
 }
 
 func StartApp(page string) error {
-	pages.SetBackgroundColor(GetTheme().PrimitiveBackgroundColor)
 	app = tview.NewApplication()
 	pages.SwitchToPage(page)
 	return app.SetRoot(pages, true).Run()
