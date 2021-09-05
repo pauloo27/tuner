@@ -4,7 +4,6 @@ import (
 	"github.com/Pauloo27/tuner/internal/ui"
 	"github.com/Pauloo27/tuner/internal/utils"
 	"github.com/Pauloo27/tuner/internal/version"
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -16,7 +15,6 @@ func init() {
 	label := tview.NewTextView()
 	label.SetText(utils.Fmt("[black:green]Tuner - %s", version.Current))
 	label.SetTextAlign(tview.AlignCenter).SetDynamicColors(true)
-	label.SetTextColor(tcell.ColorDefault)
 
 	searchInput := tview.NewInputField()
 	searchInput.SetFieldBackgroundColor(ui.GetTheme().PrimitiveBackgroundColor)
