@@ -27,5 +27,10 @@ func init() {
 	container.AddItem(label, 0, 0, 1, 1, 0, 0, false)
 	container.AddItem(searchInput, 1, 0, 1, 1, 0, 0, true)
 
-	ui.RegisterPage(&ui.Page{Name: "home", Container: container})
+	ui.RegisterPage(&ui.Page{
+		Name: "home", Container: container,
+		OnStart: func(...interface{}) {
+			searchInput.SetText("")
+		},
+	})
 }
