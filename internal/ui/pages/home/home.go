@@ -21,7 +21,7 @@ func init() {
 	searchInput.SetFieldBackgroundColor(ui.GetTheme().PrimitiveBackgroundColor)
 	searchInput.SetLabel("[green]Search for: ")
 	searchInput.SetDoneFunc(func(tcell.Key) {
-		ui.SwitchPage("searching")
+		ui.SwitchPage("searching", searchInput.GetText())
 	})
 
 	container.AddItem(label, 0, 0, 1, 1, 0, 0, false)
