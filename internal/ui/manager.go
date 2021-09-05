@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	app     *tview.Application
+	App     *tview.Application
 	pages   = tview.NewPages()
 	pageMap = make(map[string]*Page)
 )
@@ -26,13 +26,13 @@ func RegisterPage(page *Page) {
 }
 
 func StartApp(defaultPageName string) error {
-	app = tview.NewApplication()
+	App = tview.NewApplication()
 	SwitchPage(defaultPageName)
-	return app.SetRoot(pages, true).Run()
+	return App.SetRoot(pages, true).Run()
 }
 
 func SetFocus(component tview.Primitive) {
-	app.SetFocus(component)
+	App.SetFocus(component)
 }
 
 func SwitchPage(pageName string, params ...interface{}) {
