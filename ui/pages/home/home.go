@@ -2,7 +2,9 @@ package pages
 
 import (
 	"github.com/Pauloo27/tuner/ui"
+	"github.com/Pauloo27/tuner/utils"
 	"github.com/Pauloo27/tuner/version"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -12,12 +14,13 @@ func init() {
 	container.SetRows(1, 0)
 
 	label := tview.NewTextView()
-	label.SetText("Tuner - " + version.Current)
-	label.SetTextAlign(tview.AlignCenter)
+	label.SetText(utils.Fmt("[black:green]Tuner - %s", version.Current))
+	label.SetTextAlign(tview.AlignCenter).SetDynamicColors(true)
+	label.SetTextColor(tcell.ColorDefault)
 
 	searchInput := tview.NewInputField()
 	searchInput.SetFieldBackgroundColor(ui.GetTheme().PrimitiveBackgroundColor)
-	searchInput.SetLabel("Search for: ")
+	searchInput.SetLabel("[green]Search for: ")
 
 	container.AddItem(label, 0, 0, 1, 1, 0, 0, false)
 	container.AddItem(searchInput, 1, 0, 1, 1, 0, 0, true)
