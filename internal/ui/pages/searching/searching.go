@@ -20,7 +20,17 @@ func init() {
 	label.SetTextAlign(tview.AlignCenter)
 
 	resultList := tview.NewList()
-	resultList.SetSelectedBackgroundColor(tcell.ColorBlack)
+	resultList.SetSelectedBackgroundColor(tcell.ColorGreen)
+	resultList.SetSelectedTextColor(tcell.ColorBlack)
+	resultList.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Rune() {
+		case 'k':
+			resultList.SetCurrentItem(resultList.GetCurrentItem() - 1)
+		case 'j':
+			resultList.SetCurrentItem(resultList.GetCurrentItem() + 1)
+		}
+		return event
+	})
 
 	container.AddItem(label, 0, 0, 1, 1, 0, 0, false)
 	container.AddItem(resultList, 1, 0, 1, 1, 0, 0, true)
