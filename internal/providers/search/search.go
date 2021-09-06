@@ -6,6 +6,7 @@ type SearchResult struct {
 	Artist, Title string
 	IsLive        bool
 	Length        time.Duration
+	URL           string
 }
 
 type SearchProvider interface {

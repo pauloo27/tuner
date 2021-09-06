@@ -9,7 +9,7 @@ import (
 type YouTubeSearch struct {
 }
 
-var _ SearchProvider = &YouTubeSearch{}
+var _ SearchProvider = YouTubeSearch{}
 
 func (YouTubeSearch) GetName() (name string) {
 	return "YouTube"

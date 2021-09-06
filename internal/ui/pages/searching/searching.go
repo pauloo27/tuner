@@ -57,7 +57,9 @@ func init() {
 						details := utils.Fmt("By [white]%s [green] - [white]%s[green]", result.Artist, result.Length)
 						// TODO: escape colors?
 						resultList.AddItem(
-							result.Title, details, rune(shortcut[len(shortcut)-1]), nil,
+							result.Title, details, rune(shortcut[len(shortcut)-1]), func() {
+								ui.SwitchPage("player", result.URL)
+							},
 						)
 					}
 					resultList.AddItem("Cancel", "Press c to cancel", 'c', func() {
