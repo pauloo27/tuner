@@ -36,6 +36,7 @@ func (YouTubeSearch) SearchFor(searchQuery string) ([]*SearchResult, error) {
 		results = append(results, &SearchResult{
 			Artist: result.Uploader,
 			Title:  result.Title,
+			URL:    result.URL,
 			IsLive: result.Live,
 			Length: duration,
 		})

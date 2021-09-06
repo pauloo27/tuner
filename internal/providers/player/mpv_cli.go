@@ -1,5 +1,7 @@
 package player
 
+import "os/exec"
+
 type MPVProvider struct {
 }
 
@@ -14,5 +16,6 @@ func (MPVProvider) GetName() string {
 }
 
 func (MPVProvider) Play(url string) error {
-	return nil
+	cmd := exec.Command("mpv", url)
+	return cmd.Run()
 }

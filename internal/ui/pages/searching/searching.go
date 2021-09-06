@@ -31,10 +31,13 @@ func onStart(params ...interface{}) {
 				}
 				shortcut := strconv.Itoa(i + 1)
 				details := utils.Fmt("By [white]%s [green] - [white]%s[green]", result.Artist, result.Length)
+
+				currentResult := result
+
 				// TODO: escape colors?
 				resultList.AddItem(
 					result.Title, details, rune(shortcut[len(shortcut)-1]), func() {
-						ui.SwitchPage("player", result.URL)
+						ui.SwitchPage("playing", currentResult)
 					},
 				)
 			}
