@@ -1,5 +1,7 @@
 github.com/Pauloo27/searchtube v0.0.0-20210823022836-6ccb67997fcd h1:VXUuHgRU6QxbrabxRc8VeePcLH+zrwfzjWcyNwqE2HI=
 github.com/Pauloo27/searchtube v0.0.0-20210823022836-6ccb67997fcd/go.mod h1:o2/xbhp9ttLLIYpQcf8oApG1h4/qr90zusSvvnRV5VQ=
+github.com/Pauloo27/searchtube v0.0.0-20210906000314-0027cd6044df h1:43+CvjKAxXuBzVxGdydWCzaLrfCEOfVq7JrK0yo564A=
+github.com/Pauloo27/searchtube v0.0.0-20210906000314-0027cd6044df/go.mod h1:o2/xbhp9ttLLIYpQcf8oApG1h4/qr90zusSvvnRV5VQ=
 github.com/buger/jsonparser v1.1.1 h1:2PnMjfWD7wBILjqQbt530v576A/cAbQvEW9gGIpYMUs=
 github.com/buger/jsonparser v1.1.1/go.mod h1:6RYKKt7H4d4+iWqouImQ9R2FZql3VbhNgx27UK13J/0=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
