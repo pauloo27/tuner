@@ -26,12 +26,18 @@ func (YouTubeSearch) SearchFor(searchQuery string) ([]*SearchResult, error) {
 	}
 	var results []*SearchResult
 	for _, result := range youtubeResults {
+		var duration time.Duration
+		if !result.Live {
+			duration, err = result.GetDuration()
+			if err != nil {
+				return nil, err
+			}
+		}
 		results = append(results, &SearchResult{
 			Artist: result.Uploader,
 			Title:  result.Title,
 			IsLive: result.Live,
-			// TODO:
-			Length: time.Duration(0),
+			Length: duration,
 		})
 	}
 	return results, nil
