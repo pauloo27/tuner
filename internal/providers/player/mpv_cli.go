@@ -15,6 +15,7 @@ func (MPVProvider) GetName() string {
 	return "MPV CLI"
 }
 
+/* #nosec G204 */
 func (MPVProvider) Play(url string) error {
 	cmd := exec.Command("mpv", url)
 	return cmd.Run()

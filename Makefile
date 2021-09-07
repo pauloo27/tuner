@@ -13,14 +13,24 @@ install: build
 	sudo cp ./$(BINARY_NAME) /usr/bin/
 
 lint:
-	revive -formatter friendly -config revive.toml -exclude ./player/mpv ./... 
+	revive -formatter friendly -config revive.toml ./... 
+
+spell:
+	misspell -error ./**
+
+staticcheck:
+	staticcheck ./...
+
+gosec:
+	gosec -tests ./... 
+
+inspect: lint spell gosec staticcheck
 
 tidy:
 	go mod tidy
 
 dev:
 	fiber dev -t ./cmd
-
 
 # (build but with a smaller binary)
 dist:
