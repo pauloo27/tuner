@@ -1,5 +1,5 @@
-github.com/Pauloo27/searchtube v0.0.0-20210823022836-6ccb67997fcd h1:VXUuHgRU6QxbrabxRc8VeePcLH+zrwfzjWcyNwqE2HI=
-github.com/Pauloo27/searchtube v0.0.0-20210823022836-6ccb67997fcd/go.mod h1:o2/xbhp9ttLLIYpQcf8oApG1h4/qr90zusSvvnRV5VQ=
+github.com/Pauloo27/logger v0.0.0-20210823022929-53bcdd44d1e5 h1:gnTEtBTKu/RAUNfEpgKX3uqkp+5ETy9EWKB7ti4PIZU=
+github.com/Pauloo27/logger v0.0.0-20210823022929-53bcdd44d1e5/go.mod h1:pr6tiuqHGzDinqApqqLO7CjzoUXkTM/yq1Pj78Z089Q=
 github.com/Pauloo27/searchtube v0.0.0-20210906000314-0027cd6044df h1:43+CvjKAxXuBzVxGdydWCzaLrfCEOfVq7JrK0yo564A=
 github.com/Pauloo27/searchtube v0.0.0-20210906000314-0027cd6044df/go.mod h1:o2/xbhp9ttLLIYpQcf8oApG1h4/qr90zusSvvnRV5VQ=
 github.com/buger/jsonparser v1.1.1 h1:2PnMjfWD7wBILjqQbt530v576A/cAbQvEW9gGIpYMUs=
