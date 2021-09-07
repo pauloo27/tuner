@@ -67,7 +67,11 @@ func init() {
 		case 'k':
 			resultList.SetCurrentItem(resultList.GetCurrentItem() - 1)
 		case 'j':
-			resultList.SetCurrentItem(resultList.GetCurrentItem() + 1)
+			item := resultList.GetCurrentItem() + 1
+			if item >= resultList.GetItemCount() {
+				item = 0
+			}
+			resultList.SetCurrentItem(item)
 		}
 		return event
 	})
