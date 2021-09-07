@@ -7,8 +7,9 @@ import (
 	_ "github.com/Pauloo27/tuner/internal/ui/pages/home"
 	_ "github.com/Pauloo27/tuner/internal/ui/pages/playing"
 	_ "github.com/Pauloo27/tuner/internal/ui/pages/searching"
-	// import providers
-	_ "github.com/Pauloo27/tuner/internal/providers/player"
+
+	// import libmpv provider
+	_ "github.com/Pauloo27/tuner/internal/providers/player/mpv"
 )
 
 func main() {

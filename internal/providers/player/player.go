@@ -6,9 +6,8 @@ type PlayerProvider interface {
 	Play(url string) error
 }
 
-// TODO: what should it be?
-var playerProvider PlayerProvider
+var DefaultProvider PlayerProvider
 
 func Play(url string) error {
-	return playerProvider.Play(url)
+	return DefaultProvider.Play(url)
 }
