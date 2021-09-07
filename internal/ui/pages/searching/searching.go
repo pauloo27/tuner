@@ -59,6 +59,7 @@ func init() {
 
 	resultList = tview.NewList()
 	resultList.SetSelectedBackgroundColor(tcell.ColorBlack)
+	resultList.SetShortcutColor(tcell.ColorWhite)
 	resultList.ShowSecondaryText(false)
 
 	// vim-like keybinds (k and j navigation)
