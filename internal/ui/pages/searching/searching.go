@@ -30,13 +30,13 @@ func onStart(params ...interface{}) {
 					break
 				}
 				shortcut := strconv.Itoa(i + 1)
-				details := utils.Fmt("By [white]%s [green] - [white]%s[green]", result.Artist, result.Length)
+				details := utils.Fmt("[green]%s [white]from [green]%s [white]- %s", result.Title, result.Artist, result.Length)
 
 				currentResult := result
 
 				// TODO: escape colors?
 				resultList.AddItem(
-					result.Title, details, rune(shortcut[len(shortcut)-1]), func() {
+					details, "", rune(shortcut[len(shortcut)-1]), func() {
 						ui.SwitchPage("playing", currentResult)
 					},
 				)
@@ -52,14 +52,14 @@ func init() {
 	container := tview.NewGrid()
 	container.SetColumns(0)
 	container.SetRows(1, 0)
-	container.SetBackgroundColor(tcell.ColorDefault)
 
 	label = tview.NewTextView()
 	label.SetTextAlign(tview.AlignCenter)
 
 	resultList = tview.NewList()
-	resultList.SetSelectedBackgroundColor(tcell.ColorGreen)
-	resultList.SetSelectedTextColor(tcell.ColorBlack)
+	resultList.SetSelectedBackgroundColor(tcell.ColorBlack)
+	resultList.ShowSecondaryText(false)
+
 	// vim-like keybinds (k and j navigation)
 	resultList.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Rune() {

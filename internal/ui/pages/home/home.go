@@ -14,12 +14,12 @@ func init() {
 	container.SetRows(1, 0)
 
 	label := tview.NewTextView()
-	label.SetText(utils.Fmt("[black:green]Tuner - %s", version.Current))
+	label.SetText(utils.Fmt("[green:black]Tuner - %s", version.Current))
 	label.SetTextAlign(tview.AlignCenter).SetDynamicColors(true)
 
 	searchInput := tview.NewInputField()
 	searchInput.SetFieldBackgroundColor(ui.GetTheme().PrimitiveBackgroundColor)
-	searchInput.SetLabel("[green]Search for: ")
+	searchInput.SetLabel("[blue]Search for: ")
 	searchInput.SetDoneFunc(func(tcell.Key) {
 		ui.SwitchPage("searching", searchInput.GetText())
 	})
