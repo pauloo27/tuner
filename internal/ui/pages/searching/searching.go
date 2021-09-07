@@ -30,11 +30,12 @@ func onStart(params ...interface{}) {
 					break
 				}
 				shortcut := strconv.Itoa(i + 1)
-				details := utils.Fmt("[green]%s [white]from [green]%s [white]- %s", result.Title, result.Artist, result.Length)
+				details := utils.FmtEscaping(
+					"[green]%s [white]from [green]%s [white]- %s", result.Title, result.Artist, result.Length,
+				)
 
 				currentResult := result
 
-				// TODO: escape colors?
 				resultList.AddItem(
 					details, "", rune(shortcut[len(shortcut)-1]), func() {
 						ui.SwitchPage("playing", currentResult)
