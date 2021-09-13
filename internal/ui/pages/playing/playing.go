@@ -2,7 +2,7 @@ package playing
 
 import (
 	"github.com/Pauloo27/tuner/internal/providers/player"
-	"github.com/Pauloo27/tuner/internal/providers/search"
+	"github.com/Pauloo27/tuner/internal/providers/source"
 	"github.com/Pauloo27/tuner/internal/ui"
 	"github.com/Pauloo27/tuner/internal/utils"
 	"github.com/gdamore/tcell/v2"
@@ -12,7 +12,7 @@ import (
 var label *tview.TextView
 
 func onStart(params ...interface{}) {
-	result := params[0].(*search.SearchResult)
+	result := params[0].(*source.SearchResult)
 	label.SetText(utils.Fmt("%s - %s", result.Artist, result.Title))
 	go func() {
 		err := player.Play(result)

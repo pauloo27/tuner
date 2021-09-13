@@ -3,7 +3,7 @@ package searching
 import (
 	"strconv"
 
-	"github.com/Pauloo27/tuner/internal/providers/search"
+	"github.com/Pauloo27/tuner/internal/providers/source"
 	"github.com/Pauloo27/tuner/internal/ui"
 	"github.com/Pauloo27/tuner/internal/utils"
 	"github.com/gdamore/tcell/v2"
@@ -18,7 +18,7 @@ func onStart(params ...interface{}) {
 	resultList.Clear()
 	label.SetText(utils.Fmt("Searching for %s...", searchQuery))
 	go func() {
-		results, err := search.SearchInAll(searchQuery)
+		results, err := source.SearchInAll(searchQuery)
 		ui.App.QueueUpdateDraw(func() {
 			if err != nil {
 				label.SetText("Something went wrong =(")
