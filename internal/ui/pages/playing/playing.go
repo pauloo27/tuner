@@ -15,7 +15,7 @@ func onStart(params ...interface{}) {
 	result := params[0].(*search.SearchResult)
 	label.SetText(utils.Fmt("%s - %s", result.Artist, result.Title))
 	go func() {
-		err := player.Play(result.URL)
+		err := player.Play(result)
 		if err != nil {
 			ui.App.QueueUpdateDraw(func() {
 				label.SetText("Something went wrong...")

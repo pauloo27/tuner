@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/Pauloo27/tuner/internal/providers/player"
+	"github.com/Pauloo27/tuner/internal/providers/search"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
 )
@@ -22,7 +23,8 @@ func (NativeProvider) GetName() string {
 	return "Native"
 }
 
-func (NativeProvider) Play(url string) error {
+func (NativeProvider) Play(result *search.SearchResult) error {
+	// TODO: get the link to the oppus file
 	f, err := os.Open("test.mp3")
 	if err != nil {
 		return err
