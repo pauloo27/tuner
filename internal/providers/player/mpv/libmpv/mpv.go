@@ -307,8 +307,7 @@ func (m *Mpv) RequestLogMessages(minLevel string) error {
 }
 
 func (m *Mpv) WaitEvent(timeout float32) *Event {
-	var cevent *C.mpv_event
-	cevent = C.mpv_wait_event(m.handle, C.double(timeout))
+	cevent := C.mpv_wait_event(m.handle, C.double(timeout))
 	if cevent == nil {
 		return nil
 	}

@@ -80,50 +80,42 @@ func GetValue(node *C.mpv_node) (interface{}, error) {
 	switch format {
 	case FORMAT_STRING:
 		{
-			var ret *C.char
-			ret = (*C.char)((unsafe.Pointer)(uintptr(ptr)))
+			ret := (*C.char)((unsafe.Pointer)(uintptr(ptr)))
 			return C.GoString(ret), nil
 		}
 	case FORMAT_FLAG:
 		{
-			var ret bool
-			ret = *(*C.int)((unsafe.Pointer)(uintptr(ptr))) != 0
+			ret := *(*C.int)((unsafe.Pointer)(uintptr(ptr))) != 0
 			return ret, nil
 		}
 	case FORMAT_INT64:
 		{
-			var ret C.int64_t
-			ret = *(*C.int64_t)((unsafe.Pointer)(uintptr(ptr)))
+			ret := *(*C.int64_t)((unsafe.Pointer)(uintptr(ptr)))
 			return int64(ret), nil
 		}
 	case FORMAT_DOUBLE:
 		{
-			var ret C.double
-			ret = *(*C.double)((unsafe.Pointer)(uintptr(ptr)))
+			ret := *(*C.double)((unsafe.Pointer)(uintptr(ptr)))
 			return float64(ret), nil
 		}
 	case FORMAT_NODE:
 		{
-			var ret C.mpv_node
-			ret = *(*C.mpv_node)((unsafe.Pointer)(uintptr(ptr)))
+			ret := *(*C.mpv_node)((unsafe.Pointer)(uintptr(ptr)))
 			return GetNode(&ret)
 		}
 	case FORMAT_NODE_ARRAY:
 		{
-			var ret C.mpv_node_list
-			ret = *(*C.mpv_node_list)((unsafe.Pointer)(uintptr(ptr)))
+			ret := *(*C.mpv_node_list)((unsafe.Pointer)(uintptr(ptr)))
 			return GetNodeList(&ret)
 		}
 	case FORMAT_NODE_MAP:
 		{
-			var ret C.mpv_node_list
-			ret = *(*C.mpv_node_list)((unsafe.Pointer)(uintptr(ptr)))
+			ret := *(*C.mpv_node_list)((unsafe.Pointer)(uintptr(ptr)))
 			return GetNodeMap(ret)
 		}
 	case FORMAT_BYTE_ARRAY:
 		{
-			var ret C.mpv_byte_array
-			ret = *(*C.mpv_byte_array)((unsafe.Pointer)(uintptr(ptr)))
+			ret := *(*C.mpv_byte_array)((unsafe.Pointer)(uintptr(ptr)))
 			return C.GoBytes(ret.data, C.int(ret.size)), nil
 		}
 	default:
@@ -164,7 +156,7 @@ func GetNodeMap(cmap C.mpv_node_list) (map[string]*Node, error) {
 	if err != nil {
 		return nil, err
 	}
-	var mapnode map[string]*Node
+	mapnode := make(map[string]*Node)
 	for i, n := range nodes {
 		mapnode[C.GoString(C.GetString(cmap.keys, C.int(i)))] = n
 	}
