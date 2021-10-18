@@ -52,10 +52,6 @@ func Initialize() {
 	err = MpvInstance.SetOption("volume-max", mpv.FORMAT_DOUBLE, maxVolume)
 	utils.HandleError(err, "Cannot set mpv volume-max option")
 
-	// set quality to worst
-	err = MpvInstance.SetOptionString("ytdl-format", "worst")
-	utils.HandleError(err, "Cannot set mpv ytdl-format option")
-
 	// add observers
 	err = MpvInstance.ObserveProperty(0, "volume", mpv.FORMAT_DOUBLE)
 	utils.HandleError(err, "Cannot observer volume property")
