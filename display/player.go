@@ -62,7 +62,7 @@ func startPlayerHooks() {
 	}
 
 	renderPlayer := func() {
-		if player.State.SavingToPlaylist {
+		if player.State.Idle || player.State.SavingToPlaylist {
 			return
 		}
 
@@ -162,6 +162,7 @@ func startPlayerHooks() {
 	player.RegisterHook(func(param ...interface{}) {
 		renderProgressBar()
 	}, player.HookSeek)
+
 	go func() {
 		for {
 			if !player.State.Idle && !player.State.Paused {
