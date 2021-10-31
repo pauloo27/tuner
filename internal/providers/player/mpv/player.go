@@ -6,7 +6,6 @@ import (
 	"github.com/Pauloo27/tuner/internal/providers/source"
 )
 
-// TODO:
 type MpvPlayer struct {
 	Instance *libmpv.Mpv
 }
