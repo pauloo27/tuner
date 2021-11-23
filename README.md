@@ -133,9 +133,7 @@ Install:
 
 **Tuner + Discord:**
 
-![Screenshot of Discord Rich Presence](https://i.imgur.com/8JISw0a.png)
-
-_Icon made by Becris from [FlatIcon](https://flaticon.com)_
+![Screenshot of Discord Rich Presence](https://i.imgur.com/zvHtld8.png)
 
 **Tuner + cava:**
 
