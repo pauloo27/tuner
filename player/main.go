@@ -1,21 +1,27 @@
 package player
 
 import (
+	"fmt"
 	"math"
 	"strconv"
+	"strings"
 
 	"github.com/Pauloo27/tuner/player/mpv"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
+	"github.com/kkdai/youtube/v2"
 )
 
 const (
 	maxVolume = 150.0
 )
 
-var MpvInstance *mpv.Mpv
-var State *PlayerState
+var (
+	MpvInstance   *mpv.Mpv
+	State         *PlayerState
+	defaultClient = youtube.Client{}
+)
 
 func Initialize() {
 	var err error
@@ -177,6 +183,14 @@ func SaveToPlaylist() {
 	callHooks(HookSavingTrackToPlaylist)
 }
 
+func extractVideoURL(url string) (string, error) {
+	vid, err := defaultClient.GetVideo(url)
+	if err != nil {
+		return "", nil
+	}
+	return defaultClient.GetStreamURL(vid, vid.Formats.FindByItag(140))
+}
+
 func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) error {
 	// remove all entries from playlist
 	ClearPlaylist()
@@ -188,14 +202,16 @@ func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) e
 	State.Playlist = playlist
 
 	if result == nil {
-		var err error
-
 		for i := range playlist.Songs {
 			song := playlist.SongAt(i)
+			videoURL, err := extractVideoURL(song.URL)
+			if err != nil {
+				return err
+			}
 			if i == 0 {
-				err = LoadFile(song.URL)
+				err = LoadFile(videoURL, song.Title)
 			} else {
-				err = AppendFile(song.URL)
+				err = AppendFile(videoURL, song.Title)
 			}
 			if err != nil {
 				return err
@@ -203,17 +219,33 @@ func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) e
 		}
 		return nil
 	}
-	return LoadFile(result.URL)
+	videoURL, err := extractVideoURL(result.URL)
+	if err != nil {
+		return err
+	}
+	return LoadFile(videoURL, result.Title)
 }
 
-func LoadFile(filePath string) error {
-	err := MpvInstance.Command([]string{"loadfile", filePath})
+func escapeTitle(title string) string {
+	return fmt.Sprintf(`"%s"`, strings.ReplaceAll(title, `"`, "")) // FIXME
+}
+
+func LoadFile(filePath, title string) error {
+	var options string
+	if title != "" {
+		options = fmt.Sprintf("force-media-title=%s", escapeTitle(title))
+	}
+	err := MpvInstance.Command([]string{"loadfile", filePath, "replace", options})
 	callHooks(HookFileLoadStarted, err, filePath)
 	return err
 }
 
-func AppendFile(filePath string) error {
-	err := MpvInstance.Command([]string{"loadfile", filePath, "append"})
+func AppendFile(filePath, title string) error {
+	var options string
+	if title != "" {
+		options = fmt.Sprintf("force-media-title=%s", escapeTitle(title))
+	}
+	err := MpvInstance.Command([]string{"loadfile", filePath, "append", options})
 	callHooks(HookFileLoadStarted, err, filePath)
 	return err
 }
