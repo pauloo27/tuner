@@ -1,8 +1,11 @@
 package player
 
 import (
+	"errors"
 	"fmt"
+	"io"
 	"math"
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -183,8 +186,33 @@ func SaveToPlaylist() {
 	callHooks(HookSavingTrackToPlaylist)
 }
 
-func extractVideoURL(url string) (string, error) {
-	vid, err := defaultClient.GetVideo(url)
+func extractLiveURL(live *youtube.Video) (string, error) {
+	res, err := http.Get(live.HLSManifestURL)
+	if err != nil {
+		return "", err
+	}
+	defer res.Body.Close()
+	buffer, err := io.ReadAll(res.Body)
+	if err != nil {
+		return "", err
+	}
+
+	body := string(buffer)
+
+	for _, line := range strings.Split(body, "\n") {
+		if strings.HasPrefix(line, "https://") {
+			return line, nil
+		}
+	}
+
+	return "", errors.New("invalid HLS manifest")
+}
+
+func extractVideoURL(result *search.SearchResult) (string, error) {
+	vid, err := defaultClient.GetVideo(result.URL)
+	if result.Live {
+		return extractLiveURL(vid)
+	}
 	if err != nil {
 		return "", nil
 	}
@@ -204,7 +232,7 @@ func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) e
 	if result == nil {
 		for i := range playlist.Songs {
 			song := playlist.SongAt(i)
-			videoURL, err := extractVideoURL(song.URL)
+			videoURL, err := extractVideoURL(song)
 			if err != nil {
 				return err
 			}
@@ -219,7 +247,7 @@ func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) e
 		}
 		return nil
 	}
-	videoURL, err := extractVideoURL(result.URL)
+	videoURL, err := extractVideoURL(result)
 	if err != nil {
 		return err
 	}
