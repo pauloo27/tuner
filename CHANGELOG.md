@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Go dependency to replace YouTube-DL (kkdai/youtube).
+
+### Changed
+- Discord Rich Presence icon.
+
+### Removed
+- YouTube-DL (python) dependency.
+
+### Fixed
+- Lyric fetcher.
+
+- Cursor not hidding while playing a live.
+
 ## [0.0.3] 2021-09-04
 
 ### Added
