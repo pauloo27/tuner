@@ -32,17 +32,17 @@ func onStart(params ...interface{}) {
 func init() {
 	container := tview.NewGrid()
 	container.SetColumns(0)
-	container.SetRows(3, 1, 1)
+	container.SetRows(1, -3)
 	container.SetBackgroundColor(tcell.ColorDefault)
 
 	label = tview.NewTextView()
 	label.SetTextAlign(tview.AlignCenter)
-	container.AddItem(label, 1, 0, 1, 1, 0, 0, false)
+	container.AddItem(label, 0, 0, 1, 1, 0, 0, false)
 
 	songProgress = progress.NewProgressBar(style.NewSimpleBar("▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"))
 	songProgress.SetTextColor(tcell.ColorBlue)
 
-	container.AddItem(songProgress, 2, 0, 1, 1, 0, 0, false)
+	container.AddItem(songProgress, 1, 0, 1, 1, 0, 0, false)
 
 	ui.RegisterPage(&ui.Page{
 		Name: "playing", Container: container,
