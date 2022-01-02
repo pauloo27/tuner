@@ -52,6 +52,10 @@ github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/Pauloo27/keyboard v0.0.0-20210515010213-2640675c1598 h1:zSSE8VSzbh+hLDC6Eiz8wcKxBZudvYS5JuQohOn4cuU=
 github.com/Pauloo27/keyboard v0.0.0-20210515010213-2640675c1598/go.mod h1:f/fpTvqPMAknHb2cgxTh4ITDyGTv4oNLv7wdB3vESdw=
+github.com/Pauloo27/lyric v0.0.0-20210816005543-026ef01c6856 h1:k8zl0zenL6c8jnOkvrv8+JfTD7o7zLxG8qS9gYloJec=
+github.com/Pauloo27/lyric v0.0.0-20210816005543-026ef01c6856/go.mod h1:iy94yme2Foi86LomMXphTGQWhG0dxneMLhIA6mlUZ50=
+github.com/Pauloo27/lyric v0.0.0-20220102203036-ba42b89e476f h1:OKgskqGQsZen/KRe2tSU6ZYc4tT7JBkkJ3k0r+qZsCg=
+github.com/Pauloo27/lyric v0.0.0-20220102203036-ba42b89e476f/go.mod h1:iy94yme2Foi86LomMXphTGQWhG0dxneMLhIA6mlUZ50=
 github.com/VividCortex/ewma v1.1.1/go.mod h1:2Tkkvm3sRDVXaiyucHiACn4cqf7DpdyLvmxzcbUokwA=
 github.com/VividCortex/ewma v1.2.0/go.mod h1:nz4BbCtbLyFDeC9SUHbtcT5644juEuWfUAUnGx7j5l4=
 github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d/go.mod h1:asat636LX7Bqt5lYEZ27JNDcqxfjdBQuJ/MM4CN/Lzo=

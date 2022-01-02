@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Pauloo27/tuner/lyric"
+	"github.com/Pauloo27/lyric"
 )
 
 func FetchLyric() {
 	playing := State.GetPlaying()
-	path, err := lyric.SearchFor(fmt.Sprintf("%s %s", playing.Title, playing.Uploader))
+	path, err := lyric.SearchDDG(fmt.Sprintf("%s %s", playing.Title, playing.Uploader))
 	if err != nil {
 		State.Lyric.Lines = []string{"Cannot get lyric"}
 		ForceUpdate()
