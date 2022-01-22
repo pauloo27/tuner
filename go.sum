@@ -52,8 +52,6 @@ github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/Pauloo27/keyboard v0.0.0-20210515010213-2640675c1598 h1:zSSE8VSzbh+hLDC6Eiz8wcKxBZudvYS5JuQohOn4cuU=
 github.com/Pauloo27/keyboard v0.0.0-20210515010213-2640675c1598/go.mod h1:f/fpTvqPMAknHb2cgxTh4ITDyGTv4oNLv7wdB3vESdw=
-github.com/Pauloo27/lyric v0.0.0-20210816005543-026ef01c6856 h1:k8zl0zenL6c8jnOkvrv8+JfTD7o7zLxG8qS9gYloJec=
-github.com/Pauloo27/lyric v0.0.0-20210816005543-026ef01c6856/go.mod h1:iy94yme2Foi86LomMXphTGQWhG0dxneMLhIA6mlUZ50=
 github.com/Pauloo27/lyric v0.0.0-20220102203036-ba42b89e476f h1:OKgskqGQsZen/KRe2tSU6ZYc4tT7JBkkJ3k0r+qZsCg=
 github.com/Pauloo27/lyric v0.0.0-20220102203036-ba42b89e476f/go.mod h1:iy94yme2Foi86LomMXphTGQWhG0dxneMLhIA6mlUZ50=
 github.com/VividCortex/ewma v1.1.1/go.mod h1:2Tkkvm3sRDVXaiyucHiACn4cqf7DpdyLvmxzcbUokwA=
@@ -264,8 +262,8 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/julienschmidt/httprouter v1.2.0/go.mod h1:SYymIcj16QtmaHHD7aYtjjsJG7VTCxuUUipMqKk8s4w=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
-github.com/kkdai/youtube/v2 v2.7.6 h1:5F1tmFvR79bPQePrs6zfv5dgYCk/O7TB0+wXBVSjZVg=
-github.com/kkdai/youtube/v2 v2.7.6/go.mod h1:UXH13xWWkfsz2oLaXlO84+vCvFOI3XzUr7zrMkHkXws=
+github.com/kkdai/youtube/v2 v2.7.7 h1:NZ38oS6h9A+g/D6Zsc5ZFbheD06y/HqpA2pgn7ONWZY=
+github.com/kkdai/youtube/v2 v2.7.7/go.mod h1:UXH13xWWkfsz2oLaXlO84+vCvFOI3XzUr7zrMkHkXws=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/kr/fs v0.1.0/go.mod h1:FFnZGqtBN9Gxj7eW1uZ42v5BccTP0vu6NEaFoC2HwRg=
 github.com/kr/logfmt v0.0.0-20140226030751-b84e30acd515/go.mod h1:+0opPa2QZZtGFBFZlji/RkVcI2GknAs/DXo4wKdlNEc=
