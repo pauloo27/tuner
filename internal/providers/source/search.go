@@ -1,7 +1,6 @@
 package source
 
 import (
-	"io"
 	"time"
 )
 
@@ -14,13 +13,12 @@ type SearchResult struct {
 }
 
 type AudioFormat struct {
-	Name string
+	MimeType string
 }
 
 type AudioInfo struct {
-	Stream io.Reader
-	Size   int64
-	Format *AudioFormat
+	StreamURL string
+	Format    *AudioFormat
 }
 
 type SearchProvider interface {
@@ -30,6 +28,10 @@ type SearchProvider interface {
 }
 
 var searchProviders []SearchProvider
+
+func (r *SearchResult) GetAudioInfo() (*AudioInfo, error) {
+	return r.Provider.GetAudioInfo(r)
+}
 
 func SearchInAll(query string) (results []*SearchResult, err error) {
 	for _, provider := range searchProviders {

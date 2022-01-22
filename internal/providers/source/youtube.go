@@ -1,7 +1,6 @@
 package source
 
 import (
-	"strings"
 	"time"
 
 	"github.com/Pauloo27/searchtube"
@@ -20,22 +19,20 @@ func (YouTubeSearch) GetName() (name string) {
 var client youtube.Client
 
 func (YouTubeSearch) GetAudioInfo(result *SearchResult) (*AudioInfo, error) {
-	id := strings.Split(result.URL, "=")[1]
-
-	video, err := client.GetVideo(id)
+	video, err := client.GetVideo(result.URL)
 	if err != nil {
 		panic(err)
 	}
 
-	stream, size, err := client.GetStream(video, video.Formats.FindByItag(249))
+	format := video.Formats.FindByItag(250)
+	uri, err := client.GetStreamURL(video, format)
 	if err != nil {
 		panic(err)
 	}
 
 	return &AudioInfo{
-		Stream: stream,
-		Size:   size,
-		Format: FormatWebm,
+		StreamURL: uri,
+		Format:    &AudioFormat{MimeType: format.MimeType},
 	}, nil
 }
 

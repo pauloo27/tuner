@@ -10,8 +10,4 @@ type PlayerProvider interface {
 	Play(*source.SearchResult) error
 }
 
-var DefaultProvider PlayerProvider
-
-func Play(result *source.SearchResult) error {
-	return DefaultProvider.Play(result)
-}
+var Player PlayerProvider

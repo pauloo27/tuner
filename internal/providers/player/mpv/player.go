@@ -13,7 +13,11 @@ type MpvPlayer struct {
 var _ player.PlayerProvider = MpvPlayer{}
 
 func (p MpvPlayer) Play(result *source.SearchResult) error {
-	p.Instance.Command([]string{"loadfile", result.URL})
+	info, err := result.GetAudioInfo()
+	if err != nil {
+		return err
+	}
+	p.Instance.Command([]string{"loadfile", info.StreamURL})
 	return nil
 }
 
@@ -46,5 +50,5 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	player.DefaultProvider = mpv
+	player.Player = mpv
 }
