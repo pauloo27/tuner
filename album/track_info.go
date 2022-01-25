@@ -1,11 +1,13 @@
 package album
 
 import (
+	"crypto/md5"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 
+	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/utils"
 	"github.com/buger/jsonparser"
 )
@@ -30,7 +32,20 @@ const (
 	EndPoint = "https://ws.audioscrobbler.com/2.0"
 )
 
+var (
+	infoCache = make(map[string]*TrackInfo)
+)
+
 func FetchTrackInfo(artist, track string) (*TrackInfo, error) {
+	// we use the hash to cache the track info
+	// i know, md5 is shitty,
+	hash := fmt.Sprintf("%x", md5.Sum([]byte(artist+"|"+track)))
+
+	info, found := infoCache[hash]
+	if found {
+		return info, nil
+	}
+
 	// escape params
 	artist = url.QueryEscape(artist)
 	track = url.QueryEscape(track)
@@ -98,7 +113,7 @@ func FetchTrackInfo(artist, track string) (*TrackInfo, error) {
 		return nil, fmt.Errorf("Cannot get track tags: %v", err)
 	}
 
-	return &TrackInfo{
+	info = &TrackInfo{
 		Title: trackTitle,
 		MBID:  trackMBID,
 		Tags:  trackTags,
@@ -111,5 +126,28 @@ func FetchTrackInfo(artist, track string) (*TrackInfo, error) {
 			Name: artistName,
 			MBID: artistMBID,
 		},
-	}, nil
+	}
+	infoCache[hash] = info
+	return info, nil
+}
+
+func GetAlbumURL(result *search.SearchResult) string {
+	var albumURL string
+
+	if result.SourceName == "soundcloud" {
+		albumURL = result.Extra[0]
+	} else {
+		videoInfo, err := FetchVideoInfo(result)
+		if err != nil {
+			return ""
+		}
+		albumURL = utils.Fmt("https://i1.ytimg.com/vi/%s/hqdefault.jpg", videoInfo.ID)
+		if videoInfo.Artist != "" && videoInfo.Track != "" {
+			trackInfo, err := FetchTrackInfo(videoInfo.Artist, videoInfo.Track)
+			if err == nil {
+				albumURL = trackInfo.Album.ImageURL
+			}
+		}
+	}
+	return albumURL
 }

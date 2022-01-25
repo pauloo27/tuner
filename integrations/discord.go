@@ -1,17 +1,27 @@
 package integrations
 
 import (
+	"github.com/Pauloo27/tuner/album"
 	"github.com/Pauloo27/tuner/player"
+	"github.com/Pauloo27/tuner/search"
 	"github.com/ananagame/rich-go/client"
 )
 
-func setActivity(state, details string) {
-	client.SetActivity(client.Activity{
+func setActivity(state, details, image string) {
+	if image == "" {
+		image = "music"
+	}
+	// TODO: handle error?
+	_ = client.SetActivity(client.Activity{
 		State:      state,
 		Details:    details,
-		LargeImage: "music",
+		LargeImage: image,
 		LargeText:  "Play songs from YouTube inside your terminal",
 	})
+}
+
+func getImage(result *search.SearchResult) string {
+	return ""
 }
 
 func ConnectToDiscord() {
@@ -20,13 +30,13 @@ func ConnectToDiscord() {
 		return
 	}
 
-	setActivity("Home screen", "Just started")
+	setActivity("Home screen", "Just started", "")
 
 	player.RegisterHook(func(param ...interface{}) {
-		setActivity("Home screen", "Idle")
+		setActivity("Home screen", "Idle", "")
 	}, player.HookIdle)
 
 	player.RegisterHook(func(param ...interface{}) {
-		setActivity(player.State.GetPlaying().Title, "Playing")
+		setActivity(player.State.GetPlaying().Title, "Playing", album.GetAlbumURL(player.State.GetPlaying()))
 	}, player.HookFileLoaded)
 }

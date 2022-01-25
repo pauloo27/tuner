@@ -60,23 +60,7 @@ func fetchAlbum() {
 	go func() {
 		result := player.State.GetPlaying()
 
-		var artURL string
-
-		if result.SourceName == "soundcloud" {
-			artURL = result.Extra[0]
-		} else {
-			videoInfo, err := FetchVideoInfo(result)
-			if err != nil {
-				return
-			}
-			artURL = utils.Fmt("https://i1.ytimg.com/vi/%s/hqdefault.jpg", videoInfo.ID)
-			if videoInfo.Artist != "" && videoInfo.Track != "" {
-				trackInfo, err := FetchTrackInfo(videoInfo.Artist, videoInfo.Track)
-				if err == nil {
-					artURL = trackInfo.Album.ImageURL
-				}
-			}
-		}
+		artURL := GetAlbumURL(result)
 
 		path := path.Join(utils.LoadDataFolder(), "album")
 		utils.DownloadFile(artURL, path)
