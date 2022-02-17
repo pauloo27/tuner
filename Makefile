@@ -1,41 +1,56 @@
 BINARY_NAME = tuner
+TEST_COMMAND = gotest
 
+.PHONY: build
 build:
-	go build -o $(BINARY_NAME) -v ./cmd
+	go build -v -o $(BINARY_NAME) ./cmd/$(BINARY_NAME)
 
-test:
-	go test -cover -parallel 5 -failfast  ./...
-
+.PHONY: run
 run: build
 	./$(BINARY_NAME) 
 
-install: build
-	sudo cp ./$(BINARY_NAME) /usr/bin/
+.PHONY: test
+test: 
+	$(TEST_COMMAND) -v -cover -parallel 5 -failfast  ./... 
 
-lint:
-	revive -formatter friendly -config revive.toml ./... 
-
-spell:
-	misspell -error ./**
-
-staticcheck:
-	staticcheck ./...
-
-gosec:
-	gosec -tests ./... 
-
-inspect: lint spell gosec staticcheck
-
+.PHONY: tidy
 tidy:
 	go mod tidy
 
-dev:
-	fiber dev -t ./cmd
+.PHONY: install
+install: build
+	sudo cp ./$(BINARY_NAME) /usr/bin/
+
+.PHONY: lint
+lint:
+	revive -formatter friendly -config revive.toml ./... 
+
+.PHONY: spell
+spell:
+	misspell -error ./**
+
+.PHONY: staticcheck
+staticcheck:
+	staticcheck ./...
+
+.PHONY: gosec
+gosec:
+	gosec -tests ./... 
+
+.PHONY: inspect
+inspect: lint spell gosec staticcheck
 
 # (build but with a smaller binary)
+.PHONY: dist
 dist:
 	go build -o $(BINARY_NAME) -ldflags="-w -s" -gcflags=all=-l -v
 
 # (even smaller binary)
+.PHONY: pack
 pack: dist
 	upx ./$(BINARY_NAME)
+
+# "hot reload"
+.PHONY: dev
+dev:
+	fiber dev -t ./cmd/$(BINARY_NAE)
