@@ -1,11 +1,11 @@
 package style
 
 import (
+	"fmt"
 	"math"
 	"strings"
 
 	"github.com/Pauloo27/tuner/internal/ui/components/progress"
-	"github.com/Pauloo27/tuner/internal/utils"
 )
 
 type SimpleBar struct {
@@ -28,5 +28,5 @@ func (r SimpleBar) Draw(p *progress.ProgressBar) {
 
 	fullBlocks := strings.Repeat(lastBodyItem, usedLine/bodyLen)
 
-	p.SetText(utils.Fmt("%s%s", fullBlocks, r.body[usedLine%bodyLen]))
+	p.SetText(fmt.Sprintf("%s%s", fullBlocks, r.body[usedLine%bodyLen]))
 }

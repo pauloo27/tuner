@@ -1,7 +1,8 @@
 package ui
 
 import (
-	"github.com/Pauloo27/tuner/internal/utils"
+	"fmt"
+
 	"github.com/rivo/tview"
 )
 
@@ -39,7 +40,7 @@ func SwitchPage(pageName string, params ...interface{}) {
 	page, found := pageMap[pageName]
 	pages.SwitchToPage(pageName)
 	if !found {
-		panic(utils.Fmt("Page %s not found", pageName))
+		panic(fmt.Sprintf("Page %s not found", pageName))
 	}
 	if page.OnStart != nil {
 		page.OnStart(params...)

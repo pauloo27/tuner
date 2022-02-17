@@ -1,11 +1,12 @@
 package searching
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/Pauloo27/tuner/internal/providers/source"
 	"github.com/Pauloo27/tuner/internal/ui"
-	"github.com/Pauloo27/tuner/internal/utils"
+	"github.com/Pauloo27/tuner/internal/ui/core"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -16,21 +17,21 @@ var label *tview.TextView
 func onStart(params ...interface{}) {
 	searchQuery := params[0].(string)
 	resultList.Clear()
-	label.SetText(utils.Fmt("Searching for %s...", searchQuery))
+	label.SetText(fmt.Sprintf("Searching for %s...", searchQuery))
 	go func() {
 		results, err := source.SearchInAll(searchQuery)
 		ui.App.QueueUpdateDraw(func() {
 			if err != nil {
 				label.SetText("Something went wrong =(")
 			}
-			label.SetText(utils.Fmt("Results for %s:", searchQuery))
+			label.SetText(fmt.Sprintf("Results for %s:", searchQuery))
 			for i, result := range results {
 				// limit results to 10
 				if i == 10 {
 					break
 				}
 				shortcut := strconv.Itoa(i + 1)
-				details := utils.FmtEscaping(
+				details := core.FmtEscaping(
 					"[green]%s [white]from [green]%s [white]- %s", result.Title, result.Artist, result.Length,
 				)
 

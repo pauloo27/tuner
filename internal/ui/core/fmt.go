@@ -1,14 +1,10 @@
-package utils
+package core
 
 import (
 	"fmt"
 
 	"github.com/rivo/tview"
 )
-
-func Fmt(format string, args ...interface{}) string {
-	return fmt.Sprintf(format, args...)
-}
 
 func FmtEscaping(format string, args ...interface{}) string {
 	var escapedArgs []interface{}

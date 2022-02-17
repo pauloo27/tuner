@@ -1,8 +1,9 @@
 package style
 
 import (
+	"fmt"
+
 	"github.com/Pauloo27/tuner/internal/ui/components/progress"
-	"github.com/Pauloo27/tuner/internal/utils"
 )
 
 type RawText struct{}
@@ -12,5 +13,5 @@ func NewRawText() RawText {
 }
 
 func (r RawText) Draw(p *progress.ProgressBar) {
-	p.SetText(utils.Fmt("%0.f%%", p.GetProgress()*100))
+	p.SetText(fmt.Sprintf("%0.f%%", p.GetProgress()*100))
 }
