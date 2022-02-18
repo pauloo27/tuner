@@ -13,6 +13,11 @@ run: build
 test: 
 	$(TEST_COMMAND) -v -cover -parallel 5 -failfast  ./... 
 
+.PHONY: cover
+cover: 
+	$(TEST_COMMAND) -v -cover -coverprofile=coverage.out -parallel 5 -failfast  ./... 
+	go tool cover -html=coverage.out
+
 .PHONY: tidy
 tidy:
 	go mod tidy
