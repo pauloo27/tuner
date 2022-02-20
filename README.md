@@ -89,7 +89,7 @@ Install from the AUR (`yay -S go-tuner-git`).
 
 Use this install script:
 
-> $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/Pauloo27/tuner/master/install.sh)"
+> $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/Pauloo27/tuner/master/install-debian.sh)"
 
 ## Compile
 
