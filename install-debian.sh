@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 C_DEEPSKYBLUE3="\033[38;5;32m"
 NO_FORMAT="\033[0m"
