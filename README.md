@@ -2,7 +2,7 @@
 
 Tuner searches and plays songs from YouTube and SoundCloud inside your terminal.
 
-[![CI status](https://ci.notagovernment.agency/api/v1alpha/badges/5784c967-246f-4077-9f4a-12b5aa4f14a7?branch=master)](https://ci.notagovernment.agency/user/Pauloo27/projects/tuner.proj)
+[![CI status](https://ci.db.cafe/api/v1alpha/badges/ddd0ae47-6beb-402c-8ea9-416bfdb45a60)](https://ci.db.cafe/user/Pauloo27/projects/tuner.proj)
 
 
 _If you want a GUI application with more features, take a look at
