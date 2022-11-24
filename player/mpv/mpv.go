@@ -41,10 +41,6 @@ func (m *Mpv) Initialize() error {
 	return NewError(C.mpv_initialize(m.handle))
 }
 
-func (m *Mpv) DetachDestroy() {
-	C.mpv_detach_destroy(m.handle)
-}
-
 func (m *Mpv) TerminateDestroy() {
 	C.mpv_terminate_destroy(m.handle)
 }
@@ -63,14 +59,6 @@ func (m *Mpv) LoadConfigFile(fileName string) error {
 	cfn := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfn))
 	return NewError(C.mpv_load_config_file(m.handle, cfn))
-}
-
-func (m *Mpv) Suspend() {
-	C.mpv_suspend(m.handle)
-}
-
-func (m *Mpv) Resume() {
-	C.mpv_resume(m.handle)
 }
 
 func (m *Mpv) GetTimeUS() int64 {
@@ -342,24 +330,12 @@ func (m *Mpv) Wakeup() {
 	C.mpv_wakeup(m.handle)
 }
 
-func (m *Mpv) SetWakeupCallback(callback func(d interface{}), d interface{}) {
-	/*callbackFunc = callback
-	callbackVar = d*/
-	//	C.mpv_set_wakeup_callback(m.handle,,unsafe.Pointer(d))
-	//TODO void mpv_set_wakeup_callback(mpv_handle *ctx, void (*cb)(void *d), void *d);
-	panic("Not supported mpv_set_wakeup_callback")
-}
-
 func (m *Mpv) GetWakeupPipe() int {
 	return int(C.mpv_get_wakeup_pipe(m.handle))
 }
 
 func (m *Mpv) WaitAsyncRequests() {
 	C.mpv_wait_async_requests(m.handle)
-}
-
-func (m *Mpv) GetSubApi(api SubApi) unsafe.Pointer {
-	return unsafe.Pointer(C.mpv_get_sub_api(m.handle, C.mpv_sub_api(api)))
 }
 
 func data2Ptr(format Format, data interface{}) unsafe.Pointer {
