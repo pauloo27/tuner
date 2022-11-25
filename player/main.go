@@ -65,8 +65,11 @@ func Initialize() {
 	err = MpvInstance.ObserveProperty(0, "volume", mpv.FORMAT_DOUBLE)
 	utils.HandleError(err, "Cannot observer volume property")
 
+	err = MpvInstance.ObserveProperty(0, "pause", mpv.FORMAT_FLAG)
+	utils.HandleError(err, "Cannot observer pause property")
+
 	err = MpvInstance.ObserveProperty(0, "loop-file", mpv.FORMAT_FLAG)
-	utils.HandleError(err, "Cannot observer loo-file property")
+	utils.HandleError(err, "Cannot observer loop-file property")
 
 	err = MpvInstance.ObserveProperty(0, "loop-playlist", mpv.FORMAT_FLAG)
 	utils.HandleError(err, "Cannot observer loop-playlist property")

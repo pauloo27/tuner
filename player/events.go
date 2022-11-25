@@ -15,6 +15,15 @@ func handlePropertyChange(data *mpv.EventProperty) {
 		callHooks(HookLoopTrackChanged)
 	case "loop-playlist":
 		callHooks(HookLoopPlaylistChanged)
+	case "pause":
+		value := *(*int)(data.Data.(unsafe.Pointer))
+		if value == 0 {
+			State.Paused = false
+			callHooks(HookPlaybackResumed)
+		} else {
+			State.Paused = true
+			callHooks(HookPlaybackPaused)
+		}
 	}
 }
 
@@ -30,12 +39,6 @@ func startEventHandler() {
 				handlePropertyChange(data)
 			case mpv.EVENT_FILE_LOADED:
 				callHooks(HookFileLoaded)
-			case mpv.EVENT_PAUSE:
-				State.Paused = true
-				callHooks(HookPlaybackPaused)
-			case mpv.EVENT_UNPAUSE:
-				State.Paused = false
-				callHooks(HookPlaybackResumed)
 			case mpv.EVENT_END_FILE:
 				callHooks(HookFileEnded)
 			case mpv.EVENT_IDLE:
