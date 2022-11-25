@@ -278,24 +278,6 @@ const (
 	 */
 	EVENT_FILE_LOADED EventId = C.MPV_EVENT_FILE_LOADED
 	/**
-	 * The list of video/audio/subtitle tracks was changed. (E.g. a new track
-	 * was found. This doesn't necessarily indicate a track switch; for this,
-	 * EVENT_TRACK_SWITCHED = C.MPV_EVENT_TRACK_SWITCHED
-	 *
-	 * @deprecated This is equivalent to using mpv_observe_property() on the
-	 *             "track-list" property. The event is redundant, and might
-	 *             be removed in the far future.
-	 */
-	EVENT_TRACKS_CHANGED EventId = C.MPV_EVENT_TRACKS_CHANGED
-	/**
-	 * A video/audio/subtitle track was switched on or off.
-	 *
-	 * @deprecated This is equivalent to using mpv_observe_property() on the
-	 *             "vid", "aid", and "sid" properties. The event is redundant,
-	 *             and might be removed in the far future.
-	 */
-	EVENT_TRACK_SWITCHED EventId = C.MPV_EVENT_TRACK_SWITCHED
-	/**
 	 * Idle mode was entered. In this mode, no file is played, and the playback
 	 * core waits for new commands. (The command line player normally quits
 	 * instead of entering idle mode, unless --idle was specified. If mpv
@@ -303,50 +285,12 @@ const (
 	 */
 	EVENT_IDLE EventId = C.MPV_EVENT_IDLE
 	/**
-	 * Playback was paused. This indicates the user pause state.
-	 *
-	 * The user pause state is the state the user requested (changed with the
-	 * "pause" property). There is an internal pause state too, which is entered
-	 * if e.g. the network is too slow (the "core-idle" property generally
-	 * indicates whether the core is playing or waiting).
-	 *
-	 * This event is sent whenever any pause states change, not only the user
-	 * state. You might get multiple events in a row while these states change
-	 * independently. But the event ID sent always indicates the user pause
-	 * state.
-	 *
-	 * If you don't want to deal with this, use mpv_observe_property() on the
-	 * "pause" property and ignore EVENT_PAUSE/UNPAUSE. = C.MPV_EVENT_PAUSE/UNPAUSE.
-	 * "core-idle" property tells you whether video is actually playing or not.
-	 *
-	 * @deprecated The event is redundant with mpv_observe_property() as
-	 *             mentioned above, and might be removed in the far future.
-	 */
-	EVENT_PAUSE EventId = C.MPV_EVENT_PAUSE
-	/**
-	 * Playback was unpaused. See EVENT_PAUSE = C.MPV_EVENT_PAUSE
-	 *
-	 * @deprecated The event is redundant with mpv_observe_property() as
-	 *             explained in the EVENT_PAUSE = C.MPV_EVENT_PAUSE
-	 *             removed in the far future.
-	 */
-	EVENT_UNPAUSE EventId = C.MPV_EVENT_UNPAUSE
-	/**
 	 * Sent every time after a video frame is displayed. Note that currently,
 	 * this will be sent in lower frequency if there is no video, or playback
 	 * is paused - but that will be removed in the future, and it will be
 	 * restricted to video frames only.
 	 */
 	EVENT_TICK EventId = C.MPV_EVENT_TICK
-	/**
-	 * @deprecated This was used internally with the internal "script_dispatch"
-	 *             command to dispatch keyboard and mouse input for the OSC.
-	 *             It was never useful in general and has been completely
-	 *             replaced with "script_binding".
-	 *             This event never happens anymore, and is included in this
-	 *             header only for compatibility.
-	 */
-	EVENT_SCRIPT_INPUT_DISPATCH EventId = C.MPV_EVENT_SCRIPT_INPUT_DISPATCH
 	/**
 	 * Triggered by the script_message input command. The command uses the
 	 * first argument of the command as client name (see mpv_client_name()) to
@@ -372,16 +316,6 @@ const (
 	 */
 	EVENT_AUDIO_RECONFIG EventId = C.MPV_EVENT_AUDIO_RECONFIG
 	/**
-	 * Happens when metadata (like file tags) is possibly updated. (It's left
-	 * unspecified whether this happens on file start or only when it changes
-	 * within a file.)
-	 *
-	 * @deprecated This is equivalent to using mpv_observe_property() on the
-	 *             "metadata" property. The event is redundant, and might
-	 *             be removed in the far future.
-	 */
-	EVENT_METADATA_UPDATE EventId = C.MPV_EVENT_METADATA_UPDATE
-	/**
 	 * Happens when a seek was initiated. Playback stops. Usually it will
 	 * resume with EVENT_PLAYBACK_RESTART = C.MPV_EVENT_PLAYBACK_RESTART
 	 */
@@ -398,14 +332,6 @@ const (
 	 * See also mpv_event and mpv_event_property.
 	 */
 	EVENT_PROPERTY_CHANGE EventId = C.MPV_EVENT_PROPERTY_CHANGE
-	/**
-	 * Happens when the current chapter changes.
-	 *
-	 * @deprecated This is equivalent to using mpv_observe_property() on the
-	 *             "chapter" property. The event is redundant, and might
-	 *             be removed in the far future.
-	 */
-	EVENT_CHAPTER_CHANGE EventId = C.MPV_EVENT_CHAPTER_CHANGE
 	/**
 	 * Happens if the internal per-mpv_handle ringbuffer overflows, and at
 	 * least 1 event had to be dropped. This can happen if the client doesn't
@@ -457,33 +383,13 @@ func (eid EventId) String() string {
 		{
 			return "EVENT_FILE_LOADED"
 		}
-	case EVENT_TRACKS_CHANGED:
-		{
-			return "EVENT_TRACKS_CHANGED"
-		}
-	case EVENT_TRACK_SWITCHED:
-		{
-			return "EVENT_TRACK_SWITCHED"
-		}
 	case EVENT_IDLE:
 		{
 			return "EVENT_IDLE"
 		}
-	case EVENT_PAUSE:
-		{
-			return "EVENT_PAUSE"
-		}
-	case EVENT_UNPAUSE:
-		{
-			return "EVENT_UNPAUSE"
-		}
 	case EVENT_TICK:
 		{
 			return "EVENT_TICK"
-		}
-	case EVENT_SCRIPT_INPUT_DISPATCH:
-		{
-			return "EVENT_SCRIPT_INPUT_DISPATCH"
 		}
 	case EVENT_CLIENT_MESSAGE:
 		{
@@ -497,10 +403,6 @@ func (eid EventId) String() string {
 		{
 			return "EVENT_AUDIO_RECONFIG"
 		}
-	case EVENT_METADATA_UPDATE:
-		{
-			return "EVENT_METADATA_UPDATE"
-		}
 	case EVENT_SEEK:
 		{
 			return "EVENT_SEEK"
@@ -512,10 +414,6 @@ func (eid EventId) String() string {
 	case EVENT_PROPERTY_CHANGE:
 		{
 			return "EVENT_PROPERTY_CHANGE"
-		}
-	case EVENT_CHAPTER_CHANGE:
-		{
-			return "EVENT_CHAPTER_CHANGE"
 		}
 	case EVENT_QUEUE_OVERFLOW:
 		{
@@ -591,17 +489,3 @@ func (efr EndFileReason) String() string {
 		return "END_FILE_REASON_UNKNOWN"
 	}
 }
-
-type SubApi int
-
-//mpv_sub_api
-const (
-	/**
-	 * For using mpv's OpenGL renderer on an external OpenGL context.
-	 * mpv_get_sub_api(MPV_SUB_API_OPENGL_CB) returns mpv_opengl_cb_context*.
-	 * This context can be used with mpv_opengl_cb_* functions.
-	 * Will return NULL if unavailable (if OpenGL support was not compiled in).
-	 * See opengl_cb.h for details.
-	 */
-	SUB_API_OPENGL_CB SubApi = C.MPV_SUB_API_OPENGL_CB
-)
