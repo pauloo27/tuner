@@ -9,3 +9,5 @@ require (
 	github.com/rivo/tview v0.0.0-20211029142923-a4acb08f513e
 	github.com/stretchr/testify v1.7.0
 )
+
+replace github.com/kkdai/youtube/v2 => github.com/ItsClairton/youtube/v2 v2.7.7-0.20220610163135-5e6c6831c1e3
