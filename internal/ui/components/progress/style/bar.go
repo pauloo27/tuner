@@ -12,6 +12,10 @@ type SimpleBar struct {
 	body []string
 }
 
+func NewSimpleBarWithBlocks() SimpleBar {
+	return NewSimpleBar("▏", "▎", "▍", "▌", "▋", "▊", "▉", "█")
+}
+
 func NewSimpleBar(body ...string) SimpleBar {
 	return SimpleBar{body}
 }

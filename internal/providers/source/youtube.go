@@ -12,33 +12,15 @@ type YouTubeSearch struct {
 
 var _ SearchProvider = YouTubeSearch{}
 
+func init() {
+	searchProviders = append(searchProviders, &YouTubeSearch{})
+}
+
 func (YouTubeSearch) GetName() (name string) {
 	return "YouTube"
 }
 
 var client youtube.Client
-
-func (YouTubeSearch) GetAudioInfo(result *SearchResult) (*AudioInfo, error) {
-	video, err := client.GetVideo(result.URL)
-	if err != nil {
-		panic(err)
-	}
-
-	format := video.Formats.FindByItag(250)
-	uri, err := client.GetStreamURL(video, format)
-	if err != nil {
-		panic(err)
-	}
-
-	return &AudioInfo{
-		StreamURL: uri,
-		Format:    &AudioFormat{MimeType: format.MimeType},
-	}, nil
-}
-
-func init() {
-	searchProviders = append(searchProviders, &YouTubeSearch{})
-}
 
 func (p YouTubeSearch) SearchFor(searchQuery string) ([]*SearchResult, error) {
 	youtubeResults, err := searchtube.Search(searchQuery, 10)
@@ -64,4 +46,22 @@ func (p YouTubeSearch) SearchFor(searchQuery string) ([]*SearchResult, error) {
 		})
 	}
 	return results, nil
+}
+
+func (YouTubeSearch) GetAudioInfo(result *SearchResult) (*AudioInfo, error) {
+	video, err := client.GetVideo(result.URL)
+	if err != nil {
+		panic(err)
+	}
+
+	format := video.Formats.FindByItag(250)
+	uri, err := client.GetStreamURL(video, format)
+	if err != nil {
+		panic(err)
+	}
+
+	return &AudioInfo{
+		StreamURL: uri,
+		Format:    &AudioFormat{MimeType: format.MimeType},
+	}, nil
 }

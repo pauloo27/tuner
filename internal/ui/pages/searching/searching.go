@@ -14,42 +14,6 @@ import (
 var resultList *tview.List
 var label *tview.TextView
 
-func onStart(params ...interface{}) {
-	searchQuery := params[0].(string)
-	resultList.Clear()
-	label.SetText(fmt.Sprintf("Searching for %s...", searchQuery))
-	go func() {
-		results, err := source.SearchInAll(searchQuery)
-		ui.App.QueueUpdateDraw(func() {
-			if err != nil {
-				label.SetText("Something went wrong =(")
-			}
-			label.SetText(fmt.Sprintf("Results for %s:", searchQuery))
-			for i, result := range results {
-				// limit results to 10
-				if i == 10 {
-					break
-				}
-				shortcut := strconv.Itoa(i + 1)
-				details := core.FmtEscaping(
-					"[green]%s [white]from [green]%s [white]- %s", result.Title, result.Artist, result.Length,
-				)
-
-				currentResult := result
-
-				resultList.AddItem(
-					details, "", rune(shortcut[len(shortcut)-1]), func() {
-						ui.SwitchPage("playing", currentResult)
-					},
-				)
-			}
-			resultList.AddItem("Cancel", "Press c to cancel", 'c', func() {
-				ui.SwitchPage("home")
-			})
-		})
-	}()
-}
-
 func init() {
 	container := tview.NewGrid()
 	container.SetColumns(0)
@@ -85,4 +49,40 @@ func init() {
 		Name: "searching", Container: container,
 		OnStart: onStart,
 	})
+}
+
+func onStart(params ...interface{}) {
+	searchQuery := params[0].(string)
+	resultList.Clear()
+	label.SetText(fmt.Sprintf("Searching for %s...", searchQuery))
+	go func() {
+		results, err := source.SearchInAll(searchQuery)
+		ui.App.QueueUpdateDraw(func() {
+			if err != nil {
+				label.SetText("Something went wrong =(")
+			}
+			label.SetText(fmt.Sprintf("Results for %s:", searchQuery))
+			for i, result := range results {
+				// limit results to 10
+				if i == 10 {
+					break
+				}
+				shortcut := strconv.Itoa(i + 1)
+				details := core.FmtEscaping(
+					"[green]%s [white]from [green]%s [white]- %s", result.Title, result.Artist, result.Length,
+				)
+
+				currentResult := result
+
+				resultList.AddItem(
+					details, "", rune(shortcut[len(shortcut)-1]), func() {
+						ui.SwitchPage("playing", currentResult)
+					},
+				)
+			}
+			resultList.AddItem("Cancel", "Press c to cancel", 'c', func() {
+				ui.SwitchPage("home")
+			})
+		})
+	}()
 }
