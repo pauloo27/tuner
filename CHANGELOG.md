@@ -19,8 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Lyric fetcher.
-
 - Cursor not hidding while playing a live.
+- Remove deprecated libmpv stuff (thansk to @callsamu).
+- Debian install script (thanks to @orenomfi and @marssaljr).
 
 ## [0.0.3] 2021-09-04
 
