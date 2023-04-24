@@ -9,7 +9,7 @@ require (
 	github.com/buger/jsonparser v1.1.1
 	github.com/kkdai/youtube/v2 v2.7.18
 	github.com/zackradisic/soundcloud-api v0.1.4
-	golang.org/x/term v0.2.0
+	golang.org/x/term v0.7.0
 )
 
 require (
@@ -17,4 +17,4 @@ require (
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 )
 
-//replace github.com/kkdai/youtube/v2 => github.com/ItsClairton/youtube/v2 v2.7.7-0.20220123230615-c86c1dbf79cf
+replace github.com/kkdai/youtube/v2 => github.com/Pauloo27/youtube/v2 v2.0.0-20230424170354-d3a792fb740a
