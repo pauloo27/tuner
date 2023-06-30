@@ -19,7 +19,7 @@ func simplePlayModeHandler() {
 	}, player.HookIdle)
 
 	query := strings.Join(os.Args[2:], " ")
-	results := search.Search(query, 1, search.SourceYouTube, search.SourceSoundCloud)
+	results := search.Search(query, 1, search.SourceYouTube)
 	player.PlaySearchResult(results[0], nil)
 
 	playing = make(chan bool)

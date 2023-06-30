@@ -54,7 +54,7 @@ type TunerData struct {
 	Version                                                       string
 	Playlists                                                     []*Playlist
 	DefaultVolume                                                 float64
-	Cache, FetchAlbum, LoadMPRIS, SearchSoundCloud, ShowInDiscord bool
+	Cache, FetchAlbum, LoadMPRIS, ShowInDiscord bool
 }
 
 func Load() *TunerData {

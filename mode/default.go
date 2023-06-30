@@ -21,6 +21,7 @@ import (
 var (
 	playing chan bool
 	warning string
+	searchSources = []search.SearchSource{search.SourceYouTube}
 )
 
 func play(result *search.SearchResult, playlist *storage.Playlist) {
@@ -90,11 +91,7 @@ func promptEntry() {
 	c := make(chan bool)
 	go utils.PrintWithLoadIcon(utils.Fmt("Searching for %s", rawInput), c, 100*time.Millisecond, true)
 	// do search
-	sources := []search.SearchSource{search.SourceYouTube}
-	if player.State.Data.SearchSoundCloud {
-		sources = append(sources, &search.SourceSoundCloud)
-	}
-	results := search.Search(rawInput, searchLimit, sources...)
+	results := search.Search(rawInput, searchLimit, searchSources...)
 
 	// ask the loading message to stop
 	c <- true
