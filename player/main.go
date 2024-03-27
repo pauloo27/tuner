@@ -219,7 +219,7 @@ func extractVideoURL(result *search.SearchResult) (string, error) {
 	if err != nil {
 		return "", nil
 	}
-	return defaultClient.GetStreamURL(vid, vid.Formats.FindByItag(140))
+	return defaultClient.GetStreamURL(vid, &vid.Formats.Itag(140)[0])
 }
 
 func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) error {
