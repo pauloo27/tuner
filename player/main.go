@@ -219,7 +219,15 @@ func extractVideoURL(result *search.SearchResult) (string, error) {
 	if err != nil {
 		return "", nil
 	}
-	return defaultClient.GetStreamURL(vid, &vid.Formats.Itag(140)[0])
+
+	formats := vid.Formats.Itag(251)
+
+	if len(formats) > 0 {
+		format := formats[0]
+		return defaultClient.GetStreamURL(vid, &format)
+	}
+
+	return defaultClient.GetStreamURL(vid, &vid.Formats[0])
 }
 
 func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) error {
@@ -262,21 +270,13 @@ func escapeTitle(title string) string {
 }
 
 func LoadFile(filePath, title string) error {
-	var options string
-	if title != "" {
-		options = fmt.Sprintf("force-media-title=%s", escapeTitle(title))
-	}
-	err := MpvInstance.Command([]string{"loadfile", filePath, "replace", options})
+	err := MpvInstance.Command([]string{"loadfile", filePath, "replace"})
 	callHooks(HookFileLoadStarted, err, filePath)
 	return err
 }
 
 func AppendFile(filePath, title string) error {
-	var options string
-	if title != "" {
-		options = fmt.Sprintf("force-media-title=%s", escapeTitle(title))
-	}
-	err := MpvInstance.Command([]string{"loadfile", filePath, "append", options})
+	err := MpvInstance.Command([]string{"loadfile", filePath, "append"})
 	callHooks(HookFileLoadStarted, err, filePath)
 	return err
 }
