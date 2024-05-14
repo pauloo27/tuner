@@ -14,6 +14,11 @@ import (
 )
 
 func ListPlaylists() {
+	if len(player.State.Data.Playlists) == 0 {
+		fmt.Printf("  %sNo playlists found%s\n", utils.ColorYellow, utils.ColorReset)
+		return
+	}
+
 	for i, playlist := range player.State.Data.Playlists {
 		bold := ""
 		if i%2 == 0 {

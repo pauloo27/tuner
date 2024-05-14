@@ -19,8 +19,8 @@ import (
 )
 
 var (
-	playing chan bool
-	warning string
+	playing       chan bool
+	warning       string
 	searchSources = []search.SearchSource{search.SourceYouTube}
 )
 
@@ -42,6 +42,7 @@ func promptEntry() {
 	fmt.Printf("%sPlaylists:\n", utils.ColorBlue)
 	display.ListPlaylists()
 	fmt.Printf("%sUse #<id> to start a playlist%s\n", utils.ColorBlue, utils.ColorReset)
+	fmt.Printf("%sSearch for %s/help%s to see the commands\n", utils.ColorBlue, utils.ColorYellow, utils.ColorBlue)
 
 	if warning != "" {
 		fmt.Printf("%s%s%s\n", utils.ColorYellow, warning, utils.ColorReset)
