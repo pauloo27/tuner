@@ -16,7 +16,7 @@ require (
 	github.com/anaskhan96/soup v1.2.4 // indirect
 	github.com/hugolgst/rich-go v0.0.0-20210220192218-7960b995f880 // indirect
 	golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa // indirect
-	golang.org/x/sys v0.0.0-20201211090839-8ad439b19e0f // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	golang.org/x/text v0.3.0 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 )
