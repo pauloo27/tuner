@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Go dependency to replace YouTube-DL (kkdai/youtube).
+~- Go dependency to replace YouTube-DL (kkdai/youtube).~ **REVERTED**
 - Show album art (or youtube thumbnail) in the Discord Presence.
 
 ### Changed

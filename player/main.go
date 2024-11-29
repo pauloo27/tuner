@@ -1,30 +1,21 @@
 package player
 
 import (
-	"errors"
-	"fmt"
-	"io"
 	"math"
-	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/Pauloo27/tuner/player/mpv"
 	"github.com/Pauloo27/tuner/search"
 	"github.com/Pauloo27/tuner/storage"
 	"github.com/Pauloo27/tuner/utils"
-	"github.com/kkdai/youtube/v2"
 )
 
 const (
 	maxVolume = 150.0
 )
 
-var (
-	MpvInstance   *mpv.Mpv
-	State         *PlayerState
-	defaultClient = youtube.Client{}
-)
+var MpvInstance *mpv.Mpv
+var State *PlayerState
 
 func Initialize() {
 	var err error
@@ -189,47 +180,6 @@ func SaveToPlaylist() {
 	callHooks(HookSavingTrackToPlaylist)
 }
 
-func extractLiveURL(live *youtube.Video) (string, error) {
-	res, err := http.Get(live.HLSManifestURL)
-	if err != nil {
-		return "", err
-	}
-	defer res.Body.Close()
-	buffer, err := io.ReadAll(res.Body)
-	if err != nil {
-		return "", err
-	}
-
-	body := string(buffer)
-
-	for _, line := range strings.Split(body, "\n") {
-		if strings.HasPrefix(line, "https://") {
-			return line, nil
-		}
-	}
-
-	return "", errors.New("invalid HLS manifest")
-}
-
-func extractVideoURL(result *search.SearchResult) (string, error) {
-	vid, err := defaultClient.GetVideo(result.URL)
-	if result.Live {
-		return extractLiveURL(vid)
-	}
-	if err != nil {
-		return "", nil
-	}
-
-	formats := vid.Formats.Itag(251)
-
-	if len(formats) > 0 {
-		format := formats[0]
-		return defaultClient.GetStreamURL(vid, &format)
-	}
-
-	return defaultClient.GetStreamURL(vid, &vid.Formats[0])
-}
-
 func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) error {
 	// remove all entries from playlist
 	ClearPlaylist()
@@ -241,16 +191,14 @@ func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) e
 	State.Playlist = playlist
 
 	if result == nil {
+		var err error
+
 		for i := range playlist.Songs {
 			song := playlist.SongAt(i)
-			videoURL, err := extractVideoURL(song)
-			if err != nil {
-				return err
-			}
 			if i == 0 {
-				err = LoadFile(videoURL, song.Title)
+				err = LoadFile(song.URL)
 			} else {
-				err = AppendFile(videoURL, song.Title)
+				err = AppendFile(song.URL)
 			}
 			if err != nil {
 				return err
@@ -258,24 +206,16 @@ func PlaySearchResult(result *search.SearchResult, playlist *storage.Playlist) e
 		}
 		return nil
 	}
-	videoURL, err := extractVideoURL(result)
-	if err != nil {
-		return err
-	}
-	return LoadFile(videoURL, result.Title)
+	return LoadFile(result.URL)
 }
 
-func escapeTitle(title string) string {
-	return fmt.Sprintf(`"%s"`, strings.ReplaceAll(title, `"`, "")) // FIXME
-}
-
-func LoadFile(filePath, title string) error {
-	err := MpvInstance.Command([]string{"loadfile", filePath, "replace"})
+func LoadFile(filePath string) error {
+	err := MpvInstance.Command([]string{"loadfile", filePath})
 	callHooks(HookFileLoadStarted, err, filePath)
 	return err
 }
 
-func AppendFile(filePath, title string) error {
+func AppendFile(filePath string) error {
 	err := MpvInstance.Command([]string{"loadfile", filePath, "append"})
 	callHooks(HookFileLoadStarted, err, filePath)
 	return err
