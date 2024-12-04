@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Pauloo27/lyric"
+	"github.com/pauloo27/lyric"
 )
 
 func FetchLyric() {

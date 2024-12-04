@@ -4,7 +4,7 @@ import (
 	"github.com/Pauloo27/tuner/album"
 	"github.com/Pauloo27/tuner/player"
 	"github.com/Pauloo27/tuner/search"
-	"github.com/ananagame/rich-go/client"
+	"github.com/hugolgst/rich-go/client"
 )
 
 func setActivity(state, details, image string) {
