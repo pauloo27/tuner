@@ -1,5 +1,4 @@
 BINARY_NAME = tuner
-TEST_COMMAND = gotest
 
 .PHONY: build
 build:
@@ -11,11 +10,15 @@ run: build
 
 .PHONY: test
 test: 
-	$(TEST_COMMAND) -v -cover -parallel 5 -failfast  ./... 
+	go test -v -cover -parallel 5 -failfast  ./... 
 
 .PHONY: cover
 cover: 
-	$(TEST_COMMAND) -v -cover -coverprofile=coverage.out -parallel 5 -failfast  ./... 
+	go test -v -cover -coverprofile=coverage.out -parallel 5 -failfast  ./... 
+	go tool cover -html=coverage.out
+
+.PHONY: show-cover
+show-cover: cover
 	go tool cover -html=coverage.out
 
 .PHONY: tidy
@@ -24,7 +27,8 @@ tidy:
 
 .PHONY: install
 install: build
-	sudo cp ./$(BINARY_NAME) /usr/bin/
+	# that's terrible?
+	sudo cp ./$(BINARY_NAME) /usr/local/bin/
 
 .PHONY: lint
 lint:
@@ -32,7 +36,7 @@ lint:
 
 .PHONY: spell
 spell:
-	misspell -error ./**
+	find . -name '*.go' -exec misspell -error {} +
 
 .PHONY: staticcheck
 staticcheck:
@@ -43,19 +47,29 @@ gosec:
 	gosec -tests ./... 
 
 .PHONY: inspect
-inspect: lint spell gosec staticcheck
+inspect: spell lint staticcheck gosec
+
+.PHONY: install-inspect-tools
+install-inspect-tools:
+	go install github.com/mgechev/revive@latest
+	go install honnef.co/go/tools/cmd/staticcheck@latest
+	go install github.com/securego/gosec/v2/cmd/gosec@latest
+	go install github.com/client9/misspell/cmd/misspell@latest
+
+# human readable test output
+.PHONY: love
+love:
+ifeq ($(filter watch,$(MAKECMDGOALS)),watch)
+	gotestsum --watch -- -cover ./...
+else
+	gotestsum -- -cover ./...
+endif
+
+.PHONY: install-dev-tools
+install-dev-tools: install-swaggo
+	go install gotest.tools/gotestsum@latest
 
 # (build but with a smaller binary)
 .PHONY: dist
 dist:
 	go build -o $(BINARY_NAME) -ldflags="-w -s" -gcflags=all=-l -v
-
-# (even smaller binary)
-.PHONY: pack
-pack: dist
-	upx ./$(BINARY_NAME)
-
-# "hot reload"
-.PHONY: dev
-dev:
-	fiber dev -t ./cmd/$(BINARY_NAE)
