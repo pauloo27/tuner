@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
@@ -24,20 +25,40 @@ func main() {
 		// hopefully, the only panic in the whole code base! (it's not)
 		panic(err)
 	}
-	defer logFile.Close()
+	defer onAppClose(logFile)
 
-	mpvPlayer, err := mpv.NewMpvPlayer()
-	if err != nil {
-		slog.Error("Failed to init mpv player!", "err", err)
-		os.Exit(-1)
-	}
-
-	providers.Player = mpvPlayer
-	providers.Sources = []source.Source{yt.NewYoutubeSource()}
+	initProviders()
 
 	err = ui.StartApp("home")
 	if err != nil {
 		slog.Error("Failed to start app", "err", err)
 		os.Exit(1)
 	}
+}
+
+func initProviders() {
+	mpvPlayer, err := mpv.NewMpvPlayer()
+	if err != nil {
+		slog.Error("Failed to init mpv player!", "err", err)
+		os.Exit(1)
+	}
+
+	providers.Player = mpvPlayer
+	providers.Sources = []source.Source{yt.NewYoutubeSource()}
+
+	sourcesNames := make([]string, 0, len(providers.Sources))
+
+	for _, source := range providers.Sources {
+		sourcesNames = append(sourcesNames, source.GetName())
+	}
+
+	slog.Info("Player provider", "name", providers.Player.GetName())
+	slog.Info("Sources", "names", sourcesNames)
+}
+
+func onAppClose(logFile *os.File) {
+	_ = logFile.Close()
+	slog.Info("Goodbye!")
+	fmt.Println("Goodbye!")
+	fmt.Printf("Log saved to %s\n", logFile.Name())
 }

@@ -2,6 +2,7 @@ package mpv
 
 import (
 	"log/slog"
+	"os"
 
 	"github.com/pauloo27/tuner/internal/providers/player"
 	"github.com/pauloo27/tuner/internal/providers/player/mpv/libmpv"
@@ -10,6 +11,7 @@ import (
 
 type MpvPlayer struct {
 	Instance *libmpv.Mpv
+	logger   *slog.Logger
 }
 
 var _ player.PlayerProvider = &MpvPlayer{}
@@ -19,6 +21,7 @@ func (p *MpvPlayer) Play(result source.SearchResult) error {
 	if err != nil {
 		return err
 	}
+	p.logger.Info("Loading file", "url", info.StreamURL, "format", info.Format)
 	p.Instance.Command([]string{"loadfile", info.StreamURL})
 	return nil
 }
@@ -34,7 +37,7 @@ func NewMpvPlayer() (*MpvPlayer, error) {
 		err := instance.SetOptionString(name, data)
 		if err != nil {
 			slog.Error("Failed to set option", "name", name, "data", data, "err", err)
-			panic(err)
+			os.Exit(1)
 		}
 	}
 
@@ -45,5 +48,6 @@ func NewMpvPlayer() (*MpvPlayer, error) {
 
 	return &MpvPlayer{
 		instance,
+		slog.With("player", "mpv"),
 	}, err
 }

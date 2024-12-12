@@ -42,6 +42,7 @@ func SwitchPage(pageName string, params ...interface{}) {
 	pages.SwitchToPage(pageName)
 	if !found {
 		slog.Error("Page not found", "pageName", pageName)
+		// nice
 		os.Exit(69)
 	}
 	if page.OnStart != nil {
