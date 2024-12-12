@@ -26,6 +26,8 @@ github.com/lucasb-eyer/go-colorful v1.2.0/go.mod h1:R4dSotOR9KMtayYi1e77YzuveK+i
 github.com/mattn/go-runewidth v0.0.13/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
 github.com/mattn/go-runewidth v0.0.16 h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6TULQc=
 github.com/mattn/go-runewidth v0.0.16/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
+github.com/pauloo27/libmpv v0.0.0-20241212160133-0beac4fd4218 h1:8NYT9UynOchIUE7CEynOLyRt9sfHugFd7GDaa3TmdQQ=
+github.com/pauloo27/libmpv v0.0.0-20241212160133-0beac4fd4218/go.mod h1:XtPw3JM/bbY8DQYtB2stLiDdVt/U6Xehn2iyVBhZu4U=
 github.com/pauloo27/searchtube v0.0.0-20241212054348-7272d9e3a0d4 h1:2rmdU//hGPV9ZJ6BGHvdVCjlMhnRnOF/bc+IO25UwLQ=
 github.com/pauloo27/searchtube v0.0.0-20241212054348-7272d9e3a0d4/go.mod h1:VuLekFlVoPP+8fxiSvS30bNqjE1jGxr7UuTb/6HLbpI=
 github.com/pauloo27/youtube/v2 v2.0.0-20241212061946-6bd12cdfed4f h1:ZpZECv8bDX7x2pbNb89aLmGPtC94bu19UamEbtMj0WU=

@@ -1,7 +1,6 @@
 # To-Do
 
 - add "recovery" to prevent random crashes that aren't logged
-- move libmpv bindings to another repo
 - create "models" (or something like that) package
 - refact the search results page
 - handle playlist empty
@@ -10,8 +9,6 @@
 - add stop binds in the player page
 - add volume binds in the player page
 - add seek binds in the player page
-
-# Done
 
 # Ideas
 

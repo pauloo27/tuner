@@ -4,8 +4,8 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/pauloo27/libmpv"
 	"github.com/pauloo27/tuner/internal/providers/player"
-	"github.com/pauloo27/tuner/internal/providers/player/mpv/libmpv"
 	"github.com/pauloo27/tuner/internal/providers/source"
 )
 
