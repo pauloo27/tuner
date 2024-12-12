@@ -1,11 +1,12 @@
 package yt
 
 import (
+	"errors"
 	"time"
 
-	"github.com/kkdai/youtube/v2"
 	"github.com/pauloo27/searchtube"
 	"github.com/pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/youtube/v2"
 )
 
 type YouTubeSource struct {
@@ -54,8 +55,17 @@ func (s *YouTubeSource) GetAudioInfo(result source.SearchResult) (source.AudioIn
 		return source.AudioInfo{}, err
 	}
 
-	format := video.Formats.FindByItag(250)
-	uri, err := s.client.GetStreamURL(video, format)
+	formats := video.Formats
+
+	formats = formats.WithAudioChannels()
+	formats.Sort()
+
+	if len(formats) == 0 {
+		return source.AudioInfo{}, errors.New("no audio info found")
+	}
+	format := formats[0]
+
+	uri, err := s.client.GetStreamURL(video, &format)
 	if err != nil {
 		return source.AudioInfo{}, err
 	}
