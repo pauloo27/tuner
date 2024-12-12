@@ -3,13 +3,14 @@ package playing
 import (
 	"fmt"
 	"log/slog"
+	"os"
 
-	"github.com/pauloo27/tuner/internal/providers/player"
+	"github.com/gdamore/tcell/v2"
+	"github.com/pauloo27/tuner/internal/providers"
 	"github.com/pauloo27/tuner/internal/providers/source"
 	"github.com/pauloo27/tuner/internal/ui"
 	"github.com/pauloo27/tuner/internal/ui/components/progress"
 	"github.com/pauloo27/tuner/internal/ui/components/progress/style"
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -40,12 +41,16 @@ func init() {
 }
 
 func onStart(params ...interface{}) {
-	result := params[0].(*source.SearchResult)
+	result, ok := params[0].(source.SearchResult)
+	if !ok {
+		slog.Error("Failed to cast first param to SearchResult")
+		os.Exit(1)
+	}
 	label.SetText(fmt.Sprintf("%s - %s", result.Artist, result.Title))
 	go func() {
-		err := player.Player.Play(result)
+		err := providers.Player.Play(result)
 		if err != nil {
-			slog.Error("Failed to play song", "player", player.Player.GetName(), "err", err)
+			slog.Error("Failed to play song", "player", providers.Player.GetName(), "err", err)
 			ui.App.QueueUpdateDraw(func() {
 				label.SetText("Something went wrong...")
 			})

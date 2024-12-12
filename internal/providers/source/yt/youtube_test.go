@@ -1,13 +1,13 @@
-package source_test
+package yt_test
 
 import (
 	"testing"
 
-	"github.com/pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/providers/source/yt"
 	"github.com/stretchr/testify/assert"
 )
 
-var youtubeProvider source.YouTubeSearch
+var youtubeProvider yt.YouTubeSource
 
 func TestYouTubeSearch(t *testing.T) {
 	assert.Equal(t, "YouTube", youtubeProvider.GetName())

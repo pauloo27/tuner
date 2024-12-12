@@ -5,10 +5,11 @@ import (
 	"log/slog"
 	"strconv"
 
+	"github.com/gdamore/tcell/v2"
+	"github.com/pauloo27/tuner/internal/providers"
 	"github.com/pauloo27/tuner/internal/providers/source"
 	"github.com/pauloo27/tuner/internal/ui"
 	"github.com/pauloo27/tuner/internal/ui/core"
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -57,7 +58,7 @@ func onStart(params ...interface{}) {
 	resultList.Clear()
 	label.SetText(fmt.Sprintf("Searching for %s...", searchQuery))
 	go func() {
-		results, err := source.SearchInAll(searchQuery)
+		results, err := searchInAll(searchQuery)
 		ui.App.QueueUpdateDraw(func() {
 			if err != nil {
 				slog.Error("Failed to search", "err", err)
@@ -87,4 +88,15 @@ func onStart(params ...interface{}) {
 			})
 		})
 	}()
+}
+
+func searchInAll(query string) (results []source.SearchResult, err error) {
+	for _, provider := range providers.Sources {
+		r, err := provider.SearchFor(query)
+		if err != nil {
+			return nil, err
+		}
+		results = append(results, r...)
+	}
+	return
 }

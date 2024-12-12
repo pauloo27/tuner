@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/pauloo27/tuner/internal/core/logging"
+	"github.com/pauloo27/tuner/internal/providers"
 	"github.com/pauloo27/tuner/internal/ui"
 
 	_ "github.com/pauloo27/tuner/internal/ui/pages/home"
@@ -12,6 +13,8 @@ import (
 	_ "github.com/pauloo27/tuner/internal/ui/pages/searching"
 
 	"github.com/pauloo27/tuner/internal/providers/player/mpv"
+	"github.com/pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/providers/source/yt"
 )
 
 func main() {
@@ -23,11 +26,14 @@ func main() {
 	}
 	defer logFile.Close()
 
-	err = mpv.InitMpvPlayer()
+	mpvPlayer, err := mpv.NewMpvPlayer()
 	if err != nil {
 		slog.Error("Failed to init mpv player!", "err", err)
 		os.Exit(-1)
 	}
+
+	providers.Player = mpvPlayer
+	providers.Sources = []source.Source{yt.NewYoutubeSource()}
 
 	err = ui.StartApp("home")
 	if err != nil {

@@ -3,9 +3,9 @@ package pages
 import (
 	"fmt"
 
-	"github.com/pauloo27/tuner/internal/ui"
-	"github.com/pauloo27/tuner/internal/version"
 	"github.com/gdamore/tcell/v2"
+	"github.com/pauloo27/tuner/internal/core"
+	"github.com/pauloo27/tuner/internal/ui"
 	"github.com/rivo/tview"
 )
 
@@ -15,7 +15,7 @@ func init() {
 	container.SetRows(1, 0)
 
 	label := tview.NewTextView()
-	label.SetText(fmt.Sprintf("[green:black]Tuner - %s", version.Current))
+	label.SetText(fmt.Sprintf("[green:black]Tuner - %s", core.Version))
 	label.SetTextAlign(tview.AlignCenter).SetDynamicColors(true)
 
 	searchInput := tview.NewInputField()

@@ -12,9 +12,9 @@ type MpvPlayer struct {
 	Instance *libmpv.Mpv
 }
 
-var _ player.PlayerProvider = MpvPlayer{}
+var _ player.PlayerProvider = &MpvPlayer{}
 
-func (p MpvPlayer) Play(result *source.SearchResult) error {
+func (p *MpvPlayer) Play(result source.SearchResult) error {
 	info, err := result.GetAudioInfo()
 	if err != nil {
 		return err
@@ -23,11 +23,11 @@ func (p MpvPlayer) Play(result *source.SearchResult) error {
 	return nil
 }
 
-func (MpvPlayer) GetName() string {
+func (*MpvPlayer) GetName() string {
 	return "MPV"
 }
 
-func newMpvPlayer() (*MpvPlayer, error) {
+func NewMpvPlayer() (*MpvPlayer, error) {
 	instance := libmpv.Create()
 
 	mustSetOption := func(name string, data string) {
@@ -46,13 +46,4 @@ func newMpvPlayer() (*MpvPlayer, error) {
 	return &MpvPlayer{
 		instance,
 	}, err
-}
-
-func InitMpvPlayer() error {
-	mpv, err := newMpvPlayer()
-	if err != nil {
-		return err
-	}
-	player.Player = mpv
-	return nil
 }
