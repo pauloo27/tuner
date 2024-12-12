@@ -5,9 +5,9 @@ import (
 	"log/slog"
 	"strconv"
 
-	"github.com/Pauloo27/tuner/internal/providers/source"
-	"github.com/Pauloo27/tuner/internal/ui"
-	"github.com/Pauloo27/tuner/internal/ui/core"
+	"github.com/pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/ui"
+	"github.com/pauloo27/tuner/internal/ui/core"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )

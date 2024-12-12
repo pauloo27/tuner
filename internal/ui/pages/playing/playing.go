@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/Pauloo27/tuner/internal/providers/player"
-	"github.com/Pauloo27/tuner/internal/providers/source"
-	"github.com/Pauloo27/tuner/internal/ui"
-	"github.com/Pauloo27/tuner/internal/ui/components/progress"
-	"github.com/Pauloo27/tuner/internal/ui/components/progress/style"
+	"github.com/pauloo27/tuner/internal/providers/player"
+	"github.com/pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/ui"
+	"github.com/pauloo27/tuner/internal/ui/components/progress"
+	"github.com/pauloo27/tuner/internal/ui/components/progress/style"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )

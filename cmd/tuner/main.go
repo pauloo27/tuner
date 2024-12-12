@@ -4,14 +4,14 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/Pauloo27/tuner/internal/core/logging"
-	"github.com/Pauloo27/tuner/internal/ui"
+	"github.com/pauloo27/tuner/internal/core/logging"
+	"github.com/pauloo27/tuner/internal/ui"
 
-	_ "github.com/Pauloo27/tuner/internal/ui/pages/home"
-	_ "github.com/Pauloo27/tuner/internal/ui/pages/playing"
-	_ "github.com/Pauloo27/tuner/internal/ui/pages/searching"
+	_ "github.com/pauloo27/tuner/internal/ui/pages/home"
+	_ "github.com/pauloo27/tuner/internal/ui/pages/playing"
+	_ "github.com/pauloo27/tuner/internal/ui/pages/searching"
 
-	"github.com/Pauloo27/tuner/internal/providers/player/mpv"
+	"github.com/pauloo27/tuner/internal/providers/player/mpv"
 )
 
 func main() {

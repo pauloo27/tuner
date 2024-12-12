@@ -3,7 +3,7 @@ package source
 import (
 	"time"
 
-	"github.com/Pauloo27/searchtube"
+	"github.com/pauloo27/searchtube"
 	"github.com/kkdai/youtube/v2"
 )
 

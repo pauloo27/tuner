@@ -1,7 +1,7 @@
 package player
 
 import (
-	"github.com/Pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/providers/source"
 )
 
 // temporary thing since it's too early to write this

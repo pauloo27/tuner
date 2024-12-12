@@ -1,7 +1,5 @@
 github.com/ItsClairton/youtube/v2 v2.7.7-0.20220610163135-5e6c6831c1e3 h1:h4/FXmebBHsp/jL85dx+fDtd0+AJrYy4b2IdP0m+jww=
 github.com/ItsClairton/youtube/v2 v2.7.7-0.20220610163135-5e6c6831c1e3/go.mod h1:Z+GFGa09GCHaW68aP0+xoQVaxZ6BvKfhMd4X3hxLKwY=
-github.com/Pauloo27/searchtube v0.0.0-20210906000314-0027cd6044df h1:43+CvjKAxXuBzVxGdydWCzaLrfCEOfVq7JrK0yo564A=
-github.com/Pauloo27/searchtube v0.0.0-20210906000314-0027cd6044df/go.mod h1:o2/xbhp9ttLLIYpQcf8oApG1h4/qr90zusSvvnRV5VQ=
 github.com/bitly/go-simplejson v0.5.0 h1:6IH+V8/tVMab511d5bn4M7EwGXZf9Hj6i2xSwkNEM+Y=
 github.com/bitly/go-simplejson v0.5.0/go.mod h1:cXHtHw4XUPsvGaxgjIAn8PhEWG9NfngEKAMDJEczWVA=
 github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 h1:DDGfHa7BWjL4YnC6+E63dPcxHo2sUxDIu8g3QgEJdRY=
@@ -36,6 +34,8 @@ github.com/lucasb-eyer/go-colorful v1.2.0 h1:1nnpGOrhyZZuNyfu1QjKiUICQ74+3FNCN69
 github.com/lucasb-eyer/go-colorful v1.2.0/go.mod h1:R4dSotOR9KMtayYi1e77YzuveK+i7ruzyGqttikkLy0=
 github.com/mattn/go-runewidth v0.0.13 h1:lTGmDsbAYt5DmK6OnoV7EuIF1wEIFAcxld6ypU4OSgU=
 github.com/mattn/go-runewidth v0.0.13/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
+github.com/pauloo27/searchtube v0.0.0-20241212054348-7272d9e3a0d4 h1:2rmdU//hGPV9ZJ6BGHvdVCjlMhnRnOF/bc+IO25UwLQ=
+github.com/pauloo27/searchtube v0.0.0-20241212054348-7272d9e3a0d4/go.mod h1:VuLekFlVoPP+8fxiSvS30bNqjE1jGxr7UuTb/6HLbpI=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rivo/tview v0.0.0-20211029142923-a4acb08f513e h1:dVBzRaVTERZmv0MRjt8/a+afStgA+4tXk3PnrqT6mlo=

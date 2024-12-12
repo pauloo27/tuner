@@ -1,8 +1,8 @@
 package queue
 
 import (
-	"github.com/Pauloo27/tuner/internal/core/event"
-	"github.com/Pauloo27/tuner/internal/core/track"
+	"github.com/pauloo27/tuner/internal/core/event"
+	"github.com/pauloo27/tuner/internal/core/track"
 )
 
 const (

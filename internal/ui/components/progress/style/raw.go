@@ -3,7 +3,7 @@ package style
 import (
 	"fmt"
 
-	"github.com/Pauloo27/tuner/internal/ui/components/progress"
+	"github.com/pauloo27/tuner/internal/ui/components/progress"
 )
 
 type RawText struct{}

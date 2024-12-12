@@ -3,8 +3,8 @@ package pages
 import (
 	"fmt"
 
-	"github.com/Pauloo27/tuner/internal/ui"
-	"github.com/Pauloo27/tuner/internal/version"
+	"github.com/pauloo27/tuner/internal/ui"
+	"github.com/pauloo27/tuner/internal/version"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )

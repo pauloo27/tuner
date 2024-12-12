@@ -3,8 +3,8 @@ package queue_test
 import (
 	"testing"
 
-	"github.com/Pauloo27/tuner/internal/core/queue"
-	"github.com/Pauloo27/tuner/internal/core/track"
+	"github.com/pauloo27/tuner/internal/core/queue"
+	"github.com/pauloo27/tuner/internal/core/track"
 	"github.com/stretchr/testify/require"
 )
 

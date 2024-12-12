@@ -3,7 +3,7 @@ package event_test
 import (
 	"testing"
 
-	"github.com/Pauloo27/tuner/internal/core/event"
+	"github.com/pauloo27/tuner/internal/core/event"
 	"github.com/stretchr/testify/require"
 )
 

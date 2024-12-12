@@ -3,9 +3,9 @@ package mpv
 import (
 	"log/slog"
 
-	"github.com/Pauloo27/tuner/internal/providers/player"
-	"github.com/Pauloo27/tuner/internal/providers/player/mpv/libmpv"
-	"github.com/Pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/providers/player"
+	"github.com/pauloo27/tuner/internal/providers/player/mpv/libmpv"
+	"github.com/pauloo27/tuner/internal/providers/source"
 )
 
 type MpvPlayer struct {

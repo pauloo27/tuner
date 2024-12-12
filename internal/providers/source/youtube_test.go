@@ -3,7 +3,7 @@ package source_test
 import (
 	"testing"
 
-	"github.com/Pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/providers/source"
 	"github.com/stretchr/testify/assert"
 )
 
