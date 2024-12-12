@@ -1,7 +1,8 @@
 package ui
 
 import (
-	"fmt"
+	"log/slog"
+	"os"
 
 	"github.com/rivo/tview"
 )
@@ -40,7 +41,8 @@ func SwitchPage(pageName string, params ...interface{}) {
 	page, found := pageMap[pageName]
 	pages.SwitchToPage(pageName)
 	if !found {
-		panic(fmt.Sprintf("Page %s not found", pageName))
+		slog.Error("Page not found", "pageName", pageName)
+		os.Exit(69)
 	}
 	if page.OnStart != nil {
 		page.OnStart(params...)

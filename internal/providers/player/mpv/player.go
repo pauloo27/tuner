@@ -1,6 +1,8 @@
 package mpv
 
 import (
+	"log/slog"
+
 	"github.com/Pauloo27/tuner/internal/providers/player"
 	"github.com/Pauloo27/tuner/internal/providers/player/mpv/libmpv"
 	"github.com/Pauloo27/tuner/internal/providers/source"
@@ -31,6 +33,7 @@ func newMpvPlayer() (*MpvPlayer, error) {
 	mustSetOption := func(name string, data string) {
 		err := instance.SetOptionString(name, data)
 		if err != nil {
+			slog.Error("Failed to set option", "name", name, "data", data, "err", err)
 			panic(err)
 		}
 	}
@@ -45,10 +48,11 @@ func newMpvPlayer() (*MpvPlayer, error) {
 	}, err
 }
 
-func init() {
+func InitMpvPlayer() error {
 	mpv, err := newMpvPlayer()
 	if err != nil {
-		panic(err)
+		return err
 	}
 	player.Player = mpv
+	return nil
 }

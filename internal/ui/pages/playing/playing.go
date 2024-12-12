@@ -2,6 +2,7 @@ package playing
 
 import (
 	"fmt"
+	"log/slog"
 
 	"github.com/Pauloo27/tuner/internal/providers/player"
 	"github.com/Pauloo27/tuner/internal/providers/source"
@@ -44,6 +45,7 @@ func onStart(params ...interface{}) {
 	go func() {
 		err := player.Player.Play(result)
 		if err != nil {
+			slog.Error("Failed to play song", "player", player.Player.GetName(), "err", err)
 			ui.App.QueueUpdateDraw(func() {
 				label.SetText("Something went wrong...")
 			})

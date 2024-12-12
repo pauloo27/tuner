@@ -2,6 +2,7 @@ package searching
 
 import (
 	"fmt"
+	"log/slog"
 	"strconv"
 
 	"github.com/Pauloo27/tuner/internal/providers/source"
@@ -59,6 +60,7 @@ func onStart(params ...interface{}) {
 		results, err := source.SearchInAll(searchQuery)
 		ui.App.QueueUpdateDraw(func() {
 			if err != nil {
+				slog.Error("Failed to search", "err", err)
 				label.SetText("Something went wrong =(")
 			}
 			label.SetText(fmt.Sprintf("Results for %s:", searchQuery))

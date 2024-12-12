@@ -51,13 +51,13 @@ func (p YouTubeSearch) SearchFor(searchQuery string) ([]*SearchResult, error) {
 func (YouTubeSearch) GetAudioInfo(result *SearchResult) (*AudioInfo, error) {
 	video, err := client.GetVideo(result.URL)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	format := video.Formats.FindByItag(250)
 	uri, err := client.GetStreamURL(video, format)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	return &AudioInfo{
