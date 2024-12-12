@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"runtime/debug"
 
 	"github.com/pauloo27/tuner/internal/core/logging"
 	"github.com/pauloo27/tuner/internal/providers"
@@ -57,8 +58,14 @@ func initProviders() {
 }
 
 func onAppClose(logFile *os.File) {
+	if err := recover(); err != nil {
+		slog.Error("PANIC!", "err", err, "stacktrace", debug.Stack())
+		fmt.Println("Panic caught! Loggin and exiting...")
+	} else {
+		slog.Info("Goodbye!")
+		fmt.Println("Goodbye!")
+	}
+
 	_ = logFile.Close()
-	slog.Info("Goodbye!")
-	fmt.Println("Goodbye!")
 	fmt.Printf("Log saved to %s\n", logFile.Name())
 }
