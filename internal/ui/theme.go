@@ -7,15 +7,15 @@ import (
 
 var (
 	defaultTheme = &tview.Theme{
-		PrimitiveBackgroundColor:    tcell.ColorDefault,
+		PrimitiveBackgroundColor:    tcell.ColorDefault, // "transparent"
 		ContrastBackgroundColor:     tcell.ColorBlue,
 		MoreContrastBackgroundColor: tcell.ColorGreen,
 		BorderColor:                 tcell.ColorWhite,
-		TitleColor:                  tcell.ColorWhite,
+		TitleColor:                  tcell.ColorGreen,
 		GraphicsColor:               tcell.ColorWhite,
-		PrimaryTextColor:            tcell.ColorWhite,
-		SecondaryTextColor:          tcell.ColorYellow,
-		TertiaryTextColor:           tcell.ColorGreen,
+		PrimaryTextColor:            tcell.ColorGreen,
+		SecondaryTextColor:          tcell.ColorBlue,
+		TertiaryTextColor:           tcell.ColorWhite,
 		InverseTextColor:            tcell.ColorBlue,
 		ContrastSecondaryTextColor:  tcell.ColorDarkCyan,
 	}

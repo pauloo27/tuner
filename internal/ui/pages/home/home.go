@@ -2,6 +2,7 @@ package pages
 
 import (
 	"fmt"
+	"log/slog"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/pauloo27/tuner/internal/core"
@@ -10,23 +11,34 @@ import (
 )
 
 func init() {
-	container := tview.NewGrid()
-	container.SetColumns(0)
-	container.SetRows(1, 0)
+	container := tview.NewGrid().SetColumns(0).SetRows(1, 1, 0)
 
-	label := tview.NewTextView()
-	label.SetText(fmt.Sprintf("[green:black]Tuner - %s", core.Version))
-	label.SetTextAlign(tview.AlignCenter).SetDynamicColors(true)
+	label := tview.NewTextView().
+		SetText(
+			fmt.Sprintf("Tuner - %s", core.Version),
+		).
+		SetTextColor(ui.GetTheme().TitleColor)
 
-	searchInput := tview.NewInputField()
-	searchInput.SetFieldBackgroundColor(ui.GetTheme().PrimitiveBackgroundColor)
-	searchInput.SetLabel("[blue]Search for: ")
+	// FIXME: there must be a better way...
+	emptySpace := tview.NewTextView()
+
+	searchInput := tview.NewInputField().
+		SetFieldBackgroundColor(ui.GetTheme().PrimitiveBackgroundColor).
+		SetLabel(" > Search: ")
+
 	searchInput.SetDoneFunc(func(tcell.Key) {
-		ui.SwitchPage("searching", searchInput.GetText())
+		query := searchInput.GetText()
+		if query == "" {
+			return
+		}
+		slog.Info("Going to searching for", "query", query)
+		ui.SwitchPage("searching", query)
 	})
 
-	container.AddItem(label, 0, 0, 1, 1, 0, 0, false)
-	container.AddItem(searchInput, 1, 0, 1, 1, 0, 0, true)
+	container.AddItem(label, 0, 0, 1, 1, 0, 0, false).
+		// can i do this using gap without the bg color? maybe something else? idk...
+		AddItem(emptySpace, 1, 0, 1, 1, 0, 0, false).
+		AddItem(searchInput, 2, 0, 1, 1, 0, 0, true)
 
 	ui.RegisterPage(&ui.Page{
 		Name: "home", Container: container,
