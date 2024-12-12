@@ -26,7 +26,7 @@ func TestSearchResult(t *testing.T) {
 	assert.GreaterOrEqual(t, len(results), 1)
 	result := results[0]
 	assert.Equal(t, "NoCopyrightSounds", result.Artist)
-	assert.Equal(t, "Warriyo - Mortals (feat. Laura Brehm) [NCS Release]", result.Title)
+	assert.Equal(t, "Warriyo - Mortals (feat. Laura Brehm) | Future Trap | NCS - Copyright Free Music", result.Title)
 	assert.False(t, result.IsLive)
 	assert.Equal(t, "3m50s", result.Length.String())
 }
