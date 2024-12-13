@@ -10,7 +10,7 @@ import (
 var youtubeProvider yt.YouTubeSource
 
 func TestYouTubeSearch(t *testing.T) {
-	assert.Equal(t, "YouTube", youtubeProvider.GetName())
+	assert.Equal(t, "YouTube", youtubeProvider.Name())
 	results, err := youtubeProvider.SearchFor("no copyright songs")
 	assert.Nil(t, err)
 	assert.NotNil(t, results)

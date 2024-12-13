@@ -22,7 +22,7 @@ type AudioInfo struct {
 }
 
 type Source interface {
-	GetName() (name string)
+	Name() (name string)
 	SearchFor(searchQuery string) (results []SearchResult, err error)
 	GetAudioInfo(result SearchResult) (AudioInfo, error)
 }

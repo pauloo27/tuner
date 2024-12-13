@@ -60,10 +60,10 @@ func initProviders() {
 	sourcesNames := make([]string, 0, len(providers.Sources))
 
 	for _, source := range providers.Sources {
-		sourcesNames = append(sourcesNames, source.GetName())
+		sourcesNames = append(sourcesNames, source.Name())
 	}
 
-	slog.Info("Player provider", "name", providers.Player.GetName())
+	slog.Info("Player provider", "name", providers.Player.Name())
 	slog.Info("Sources", "names", sourcesNames)
 }
 

@@ -5,6 +5,6 @@ import (
 )
 
 type PlayerProvider interface {
-	GetName() string
+	Name() string
 	Play(source.SearchResult) error
 }

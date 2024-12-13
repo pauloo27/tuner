@@ -26,7 +26,7 @@ func (p *MpvPlayer) Play(result source.SearchResult) error {
 	return nil
 }
 
-func (*MpvPlayer) GetName() string {
+func (*MpvPlayer) Name() string {
 	return "MPV"
 }
 

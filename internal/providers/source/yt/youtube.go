@@ -19,7 +19,7 @@ func NewYoutubeSource() *YouTubeSource {
 	return &YouTubeSource{}
 }
 
-func (*YouTubeSource) GetName() (name string) {
+func (*YouTubeSource) Name() (name string) {
 	return "YouTube"
 }
 
