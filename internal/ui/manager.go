@@ -1,51 +1,56 @@
 package ui
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
+	"github.com/pauloo27/tuner/internal/ui/theme"
 	"github.com/rivo/tview"
 )
 
-var (
-	App     *tview.Application
-	pages   = tview.NewPages()
-	pageMap = make(map[string]*Page)
+const (
+	defaultPageName = HomePageName
 )
 
-func init() {
-	tview.Styles = *GetTheme()
+var (
+	pagesByName = make(map[PageName]Page)
+	tviewPages  = tview.NewPages()
+	App         *tview.Application
+)
+
+func Setup() {
+	theme.ResetTviewTheme()
 }
 
-func GetTheme() *tview.Theme {
-	// TODO: handle "theming"?
-	return defaultTheme
+func RegisterPages(pages ...Page) error {
+	for _, page := range pages {
+		if err := page.Init(); err != nil {
+			return fmt.Errorf("failed to init page %s: %w", page.Name(), err)
+		}
+		pagesByName[page.Name()] = page
+		tviewPages.AddPage(string(page.Name()), page.Container(), true, false)
+	}
+	return nil
 }
 
-func RegisterPage(page *Page) {
-	pageMap[page.Name] = page
-	pages.AddPage(page.Name, page.Container, true, false)
-}
-
-func StartApp(defaultPageName string) error {
-	App = tview.NewApplication()
-	SwitchPage(defaultPageName)
-	return App.SetRoot(pages, true).Run()
-}
-
-func SetFocus(component tview.Primitive) {
-	App.SetFocus(component)
-}
-
-func SwitchPage(pageName string, params ...interface{}) {
-	page, found := pageMap[pageName]
-	pages.SwitchToPage(pageName)
+func SwitchPage(pageName PageName, params ...any) {
+	page, found := pagesByName[pageName]
+	tviewPages.SwitchToPage(string(pageName))
 	if !found {
 		slog.Error("Page not found", "pageName", pageName)
 		// nice
 		os.Exit(69)
 	}
-	if page.OnStart != nil {
-		page.OnStart(params...)
+	err := page.Open(params...)
+	if err != nil {
+		slog.Info("Failed to switch page", "page", page.Name(), "err", err)
+		os.Exit(1)
 	}
+}
+
+func StartTUI() error {
+	App = tview.NewApplication()
+	SwitchPage(defaultPageName)
+	return App.SetRoot(tviewPages, true).Run()
 }

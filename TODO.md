@@ -1,6 +1,5 @@
 # To-Do
 
-- refact the search results page
 - handle playlist empty
 - show player status (play/paused, duration, position)
 - add play/pause binds in the player page
@@ -17,3 +16,4 @@
 - 🔴live🔴 support?
 - use cobra?
 - add CLI mode (instead of TUI)
+- theme support

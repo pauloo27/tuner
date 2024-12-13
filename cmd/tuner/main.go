@@ -9,10 +9,9 @@ import (
 	"github.com/pauloo27/tuner/internal/core/logging"
 	"github.com/pauloo27/tuner/internal/providers"
 	"github.com/pauloo27/tuner/internal/ui"
-
-	_ "github.com/pauloo27/tuner/internal/ui/pages/home"
-	_ "github.com/pauloo27/tuner/internal/ui/pages/playing"
-	_ "github.com/pauloo27/tuner/internal/ui/pages/searching"
+	"github.com/pauloo27/tuner/internal/ui/pages/home"
+	"github.com/pauloo27/tuner/internal/ui/pages/playing"
+	"github.com/pauloo27/tuner/internal/ui/pages/searching"
 
 	"github.com/pauloo27/tuner/internal/providers/player/mpv"
 	"github.com/pauloo27/tuner/internal/providers/source"
@@ -20,6 +19,7 @@ import (
 )
 
 func main() {
+	fmt.Println("Hello world!")
 	logFile, err := logging.SetupLogger()
 	if err != nil {
 		slog.Info("Failed to setup logger!", "err", err)
@@ -29,12 +29,22 @@ func main() {
 	defer onAppClose(logFile)
 
 	initProviders()
-
-	err = ui.StartApp("home")
-	if err != nil {
-		slog.Error("Failed to start app", "err", err)
-		os.Exit(1)
+	if err = registerPages(); err != nil {
+		slog.Error("Failed to register page", "err", err)
+		os.Exit(-1)
 	}
+
+	if err = ui.StartTUI(); err != nil {
+		slog.Error("Failed to run TUI", "err", err)
+		os.Exit(-1)
+	}
+}
+
+func registerPages() error {
+	ui.Setup()
+	return ui.RegisterPages(
+		home.NewHomePage(), searching.NewSearchingPage(), playing.NewPlayingPage(),
+	)
 }
 
 func initProviders() {
@@ -62,8 +72,8 @@ func onAppClose(logFile *os.File) {
 		slog.Error("PANIC!", "err", err, "stacktrace", debug.Stack())
 		fmt.Println("Panic caught! Loggin and exiting...")
 	} else {
-		slog.Info("Goodbye!")
-		fmt.Println("Goodbye!")
+		slog.Info("Goodbye cruel world!")
+		fmt.Println("Goodbye cruel world!")
 	}
 
 	_ = logFile.Close()
