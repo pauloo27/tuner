@@ -1,13 +1,15 @@
 package logging
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 	"path"
+	"time"
 )
 
 func SetupLogger() (*os.File, error) {
-	logsDir, err := os.MkdirTemp(os.TempDir(), "tuner-logs-*")
+	logsDir, err := os.MkdirTemp(os.TempDir(), fmt.Sprintf("tuner-logs-%d", time.Now().UnixMilli()))
 	if err != nil {
 		return nil, err
 	}

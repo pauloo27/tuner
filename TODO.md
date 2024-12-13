@@ -1,9 +1,7 @@
 # To-Do
 
 - handle playlist empty
-- show player status (play/paused, duration, position)
-- add play/pause binds in the player page
-- create "models" (or something like that) package
+- show player status (duration, position)
 - add stop binds in the player page
 - add volume binds in the player page
 - add seek binds in the player page

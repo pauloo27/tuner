@@ -7,4 +7,9 @@ import (
 type PlayerProvider interface {
 	Name() string
 	Play(source.SearchResult) error
+	On(event PlayerEvent, handler PlayerEventCallback)
+	Pause() error
+	UnPause() error
+	TogglePause() error
+	IsPaused() (bool, error)
 }

@@ -5,13 +5,15 @@ import (
 	"os"
 
 	"github.com/pauloo27/libmpv"
+	"github.com/pauloo27/tuner/internal/core/event"
 	"github.com/pauloo27/tuner/internal/providers/player"
 	"github.com/pauloo27/tuner/internal/providers/source"
 )
 
 type MpvPlayer struct {
-	Instance *libmpv.Mpv
+	instance *libmpv.Mpv
 	logger   *slog.Logger
+	*event.EventEmitter[player.PlayerEvent]
 }
 
 var _ player.PlayerProvider = &MpvPlayer{}
@@ -22,7 +24,7 @@ func (p *MpvPlayer) Play(result source.SearchResult) error {
 		return err
 	}
 	p.logger.Info("Loading file", "url", info.StreamURL, "format", info.Format)
-	p.Instance.Command([]string{"loadfile", info.StreamURL})
+	p.instance.Command([]string{"loadfile", info.StreamURL})
 	return nil
 }
 
@@ -45,9 +47,53 @@ func NewMpvPlayer() (*MpvPlayer, error) {
 	mustSetOption("cache", "no")
 
 	err := instance.Initialize()
+	if err != nil {
+		return nil, err
+	}
 
-	return &MpvPlayer{
+	p := &MpvPlayer{
 		instance,
 		slog.With("player", "mpv"),
-	}, err
+		event.NewEventEmitter[player.PlayerEvent](),
+	}
+
+	go func() {
+		// ignore errors for now
+		_ = p.listenToEvents()
+	}()
+
+	if err := p.loadMpris(); err != nil {
+		p.logger.Warn("Failed to load mpris", "err", err)
+	}
+
+	return p, nil
+}
+
+func (p *MpvPlayer) Pause() error {
+	return p.instance.SetProperty("pause", libmpv.FORMAT_FLAG, true)
+}
+
+func (p *MpvPlayer) UnPause() error {
+	return p.instance.SetProperty("pause", libmpv.FORMAT_FLAG, false)
+}
+
+func (p *MpvPlayer) TogglePause() error {
+	isPaused, err := p.IsPaused()
+	if err != nil {
+		return err
+	}
+
+	if isPaused {
+		return p.UnPause()
+	}
+	return p.Pause()
+}
+
+func (p *MpvPlayer) IsPaused() (bool, error) {
+	isPaused, err := p.instance.GetProperty("pause", libmpv.FORMAT_FLAG)
+	if err != nil {
+		return false, err
+	}
+
+	return isPaused.(bool), err
 }

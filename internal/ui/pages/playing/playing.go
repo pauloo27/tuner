@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/gdamore/tcell/v2"
 	"github.com/pauloo27/tuner/internal/providers"
+	"github.com/pauloo27/tuner/internal/providers/player"
 	"github.com/pauloo27/tuner/internal/providers/source"
 	"github.com/pauloo27/tuner/internal/ui"
 	"github.com/pauloo27/tuner/internal/ui/core"
@@ -33,6 +35,14 @@ func (p *playingPage) Init() error {
 	p.songStatus = tview.NewTextView()
 	p.container.AddItem(p.songLabel, 0, 0, 1, 1, 0, 0, false)
 	p.container.AddItem(p.songStatus, 1, 0, 1, 1, 0, 0, false)
+
+	p.container.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		p.handleInput(event.Rune())
+		return event
+	})
+
+	p.registerListeners()
+
 	return nil
 }
 
@@ -63,5 +73,31 @@ func (p *playingPage) play(result source.SearchResult) {
 		ui.App.QueueUpdateDraw(func() {
 			p.songLabel.SetText("Something went wrong...")
 		})
+	}
+}
+
+func (p *playingPage) registerListeners() {
+	providers.Player.On(player.PlayerEventPause, func(...any) {
+		ui.App.QueueUpdateDraw(func() {
+			p.songStatus.SetText(core.IconPaused)
+		})
+	})
+
+	providers.Player.On(player.PlayerEventPlay, func(...any) {
+		ui.App.QueueUpdateDraw(func() {
+			p.songStatus.SetText(core.IconPlaying)
+		})
+	})
+}
+
+func (p *playingPage) handleInput(key rune) {
+	switch key {
+	case ' ':
+		err := providers.Player.TogglePause()
+		if err != nil {
+			slog.Error("Failed to toggle pause", "err", err)
+		}
+	default:
+		slog.Info("Unhandled input", "key", key)
 	}
 }
