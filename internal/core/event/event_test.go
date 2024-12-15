@@ -7,26 +7,28 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+type EventType string
+
 func TestEventEmitter(t *testing.T) {
 	var (
-		helloEvent = event.EventType("HELLO")
-		byeEvent   = event.EventType("BYE")
+		helloEvent = EventType("HELLO")
+		byeEvent   = EventType("BYE")
 	)
 
 	t.Run("create new event emitter", func(t *testing.T) {
-		emitter := event.NewEventEmitter()
+		emitter := event.NewEventEmitter[EventType]()
 		require.NotNil(t, emitter)
 	})
 
 	t.Run("add listener", func(t *testing.T) {
-		emitter := event.NewEventEmitter()
+		emitter := event.NewEventEmitter[EventType]()
 		require.NotNil(t, emitter)
 
 		emitter.On(helloEvent, func(...interface{}) {})
 	})
 
 	t.Run("add listener and call it", func(t *testing.T) {
-		emitter := event.NewEventEmitter()
+		emitter := event.NewEventEmitter[EventType]()
 		require.NotNil(t, emitter)
 
 		ch := make(chan string, 1)
@@ -45,7 +47,7 @@ func TestEventEmitter(t *testing.T) {
 	})
 
 	t.Run("add 4 listeners and call them", func(t *testing.T) {
-		emitter := event.NewEventEmitter()
+		emitter := event.NewEventEmitter[EventType]()
 		require.NotNil(t, emitter)
 
 		ch := make(chan string, 4)
@@ -70,7 +72,7 @@ func TestEventEmitter(t *testing.T) {
 	})
 
 	t.Run("add listeners to 2 events and call only one", func(t *testing.T) {
-		emitter := event.NewEventEmitter()
+		emitter := event.NewEventEmitter[EventType]()
 		require.NotNil(t, emitter)
 
 		ch := make(chan string, 1)
