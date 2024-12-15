@@ -13,7 +13,9 @@ func (p *playingPage) handleInput(key rune) {
 		if err != nil {
 			slog.Error("Failed to toggle pause", "err", err)
 		}
-	case '+':
+	// dec is - (a single key) and if inc was + (2 keys) i would cry myself to
+	// sleep
+	case '+', '=':
 		err := p.incrementVolume()
 		if err != nil {
 			slog.Error("Failed to increment volume", "err", err)
