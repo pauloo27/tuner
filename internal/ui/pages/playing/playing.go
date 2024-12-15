@@ -74,6 +74,18 @@ func (p *playingPage) play(result source.SearchResult) {
 			p.songLabel.SetText("Something went wrong...")
 		})
 	}
+	isPaused, err := providers.Player.IsPaused()
+	if err != nil {
+		slog.Info("Failed to get paused status", "err", err)
+		return
+	}
+	ui.App.QueueUpdateDraw(func() {
+		if isPaused {
+			p.songStatus.SetText(core.IconPaused)
+		} else {
+			p.songStatus.SetText(core.IconPlaying)
+		}
+	})
 }
 
 func (p *playingPage) registerListeners() {
