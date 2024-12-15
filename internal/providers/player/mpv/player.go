@@ -97,3 +97,16 @@ func (p *MpvPlayer) IsPaused() (bool, error) {
 
 	return isPaused.(bool), err
 }
+
+func (p *MpvPlayer) GetVolume() (float64, error) {
+	volume, err := p.instance.GetProperty("volume", libmpv.FORMAT_DOUBLE)
+	if err != nil {
+		return 0, err
+	}
+
+	return volume.(float64), err
+}
+
+func (p *MpvPlayer) SetVolume(volume float64) error {
+	return p.instance.SetProperty("volume", libmpv.FORMAT_DOUBLE, volume)
+}

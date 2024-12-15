@@ -12,4 +12,6 @@ type PlayerProvider interface {
 	UnPause() error
 	TogglePause() error
 	IsPaused() (bool, error)
+	GetVolume() (float64, error)
+	SetVolume(float64) error
 }

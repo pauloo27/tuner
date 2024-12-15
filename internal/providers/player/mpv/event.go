@@ -13,6 +13,11 @@ func (p *MpvPlayer) listenToEvents() error {
 		return err
 	}
 
+	err = p.instance.ObserveProperty(0, "volume", libmpv.FORMAT_DOUBLE)
+	if err != nil {
+		return err
+	}
+
 	for {
 		event := p.instance.WaitEvent(60)
 		p.logger.Debug("Got event!", "event", event)
@@ -28,6 +33,9 @@ func (p *MpvPlayer) listenToEvents() error {
 
 func (p *MpvPlayer) handlePropertyChange(data *libmpv.EventProperty) {
 	switch data.Name {
+	case "volume":
+		p.logger.Info("Volume changed event!")
+		p.Emit(player.PlayerEventVolumeChanged)
 	case "pause":
 		value := *(*int)(data.Data.(unsafe.Pointer))
 		if value == 0 {

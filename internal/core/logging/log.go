@@ -9,7 +9,7 @@ import (
 )
 
 func SetupLogger() (*os.File, error) {
-	logsDir, err := os.MkdirTemp(os.TempDir(), fmt.Sprintf("tuner-logs-%d", time.Now().UnixMilli()))
+	logsDir, err := os.MkdirTemp(os.TempDir(), fmt.Sprintf("tuner-logs-%d", time.Now().Unix()))
 	if err != nil {
 		return nil, err
 	}
