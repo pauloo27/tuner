@@ -69,13 +69,18 @@ func initProviders() {
 
 func onAppClose(logFile *os.File) {
 	if err := recover(); err != nil {
+		// FIXME: the stacktrace is unreadable this way
 		slog.Error("PANIC!", "err", err, "stacktrace", debug.Stack())
-		fmt.Println("Panic caught! Loggin and exiting...")
+		fmt.Println("Panic caught! Loggin' and exiting...")
 	} else {
 		slog.Info("Goodbye cruel world!")
 		fmt.Println("Goodbye cruel world!")
 	}
 
-	_ = logFile.Close()
-	fmt.Printf("Log saved to %s\n", logFile.Name())
+	err := logFile.Close()
+	if err == nil {
+		fmt.Printf("Log saved to %s\n", logFile.Name())
+	} else {
+		fmt.Printf("Failed to close log file", "err", err)
+	}
 }
