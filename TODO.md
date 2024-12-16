@@ -1,9 +1,8 @@
 # To-Do
 
 - handle playlist empty
-- show player status (duration, position)
 - add stop binds in the player page
-- add volume binds in the player page
+- show song progress (duration, position)
 - add seek binds in the player page
 
 # Ideas

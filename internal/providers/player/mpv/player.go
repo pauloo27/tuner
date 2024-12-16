@@ -24,8 +24,12 @@ func (p *MpvPlayer) Play(result source.SearchResult) error {
 		return err
 	}
 	p.logger.Info("Loading file", "url", info.StreamURL, "format", info.Format)
-	p.instance.Command([]string{"loadfile", info.StreamURL})
-	return nil
+	err = p.instance.Command([]string{"loadfile", info.StreamURL})
+	if err != nil {
+		return err
+	}
+
+	return p.instance.SetPropertyString("force-media-title", result.Title)
 }
 
 func (*MpvPlayer) Name() string {

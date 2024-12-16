@@ -26,6 +26,6 @@ func (p *playingPage) handleInput(key rune) {
 			slog.Error("Failed to decrement volume", "err", err)
 		}
 	default:
-		slog.Info("Unhandled input", "key", key)
+		slog.Debug("Unhandled input", "key", key)
 	}
 }

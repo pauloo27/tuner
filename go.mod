@@ -8,7 +8,7 @@ require (
 	github.com/gdamore/tcell/v2 v2.4.1-0.20210905002822-f057f0a857a1
 	github.com/pauloo27/libmpv v0.0.0-20241212160133-0beac4fd4218
 	github.com/pauloo27/searchtube v0.0.0-20241212054348-7272d9e3a0d4
-	github.com/pauloo27/youtube/v2 v2.0.0-20241212061946-6bd12cdfed4f
+	github.com/pauloo27/youtube/v2 v2.0.0-20241213235619-3be3e4b119df
 	github.com/rivo/tview v0.0.0-20211029142923-a4acb08f513e
 	github.com/stretchr/testify v1.10.0
 )
@@ -22,7 +22,6 @@ require (
 	github.com/gdamore/encoding v1.0.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
 	github.com/google/pprof v0.0.0-20241210010833-40e02aabc2ad // indirect
-	github.com/kkdai/youtube/v2 v2.7.10 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
@@ -32,5 +31,3 @@ require (
 	golang.org/x/text v0.21.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/kkdai/youtube/v2 => github.com/ItsClairton/youtube/v2 v2.7.7-0.20220610163135-5e6c6831c1e3
