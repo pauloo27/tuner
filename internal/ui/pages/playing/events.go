@@ -10,6 +10,7 @@ import (
 )
 
 func (p *playingPage) registerListeners() {
+	// TODO: should I ignore the events when the page is not focused?
 	providers.Player.On(player.PlayerEventPause, func(...any) {
 		ui.App.QueueUpdateDraw(func() {
 			p.songLabel.SetText(p.buildSongLabel(core.IconPaused))
@@ -28,6 +29,12 @@ func (p *playingPage) registerListeners() {
 			if err != nil {
 				slog.Info("Failed to update volume", "err", err)
 			}
+		})
+	})
+
+	providers.Player.On(player.PlayerEventIdle, func(...any) {
+		ui.App.QueueUpdateDraw(func() {
+			ui.SwitchPage(ui.HomePageName)
 		})
 	})
 }

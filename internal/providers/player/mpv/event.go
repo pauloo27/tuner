@@ -24,6 +24,8 @@ func (p *MpvPlayer) listenToEvents() error {
 		switch event.Event_Id {
 		case libmpv.EVENT_NONE:
 			continue
+		case libmpv.EVENT_IDLE:
+			p.Emit(player.PlayerEventIdle)
 		case libmpv.EVENT_PROPERTY_CHANGE:
 			data := event.Data.(*libmpv.EventProperty)
 			p.handlePropertyChange(data)
