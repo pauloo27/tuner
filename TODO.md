@@ -2,7 +2,6 @@
 
 - show song progress (duration, position)
 - add seek binds in the player page
-- theme support
 
 # Ideas
 

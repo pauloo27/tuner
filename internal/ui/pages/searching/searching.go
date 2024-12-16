@@ -10,6 +10,7 @@ import (
 	"github.com/pauloo27/tuner/internal/providers/source"
 	"github.com/pauloo27/tuner/internal/ui"
 	"github.com/pauloo27/tuner/internal/ui/core"
+	"github.com/pauloo27/tuner/internal/ui/theme"
 	"github.com/rivo/tview"
 )
 
@@ -26,9 +27,11 @@ func (s *searchingPage) Container() tview.Primitive {
 }
 
 func (s *searchingPage) Init() error {
+	pageTheme := theme.SearchingPageTheme
+
 	s.container = tview.NewGrid().SetColumns(0).SetRows(1, 0)
-	s.label = tview.NewTextView()
-	s.resultList = s.newResultList()
+	s.label = tview.NewTextView().SetTextColor(pageTheme.Title)
+	s.resultList = s.newResultList().SetMainTextColor(pageTheme.ItemColor)
 
 	s.container.AddItem(s.label, 0, 0, 1, 1, 0, 0, false)
 	s.container.AddItem(s.resultList, 1, 0, 1, 1, 0, 0, true)

@@ -7,6 +7,7 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/pauloo27/tuner/internal/core"
 	"github.com/pauloo27/tuner/internal/ui"
+	"github.com/pauloo27/tuner/internal/ui/theme"
 	"github.com/rivo/tview"
 )
 
@@ -23,17 +24,22 @@ var _ ui.Page = &homePage{}
 
 func (h *homePage) Init() error {
 	h.container = tview.NewGrid().SetColumns(0).SetRows(1, 1, 0)
+	pageTheme := theme.HomePageTheme
 
 	label := tview.NewTextView().
 		SetText(
 			fmt.Sprintf("Tuner - %s", core.Version),
-		)
+		).
+		SetTextColor(pageTheme.TitleText)
 
 	// FIXME: there must be a better way...
 	emptySpace := tview.NewTextView()
 
 	h.searchInput = tview.NewInputField().
-		SetLabel(" > Search: ")
+		SetLabel(" > Search: ").
+		SetLabelColor(pageTheme.SearchLabelText).
+		SetFieldTextColor(pageTheme.SearchField.FG).
+		SetFieldBackgroundColor(pageTheme.SearchField.BG)
 
 	h.searchInput.SetDoneFunc(func(tcell.Key) {
 		query := h.searchInput.GetText()
