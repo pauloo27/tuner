@@ -114,3 +114,7 @@ func (p *MpvPlayer) GetVolume() (float64, error) {
 func (p *MpvPlayer) SetVolume(volume float64) error {
 	return p.instance.SetProperty("volume", libmpv.FORMAT_DOUBLE, volume)
 }
+
+func (p *MpvPlayer) Stop() error {
+	return p.instance.Command([]string{"stop"})
+}

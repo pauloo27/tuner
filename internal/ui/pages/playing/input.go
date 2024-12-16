@@ -18,6 +18,7 @@ func (p *playingPage) registerInputHandlers() {
 		'+': {Name: "Increment volume", Fn: incrementVolume},
 		'=': {Name: "Increment volume", Fn: incrementVolume},
 		'-': {Name: "Decrement volume", Fn: decrementVolume},
+		'c': {Name: "Stop", Fn: stopPlaylist},
 	}
 }
 
@@ -57,4 +58,8 @@ func decrementVolume() error {
 	newVolume = max(volumeMin, newVolume)
 
 	return providers.Player.SetVolume(newVolume)
+}
+
+func stopPlaylist() error {
+	return providers.Player.Stop()
 }
