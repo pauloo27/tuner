@@ -13,10 +13,11 @@ import (
 )
 
 type playingPage struct {
-	container   *tview.Flex
-	result      source.SearchResult
-	songLabel   *tview.TextView
-	volumeLabel *tview.TextView
+	container    *tview.Flex
+	result       source.SearchResult
+	songLabel    *tview.TextView
+	volumeLabel  *tview.TextView
+	inputHandler map[rune]InputHandler
 }
 
 var _ ui.Page = &playingPage{}
@@ -42,6 +43,7 @@ func (p *playingPage) Init() error {
 		return event
 	})
 
+	p.registerInputHandlers()
 	p.registerListeners()
 
 	return nil

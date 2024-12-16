@@ -2,8 +2,6 @@ package playing
 
 import (
 	"fmt"
-	"log/slog"
-
 	"github.com/pauloo27/tuner/internal/providers"
 )
 
@@ -24,29 +22,4 @@ func (p *playingPage) updateVolumeLabel() error {
 	}
 	p.volumeLabel.SetText(fmt.Sprintf("Volume: %.0f%%", volume))
 	return nil
-}
-
-func (p *playingPage) incrementVolume() error {
-	curVolume, err := providers.Player.GetVolume()
-	if err != nil {
-		return fmt.Errorf("failed to get current volume: %w", err)
-	}
-
-	newVolume := curVolume + volumeStep
-	newVolume = min(volumeMax, newVolume)
-
-	return providers.Player.SetVolume(newVolume)
-}
-
-func (p *playingPage) decrementVolume() error {
-	curVolume, err := providers.Player.GetVolume()
-	if err != nil {
-		return fmt.Errorf("failed to get current volume: %w", err)
-	}
-	slog.Info("curVolume", "a", curVolume)
-
-	newVolume := curVolume - volumeStep
-	newVolume = max(volumeMin, newVolume)
-
-	return providers.Player.SetVolume(newVolume)
 }
