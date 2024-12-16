@@ -13,7 +13,7 @@ type InputHandler struct {
 }
 
 func (p *playingPage) registerInputHandlers() {
-	p.inputHandler = map[rune]InputHandler{
+	p.inputsHandler = map[rune]InputHandler{
 		' ': {Name: "Play/Pause", Fn: providers.Player.TogglePause},
 		'+': {Name: "Increment volume", Fn: incrementVolume},
 		'=': {Name: "Increment volume", Fn: incrementVolume},
@@ -23,7 +23,7 @@ func (p *playingPage) registerInputHandlers() {
 }
 
 func (p *playingPage) handleInput(key rune) {
-	handler, found := p.inputHandler[key]
+	handler, found := p.inputsHandler[key]
 	if !found {
 		slog.Debug("Unhandled input", "key", key)
 		return

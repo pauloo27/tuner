@@ -17,7 +17,7 @@ type playingPage struct {
 	result       source.SearchResult
 	songLabel    *tview.TextView
 	volumeLabel  *tview.TextView
-	inputHandler map[rune]InputHandler
+	inputsHandler map[rune]InputHandler
 }
 
 var _ ui.Page = &playingPage{}
