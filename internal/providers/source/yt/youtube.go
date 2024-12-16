@@ -2,6 +2,7 @@ package yt
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/pauloo27/searchtube"
@@ -55,9 +56,11 @@ func (s *YouTubeSource) GetAudioInfo(result source.SearchResult) (source.AudioIn
 		return source.AudioInfo{}, err
 	}
 
-	formats := video.Formats
+	if result.IsLive {
+		return s.getLiveAudioInfo(video)
+	}
 
-	formats = formats.WithAudioChannels()
+	formats := video.Formats.WithAudioChannels()
 	formats.Sort()
 
 	if len(formats) == 0 {
@@ -73,5 +76,14 @@ func (s *YouTubeSource) GetAudioInfo(result source.SearchResult) (source.AudioIn
 	return source.AudioInfo{
 		StreamURL: uri,
 		Format:    source.AudioFormat{MimeType: format.MimeType},
+	}, nil
+}
+
+func (s *YouTubeSource) getLiveAudioInfo(video *youtube.Video) (source.AudioInfo, error) {
+	// TODO: skill issue on my side, but i couldn't get the live to play...
+	// so we fallback to youtube-dl integrated in MPV
+	return source.AudioInfo{
+		StreamURL: fmt.Sprintf("https://youtu.be/%s", video.ID),
+		Format:    source.AudioFormat{},
 	}, nil
 }

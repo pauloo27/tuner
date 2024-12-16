@@ -105,7 +105,12 @@ func (s *searchingPage) searchAndThenUpdate(searchQuery string) {
 				break
 			}
 			shortcut := strconv.Itoa(i + 1)
-			details := core.FmtEscaping("%s from %s - %s", result.Title, result.Artist, result.Length)
+			var details string
+			if result.IsLive {
+				details = core.FmtEscaping("%s from %s - LIVE", result.Title, result.Artist)
+			} else {
+				details = core.FmtEscaping("%s from %s - %s", result.Title, result.Artist, result.Length)
+			}
 
 			currentResult := result
 
