@@ -12,6 +12,6 @@ type searchingPageTheme struct {
 var (
 	SearchingPageTheme = searchingPageTheme{
 		Title:     tcell.ColorGreen,
-		ItemColor: tcell.ColorBlue,
+		ItemColor: tcell.ColorGreen,
 	}
 )

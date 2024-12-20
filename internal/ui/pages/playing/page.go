@@ -9,14 +9,15 @@ import (
 	"github.com/pauloo27/tuner/internal/providers/source"
 	"github.com/pauloo27/tuner/internal/ui"
 	"github.com/pauloo27/tuner/internal/ui/core"
+	"github.com/pauloo27/tuner/internal/ui/theme"
 	"github.com/rivo/tview"
 )
 
 type playingPage struct {
-	container    *tview.Flex
-	result       source.SearchResult
-	songLabel    *tview.TextView
-	volumeLabel  *tview.TextView
+	container     *tview.Flex
+	result        source.SearchResult
+	songLabel     *tview.TextView
+	volumeLabel   *tview.TextView
 	inputsHandler map[rune]InputHandler
 }
 
@@ -31,9 +32,12 @@ func (p *playingPage) Container() tview.Primitive {
 }
 
 func (p *playingPage) Init() error {
+	pageTheme := theme.PlayingPageTheme
+
 	p.container = tview.NewFlex().SetDirection(tview.FlexRow)
-	p.songLabel = tview.NewTextView()
-	p.volumeLabel = tview.NewTextView()
+	p.songLabel = tview.NewTextView().SetTextColor(pageTheme.SongInfoColor)
+	p.volumeLabel = tview.NewTextView().SetTextColor(pageTheme.VolumeColor)
+
 	p.container.AddItem(p.songLabel, 1, 1, true)
 	p.container.AddItem(p.volumeLabel, 1, 1, false)
 	p.container.AddItem(tview.NewTextView(), 0, 1, false)
