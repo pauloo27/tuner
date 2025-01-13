@@ -110,7 +110,7 @@ func (p *playingPage) play(result source.SearchResult) {
 func (p *playingPage) startProgressLoop() {
 	go func() {
 		for {
-			time.Sleep(500 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 			// skip if not on the playing page
 			if !p.songLabel.HasFocus() {
 				continue
