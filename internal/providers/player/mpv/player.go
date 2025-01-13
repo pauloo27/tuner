@@ -3,6 +3,7 @@ package mpv
 import (
 	"log/slog"
 	"os"
+	"time"
 
 	"github.com/pauloo27/libmpv"
 	"github.com/pauloo27/tuner/internal/core/event"
@@ -38,7 +39,6 @@ func (*MpvPlayer) Name() string {
 
 func NewMpvPlayer() (*MpvPlayer, error) {
 	instance := libmpv.Create()
-
 	mustSetOption := func(name string, data string) {
 		err := instance.SetOptionString(name, data)
 		if err != nil {
@@ -99,7 +99,7 @@ func (p *MpvPlayer) IsPaused() (bool, error) {
 		return false, err
 	}
 
-	return isPaused.(bool), err
+	return isPaused.(bool), nil
 }
 
 func (p *MpvPlayer) GetVolume() (float64, error) {
@@ -108,7 +108,7 @@ func (p *MpvPlayer) GetVolume() (float64, error) {
 		return 0, err
 	}
 
-	return volume.(float64), err
+	return volume.(float64), nil
 }
 
 func (p *MpvPlayer) SetVolume(volume float64) error {
@@ -117,4 +117,22 @@ func (p *MpvPlayer) SetVolume(volume float64) error {
 
 func (p *MpvPlayer) Stop() error {
 	return p.instance.Command([]string{"stop"})
+}
+
+func (p *MpvPlayer) GetDuration() (time.Duration, error) {
+	duration, err := p.instance.GetProperty("duration", libmpv.FORMAT_DOUBLE)
+	if err != nil {
+		return 0, err
+	}
+
+	return time.Duration(duration.(float64) * float64(time.Second)), nil
+}
+
+func (p *MpvPlayer) GetPosition() (time.Duration, error) {
+	position, err := p.instance.GetProperty("time-pos", libmpv.FORMAT_DOUBLE)
+	if err != nil {
+		return 0, err
+	}
+
+	return time.Duration(position.(float64) * float64(time.Second)), nil
 }

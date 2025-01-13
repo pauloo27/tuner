@@ -12,6 +12,5 @@
 - find and show lyrics
 - other sources? (maybe soundcloud?)
 - quick access (saved songs)
-- use cobra?
-- add CLI mode (instead of TUI)
+- add CLI mode (instead of TUI, cobra?)
 - remove youtube-dl dep on the live support

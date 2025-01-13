@@ -1,6 +1,8 @@
 package player
 
 import (
+	"time"
+
 	"github.com/pauloo27/tuner/internal/providers/source"
 )
 
@@ -15,4 +17,6 @@ type PlayerProvider interface {
 	GetVolume() (float64, error)
 	SetVolume(float64) error
 	Stop() error
+	GetDuration() (time.Duration, error)
+	GetPosition() (time.Duration, error)
 }
