@@ -2,6 +2,7 @@ package style
 
 import (
 	"fmt"
+	"log/slog"
 	"math"
 	"strings"
 
@@ -29,6 +30,7 @@ func (r SimpleBar) Draw(p *progress.ProgressBar) {
 
 	lineWidth := (w - x) * bodyLen
 	usedLine := int(math.Round(percentage * float64(lineWidth)))
+	slog.Info("percentage", "w", w, "x", x, "lineW", lineWidth)
 
 	fullBlocks := strings.Repeat(lastBodyItem, usedLine/bodyLen)
 

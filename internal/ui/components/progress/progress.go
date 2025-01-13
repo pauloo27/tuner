@@ -18,6 +18,14 @@ func NewProgressBar(style ProgressBarStyle) *ProgressBar {
 	}
 }
 
+func (p *ProgressBar) SetRelativeProgress(duration, position float64) *ProgressBar {
+	return p.SetProgress(position / duration)
+}
+
+func (p *ProgressBar) GetProgress() float64 {
+	return p.progress
+}
+
 func (p *ProgressBar) SetProgress(percentage float64) *ProgressBar {
 	if p.progress == percentage {
 		return p
@@ -25,8 +33,4 @@ func (p *ProgressBar) SetProgress(percentage float64) *ProgressBar {
 	p.progress = percentage
 	p.style.Draw(p)
 	return p
-}
-
-func (p *ProgressBar) GetProgress() float64 {
-	return p.progress
 }
