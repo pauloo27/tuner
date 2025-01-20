@@ -9,9 +9,6 @@ import (
 	"github.com/pauloo27/tuner/internal/core/logging"
 	"github.com/pauloo27/tuner/internal/providers"
 	"github.com/pauloo27/tuner/internal/ui"
-	"github.com/pauloo27/tuner/internal/ui/pages/home"
-	"github.com/pauloo27/tuner/internal/ui/pages/playing"
-	"github.com/pauloo27/tuner/internal/ui/pages/searching"
 
 	"github.com/pauloo27/tuner/internal/providers/player/mpv"
 	"github.com/pauloo27/tuner/internal/providers/source"
@@ -29,22 +26,11 @@ func main() {
 	defer onAppClose(logFile)
 
 	initProviders()
-	if err = registerPages(); err != nil {
-		slog.Error("Failed to register page", "err", err)
-		os.Exit(-1)
-	}
 
-	if err = ui.StartTUI(); err != nil {
-		slog.Error("Failed to run TUI", "err", err)
-		os.Exit(-1)
+	if err := ui.StartTUI(); err != nil {
+		slog.Error("Failed to start TUI", "err", err)
+		os.Exit(2)
 	}
-}
-
-func registerPages() error {
-	ui.Setup()
-	return ui.RegisterPages(
-		home.NewHomePage(), searching.NewSearchingPage(), playing.NewPlayingPage(),
-	)
 }
 
 func initProviders() {
@@ -81,6 +67,6 @@ func onAppClose(logFile *os.File) {
 	if err == nil {
 		fmt.Printf("Log saved to %s\n", logFile.Name())
 	} else {
-		fmt.Printf("Failed to close log file", "err", err)
+		fmt.Printf("Failed to close log file: %v", err)
 	}
 }
