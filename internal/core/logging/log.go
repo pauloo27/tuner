@@ -15,6 +15,7 @@ func SetupLogger() (*os.File, error) {
 	}
 
 	logFilePath := path.Join(logsDir, "log.txt")
+	/* #nosec G304 */
 	logFile, err := os.Create(logFilePath)
 	if err != nil {
 		return nil, err
