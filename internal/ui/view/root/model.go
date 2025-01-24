@@ -2,7 +2,6 @@ package root
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/pauloo27/tuner/internal/ui/commands"
 )
 
 type model struct {
@@ -29,7 +28,7 @@ func (m model) Init() tea.Cmd {
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg.(type) {
-	case commands.SearchCommand:
+	case StartSearchMsg:
 		m.activeView = &m.searchView
 	}
 

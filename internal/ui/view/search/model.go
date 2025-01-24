@@ -2,13 +2,18 @@ package search
 
 import (
 	"fmt"
+	"log/slog"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/pauloo27/tuner/internal/ui/commands"
+	"github.com/pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/ui/view/root"
 )
 
 type model struct {
-	query string
+	query           string
+	searchCompleted bool
+	results         []source.SearchResult
+	err             error
 }
 
 func NewModel() model {
@@ -28,16 +33,29 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case tea.KeyCtrlC, tea.KeyEsc:
 			return m, tea.Quit
 		}
-	case commands.SearchCommand:
+	case root.StartSearchMsg:
 		m.query = msg.Query
+		m.searchCompleted = false
+		m.err = nil
+		m.results = nil
+		cmd = doSearch(m.query)
+	case searchCompletedMsg:
+		slog.Info("Search completed", "res", msg.Results, "err", msg.Err)
+		m.results = msg.Results
+		m.err = msg.Err
+		m.searchCompleted = true
 	}
 
 	return m, cmd
 }
 
 func (m model) View() string {
-	return fmt.Sprintf(
-		"%s\n",
-		textStyle.Render(fmt.Sprintf("Searching for %s", m.query)),
-	) + "\n"
+	if !m.searchCompleted {
+		return fmt.Sprintf(
+			"%s\n",
+			textStyle.Render(fmt.Sprintf("Searching for %s...", m.query)),
+		) + "\n"
+	}
+
+	return "hello"
 }
