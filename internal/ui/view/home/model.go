@@ -6,14 +6,14 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/pauloo27/tuner/internal/core"
+	"github.com/pauloo27/tuner/internal/ui/commands"
 )
 
 type model struct {
 	searchInput textinput.Model
-	err         error
 }
 
-func InitialModel() model {
+func NewModel() model {
 	ti := textinput.New()
 	ti.Placeholder = "Search..."
 	ti.Focus()
@@ -36,7 +36,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case tea.KeyCtrlC, tea.KeyEsc:
 			return m, tea.Quit
 		case tea.KeyEnter:
-			return m, cmd
+			return m, commands.Search(m.searchInput.Value())
 		}
 	}
 
