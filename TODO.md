@@ -1,5 +1,14 @@
 # To-Do
 
+- make it look good
+- player view
+    - show title
+    - show progress
+    - show volume
+    - allow play pause
+    - allow volume change
+    - allow seek
+- debug view
 - add seek binds in the player page
 
 # Ideas

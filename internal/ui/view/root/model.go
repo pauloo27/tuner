@@ -27,13 +27,18 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg.(type) {
+	var cmd tea.Cmd
+	switch msg := msg.(type) {
 	case StartSearchMsg:
 		m.activeView = &m.searchView
+	case tea.KeyMsg:
+		switch msg.Type {
+		case tea.KeyCtrlC:
+			return m, tea.Quit
+		}
 	}
 
-	updatedActiveView, cmd := (*m.activeView).Update(msg)
-	*m.activeView = updatedActiveView
+	*m.activeView, cmd = (*m.activeView).Update(msg)
 	return m, cmd
 }
 
