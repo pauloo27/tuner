@@ -9,12 +9,13 @@ import (
 )
 
 func SetupLogger() (*os.File, error) {
-	logsDir, err := os.MkdirTemp(os.TempDir(), fmt.Sprintf("tuner-logs-%d", time.Now().Unix()))
+	logDir := path.Join(os.TempDir(), "tuner-logs")
+	err := os.MkdirAll(logDir, os.ModePerm)
 	if err != nil {
 		return nil, err
 	}
 
-	logFilePath := path.Join(logsDir, "log.txt")
+	logFilePath := path.Join(logDir, fmt.Sprintf("%d-%d.txt", time.Now().Unix(), os.Getpid()))
 	/* #nosec G304 */
 	logFile, err := os.Create(logFilePath)
 	if err != nil {
