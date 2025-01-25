@@ -66,6 +66,13 @@ func (m model) View() string {
 		) + "\n"
 	}
 
+	if m.err != nil {
+		return fmt.Sprintf(
+			"%s\n",
+			errorStyle.Render(fmt.Sprintf("An error occurred: %v", m.err)),
+		) + "\n"
+	}
+
 	return fmt.Sprintf(
 		"%s\n%s",
 		textStyle.Render(fmt.Sprintf("Results for %s...", m.query)),
