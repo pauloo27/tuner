@@ -6,6 +6,13 @@ import (
 	"github.com/pauloo27/tuner/internal/providers/source"
 )
 
+type startSearchMsg struct {
+}
+
+func startSearch() tea.Msg {
+	return startSearchMsg{}
+}
+
 type searchCompletedMsg struct {
 	Results []source.SearchResult
 	Err     error

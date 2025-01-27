@@ -5,7 +5,6 @@ import (
 )
 
 type model struct {
-	homeView   tea.Model
 	searchView tea.Model
 	debugView  tea.Model
 
@@ -15,16 +14,14 @@ type model struct {
 }
 
 func NewModel(
-	homeModel tea.Model,
 	searchModel tea.Model,
 	debugModel tea.Model,
 ) model {
 	return model{
-		homeView:   homeModel,
 		searchView: searchModel,
 		debugView:  debugModel,
 
-		activeView: &homeModel,
+		activeView: &searchModel,
 	}
 }
 
@@ -35,9 +32,6 @@ func (m model) Init() tea.Cmd {
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 	switch msg := msg.(type) {
-	case StartSearchMsg:
-		m.previousView = m.activeView
-		m.activeView = &m.searchView
 	case tea.KeyMsg:
 		switch msg.Type {
 		case tea.KeyCtrlC:

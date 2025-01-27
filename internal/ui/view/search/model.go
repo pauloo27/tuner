@@ -5,18 +5,25 @@ import (
 	"log/slog"
 
 	"github.com/charmbracelet/bubbles/list"
+	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/pauloo27/tuner/internal/ui/view/root"
+	"github.com/pauloo27/tuner/internal/core"
 )
 
 type model struct {
-	query           string
+	isTyping        bool
 	searchCompleted bool
 	err             error
 	list            list.Model
+	searchInput     textinput.Model
 }
 
 func NewModel() model {
+	ti := textinput.New()
+	ti.Placeholder = "Search..."
+	ti.Focus()
+	ti.CharLimit = 100
+
 	l := list.New(nil, itemDelegate{}, defaultListWidth, defaultListHeight)
 	l.Styles.PaginationStyle = paginationStyle
 	l.Styles.HelpStyle = helpStyle
@@ -25,7 +32,8 @@ func NewModel() model {
 	l.DisableQuitKeybindings()
 	l.SetFilteringEnabled(false)
 	// TODO: cancel (aka esc) bind to take back to the home view
-	return model{list: l}
+
+	return model{isTyping: true, list: l, searchInput: ti}
 }
 
 func (m model) Init() tea.Cmd {
@@ -38,16 +46,20 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.Type {
+		case tea.KeyEnter:
+			m.isTyping = false
+			cmd = startSearch
 		default:
-			if m.searchCompleted {
+			if m.isTyping {
+				m.searchInput, cmd = m.searchInput.Update(msg)
+			} else if m.searchCompleted {
 				m.list, cmd = m.list.Update(msg)
 			}
 		}
-	case root.StartSearchMsg:
-		m.query = msg.Query
+	case startSearchMsg:
 		m.searchCompleted = false
 		m.err = nil
-		cmd = tea.Batch(doSearch(m.query), m.list.SetItems(nil))
+		cmd = tea.Batch(doSearch(m.searchInput.Value()), m.list.SetItems(nil))
 	case searchCompletedMsg:
 		slog.Info("Search completed", "res", msg.Results, "err", msg.Err)
 		m.err = msg.Err
@@ -59,10 +71,18 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
+	if m.isTyping {
+		return fmt.Sprintf(
+			"%s\n\n%s",
+			textStyle.Render(fmt.Sprintf("Tuner - %s", core.Version)),
+			m.searchInput.View(),
+		) + "\n"
+	}
+
 	if !m.searchCompleted {
 		return fmt.Sprintf(
 			"%s\n",
-			textStyle.Render(fmt.Sprintf("Searching for %s...", m.query)),
+			textStyle.Render(fmt.Sprintf("Searching for %s...", m.searchInput.Value())),
 		) + "\n"
 	}
 
@@ -75,7 +95,7 @@ func (m model) View() string {
 
 	return fmt.Sprintf(
 		"%s\n%s",
-		textStyle.Render(fmt.Sprintf("Results for %s...", m.query)),
+		textStyle.Render(fmt.Sprintf("Results for %s...", m.searchInput.Value())),
 		m.list.View(),
 	) + "\n"
 }
