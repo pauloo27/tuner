@@ -10,7 +10,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.0.0
 	github.com/pauloo27/libmpv v0.0.0-20241212160133-0beac4fd4218
 	github.com/pauloo27/searchtube v0.0.0-20241212054348-7272d9e3a0d4
-	github.com/pauloo27/youtube/v2 v2.0.0-20241213235619-3be3e4b119df
+	github.com/pauloo27/youtube/v2 v2.0.0-20250127122611-aa65ab687230
 	github.com/stretchr/testify v1.10.0
 )
 
@@ -23,10 +23,10 @@ require (
 	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dlclark/regexp2 v1.11.4 // indirect
-	github.com/dop251/goja v0.0.0-20241024094426-79f3a7efcdbd // indirect
+	github.com/dop251/goja v0.0.0-20250125213203-5ef83b82af17 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
-	github.com/google/pprof v0.0.0-20241210010833-40e02aabc2ad // indirect
+	github.com/google/pprof v0.0.0-20250125003558-7fdb3d7e6fa0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
