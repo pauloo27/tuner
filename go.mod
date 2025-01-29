@@ -11,6 +11,7 @@ require (
 	github.com/pauloo27/libmpv v0.0.0-20241212160133-0beac4fd4218
 	github.com/pauloo27/searchtube v0.0.0-20241212054348-7272d9e3a0d4
 	github.com/pauloo27/youtube/v2 v2.0.0-20250127122611-aa65ab687230
+	github.com/samber/slog-multi v1.3.3
 	github.com/stretchr/testify v1.10.0
 )
 
@@ -37,6 +38,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/sahilm/fuzzy v0.1.1 // indirect
+	github.com/samber/lo v1.47.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
