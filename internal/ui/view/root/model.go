@@ -26,6 +26,7 @@ func NewModel(
 }
 
 func (m model) Init() tea.Cmd {
+	// TODO: send the visible to the initialActiveView?
 	return nil
 }
 
@@ -43,11 +44,15 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.previousView = m.activeView
 				m.activeView = &m.debugView
 			}
+			// ensure the activeView knows its now visible
+			cmd = visible
 		}
 	}
 
-	*m.activeView, cmd = (*m.activeView).Update(msg)
-	return m, cmd
+	var activeViewCmd tea.Cmd
+	*m.activeView, activeViewCmd = (*m.activeView).Update(msg)
+
+	return m, tea.Batch(cmd, activeViewCmd)
 }
 
 func (m model) View() string {
