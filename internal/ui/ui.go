@@ -15,7 +15,7 @@ func StartTUI() error {
 		searchModel,
 		debugModel,
 	)
-	p := tea.NewProgram(rootModel, tea.WithAltScreen())
+	p := tea.NewProgram(rootModel, tea.WithAltScreen(), tea.WithMouseCellMotion())
 	if _, err := p.Run(); err != nil {
 		return err
 	}

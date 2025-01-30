@@ -3,20 +3,26 @@ package debug
 import (
 	"fmt"
 	"runtime"
-	"time"
+	"strings"
 
+	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/pauloo27/tuner/internal/core"
+	"github.com/pauloo27/tuner/internal/core/logging"
 	"github.com/pauloo27/tuner/internal/providers"
 	"github.com/pauloo27/tuner/internal/ui/view/root"
 )
 
+const headerHeight = 5
+
 type model struct {
-	counter int
+	logViewport viewport.Model
 }
 
 func NewModel() model {
-	return model{}
+	logViewport := viewport.New(0, 0)
+	return model{logViewport: logViewport}
 }
 
 func (m model) Init() tea.Cmd {
@@ -24,17 +30,19 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	var cmd tea.Cmd
-	switch msg.(type) {
+	var cmds []tea.Cmd
+	switch msg := msg.(type) {
 	case root.VisibleMsg:
-		cmd = tea.Tick(1*time.Second, func(time.Time) tea.Msg { return incMsg{} })
-	case incMsg:
-		m.counter++
-		// tick only does it once. If we need to keep the cmd in a loop, we gotta
-		// send it again
-		cmd = tea.Tick(1*time.Second, func(time.Time) tea.Msg { return incMsg{} })
+		m.logViewport.Width, m.logViewport.Height = msg.Width, msg.Height-headerHeight
+		m.logViewport.SetContent(logging.MemoryBuffer.String())
+		m.logViewport.GotoBottom()
 	}
-	return m, cmd
+
+	var viewportCmd tea.Cmd
+	m.logViewport, viewportCmd = m.logViewport.Update(msg)
+
+	cmds = append(cmds, viewportCmd)
+	return m, tea.Batch(cmds...)
 }
 
 func (m model) View() string {
@@ -45,15 +53,22 @@ func (m model) View() string {
 	}
 
 	return fmt.Sprintf(
-		"%s\n\n%s\n",
+		"%s\n\n%s\n%s\n%s\n",
 		textStyle.Render("Debug"),
 		textStyle.Render(fmt.Sprintf(
-			"Tuner %s | %s %s %s %s | player %s | sources %v | counter %d",
+			"Tuner %s | %s %s %s %s | player %s | sources %v",
 			core.Version,
 			runtime.Version(), runtime.Compiler, runtime.GOOS, runtime.GOARCH,
 			providers.Player.Name(),
 			sourcesNames,
-			m.counter,
 		)),
+		m.logViewport.View(),
+		m.logFooterView(),
 	)
+}
+
+func (m model) logFooterView() string {
+	info := textStyle.Render(fmt.Sprintf("%3.f%%", m.logViewport.ScrollPercent()*100))
+	line := strings.Repeat("─", max(0, m.logViewport.Width-lipgloss.Width(info)))
+	return lipgloss.JoinHorizontal(lipgloss.Center, line, info)
 }
