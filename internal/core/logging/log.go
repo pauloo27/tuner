@@ -8,6 +8,7 @@ import (
 	"path"
 	"time"
 
+	"github.com/lmittmann/tint"
 	slogmulti "github.com/samber/slog-multi"
 )
 
@@ -31,7 +32,7 @@ func SetupLogger() (*os.File, error) {
 		Level:     slog.LevelDebug,
 		AddSource: true,
 	})
-	memoryHandler := slog.NewTextHandler(&MemoryBuffer, &slog.HandlerOptions{
+	memoryHandler := tint.NewHandler(&MemoryBuffer, &tint.Options{
 		Level:     slog.LevelDebug,
 		AddSource: true,
 	})

@@ -8,6 +8,7 @@ require (
 	github.com/charmbracelet/bubbles v0.20.0
 	github.com/charmbracelet/bubbletea v1.2.4
 	github.com/charmbracelet/lipgloss v1.0.0
+	github.com/lmittmann/tint v1.0.7
 	github.com/pauloo27/libmpv v0.0.0-20241212160133-0beac4fd4218
 	github.com/pauloo27/searchtube v0.0.0-20241212054348-7272d9e3a0d4
 	github.com/pauloo27/youtube/v2 v2.0.0-20250127122611-aa65ab687230
