@@ -4,6 +4,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/pauloo27/tuner/internal/providers"
 	"github.com/pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/ui/view"
 )
 
 type startSearchMsg struct {
@@ -16,6 +17,12 @@ func startSearch() tea.Msg {
 type searchCompletedMsg struct {
 	Results []source.SearchResult
 	Err     error
+}
+
+var _ view.ViewMessage = searchCompletedMsg{}
+
+func (searchCompletedMsg) ForwardTo() view.ViewName {
+	return view.SearchViewName
 }
 
 func doSearch(query string) tea.Cmd {

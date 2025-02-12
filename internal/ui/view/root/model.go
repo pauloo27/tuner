@@ -4,23 +4,24 @@ import (
 	"log/slog"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/pauloo27/tuner/internal/ui/view"
 )
 
 type model struct {
-	searchView    tea.Model
-	debugView     tea.Model
-	width, height int
+	views          map[view.ViewName]tea.Model
+	activeViewName view.ViewName
+	width, height  int
 
 	isInDebug bool
 }
 
 func NewModel(
-	searchModel tea.Model,
-	debugModel tea.Model,
+	views map[view.ViewName]tea.Model,
+	initialViewName view.ViewName,
 ) model {
 	return model{
-		searchView: searchModel,
-		debugView:  debugModel,
+		views:          views,
+		activeViewName: initialViewName,
 	}
 }
 
@@ -30,7 +31,11 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	var cmd tea.Cmd
+	var cmds []tea.Cmd
+	visibleViewName := m.activeViewName
+	if m.isInDebug {
+		visibleViewName = view.DebugViewName
+	}
 
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
@@ -43,25 +48,30 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.isInDebug = !m.isInDebug
 			slog.Info("Debug toggled", "isInDebug", m.isInDebug)
 			// ensure the activeView knows its now visible
-			cmd = visible(m.width, m.height)
+			cmds = append(cmds, visible(m.width, m.height))
+		}
+	case view.ViewMessage:
+		forwardTo := msg.ForwardTo()
+		if visibleViewName != forwardTo {
+			var viewCmd tea.Cmd
+			m.views[forwardTo], viewCmd = m.views[forwardTo].Update(msg)
+			cmds = append(cmds, viewCmd)
 		}
 	}
 
 	var viewCmd tea.Cmd
 
-	if m.isInDebug {
-		m.debugView, viewCmd = m.debugView.Update(msg)
-	} else {
-		m.searchView, viewCmd = m.searchView.Update(msg)
-	}
+	m.views[visibleViewName], viewCmd = m.views[visibleViewName].Update(msg)
 
-	return m, tea.Batch(cmd, viewCmd)
+	cmds = append(cmds, viewCmd)
+
+	return m, tea.Batch(cmds...)
 }
 
 func (m model) View() string {
 	if m.isInDebug {
-		return m.debugView.View()
+		return m.views[view.DebugViewName].View()
 	}
 
-	return m.searchView.View()
+	return m.views[m.activeViewName].View()
 }
