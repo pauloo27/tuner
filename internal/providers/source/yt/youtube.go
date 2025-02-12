@@ -51,6 +51,13 @@ func (s *YouTubeSource) SearchFor(searchQuery string) ([]source.SearchResult, er
 }
 
 func (s *YouTubeSource) GetAudioInfo(result source.SearchResult) (source.AudioInfo, error) {
+	// since the go lib is not working, we leave it up to mpv to fetch the stream
+	// url
+	return source.AudioInfo{
+		StreamURL: result.URL,
+	}, nil
+
+	// dead code::::::::
 	video, err := s.client.GetVideo(result.URL)
 	if err != nil {
 		return source.AudioInfo{}, err

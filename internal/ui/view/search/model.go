@@ -8,6 +8,8 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/pauloo27/tuner/internal/core"
+	"github.com/pauloo27/tuner/internal/providers"
+	"github.com/pauloo27/tuner/internal/providers/source"
 )
 
 type model struct {
@@ -47,8 +49,20 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.Type {
 		case tea.KeyEnter:
-			m.isTyping = false
-			cmd = startSearch
+			if m.isTyping {
+				m.isTyping = false
+				cmd = startSearch
+			} else {
+				selectedResultRaw := m.list.SelectedItem()
+				selectedResult := selectedResultRaw.(item)
+
+				// TODO: make this a command and etc
+				slog.Info("Going to play", "result", selectedResult)
+				go func() {
+					err := providers.Player.Play(source.SearchResult(selectedResult))
+					slog.Warn("Play error?", "err", err)
+				}()
+			}
 		default:
 			if m.isTyping {
 				m.searchInput, cmd = m.searchInput.Update(msg)
