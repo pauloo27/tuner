@@ -40,6 +40,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.width, m.height = msg.Width, msg.Height
+	case view.GotoViewMsg:
+		m.activeViewName = msg.Name
+		visibleViewName = msg.Name
+		m.isInDebug = false
+		cmds = append(cmds, view.Visible(m.width, m.height))
 	case tea.KeyMsg:
 		switch msg.Type {
 		case tea.KeyCtrlC:
@@ -47,8 +52,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case tea.KeyCtrlD:
 			m.isInDebug = !m.isInDebug
 			slog.Info("Debug toggled", "isInDebug", m.isInDebug)
-			// ensure the activeView knows its now visible
-			cmds = append(cmds, visible(m.width, m.height))
+			cmds = append(cmds, view.Visible(m.width, m.height))
 		}
 	case view.ViewMessage:
 		forwardTo := msg.ForwardTo()

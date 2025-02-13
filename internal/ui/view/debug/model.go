@@ -12,7 +12,7 @@ import (
 	"github.com/pauloo27/tuner/internal/core"
 	"github.com/pauloo27/tuner/internal/core/logging"
 	"github.com/pauloo27/tuner/internal/providers"
-	"github.com/pauloo27/tuner/internal/ui/view/root"
+	"github.com/pauloo27/tuner/internal/ui/view"
 )
 
 const headerHeight = 5
@@ -35,7 +35,7 @@ func (m model) Init() tea.Cmd {
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmds []tea.Cmd
 	switch msg := msg.(type) {
-	case root.VisibleMsg:
+	case view.VisibleMsg:
 		m.logViewport.Width, m.logViewport.Height = msg.Width, msg.Height-headerHeight
 		m.logViewport.SetContent(logging.MemoryBuffer.String())
 		m.logViewport.GotoBottom()

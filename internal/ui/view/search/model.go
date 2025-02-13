@@ -8,8 +8,8 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/pauloo27/tuner/internal/core"
-	"github.com/pauloo27/tuner/internal/providers"
 	"github.com/pauloo27/tuner/internal/providers/source"
+	"github.com/pauloo27/tuner/internal/ui/view"
 )
 
 type model struct {
@@ -33,7 +33,6 @@ func NewModel() model {
 	l.SetShowStatusBar(false)
 	l.DisableQuitKeybindings()
 	l.SetFilteringEnabled(false)
-	// TODO: cancel (aka esc) bind to take back to the home view
 
 	return model{isTyping: true, list: l, searchInput: ti}
 }
@@ -55,13 +54,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			} else {
 				selectedResultRaw := m.list.SelectedItem()
 				selectedResult := selectedResultRaw.(item)
-
-				// TODO: make this a command and etc
-				slog.Info("Going to play", "result", selectedResult)
-				go func() {
-					err := providers.Player.Play(source.SearchResult(selectedResult))
-					slog.Warn("Play error?", "err", err)
-				}()
+				cmd = view.GoToView(view.PlayerViewName, source.SearchResult(selectedResult))
 			}
 		default:
 			if m.isTyping {
