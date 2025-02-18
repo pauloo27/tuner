@@ -53,8 +53,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				cmd = startSearch
 			} else {
 				selectedResultRaw := m.list.SelectedItem()
-				selectedResult := selectedResultRaw.(item)
-				cmd = view.GoToView(view.PlayerViewName, source.SearchResult(selectedResult))
+				if selectedResultRaw != nil {
+					selectedResult := selectedResultRaw.(item)
+					cmd = view.GoToView(view.PlayerViewName, source.SearchResult(selectedResult))
+				}
 			}
 		default:
 			if m.isTyping {

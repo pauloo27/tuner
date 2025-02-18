@@ -1,15 +1,9 @@
 # To-Do
 
-- make it look good
 - player view
-    - show title
     - show progress
-    - show volume
-    - allow play pause
-    - allow volume change
     - allow seek
-- debug view
-- add seek binds in the player page
+- make it look good
 
 # Ideas
 
@@ -21,4 +15,3 @@
 - other sources? (maybe soundcloud?)
 - quick access (saved songs)
 - add CLI mode (instead of TUI, cobra?)
-- remove youtube-dl dep on the live support

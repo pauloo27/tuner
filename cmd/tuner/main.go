@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"runtime"
 	"runtime/debug"
 
 	"github.com/pauloo27/tuner/internal/core/logging"
@@ -17,6 +18,8 @@ import (
 
 func main() {
 	fmt.Println("Hello world!")
+	ensureLinux()
+
 	logFile, err := logging.SetupLogger()
 	if err != nil {
 		slog.Info("Failed to setup logger!", "err", err)
@@ -68,5 +71,13 @@ func onAppClose(logFile *os.File) {
 		fmt.Printf("Log saved to %s\n", logFile.Name())
 	} else {
 		fmt.Printf("Failed to close log file: %v", err)
+	}
+}
+
+func ensureLinux() {
+	if runtime.GOOS != "linux" {
+		// actually, my code sucks... only linux supported rn
+		slog.Error("Your pc sucks")
+		os.Exit(-9)
 	}
 }
