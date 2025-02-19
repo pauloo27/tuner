@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/charmbracelet/bubbles/progress"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/pauloo27/tuner/internal/providers/player"
 	"github.com/pauloo27/tuner/internal/providers/source"
@@ -19,10 +20,14 @@ type model struct {
 	isLoading        bool
 	isPaused         bool
 	err              error
+	progress         progress.Model
+	percent          float64
 }
 
 func NewModel() model {
-	return model{}
+	m := model{}
+	m.progress = progress.New(progress.WithDefaultGradient(), progress.WithoutPercentage())
+	return m
 }
 
 func (model) Init() tea.Cmd {
@@ -33,6 +38,27 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmds []tea.Cmd
 
 	switch msg := msg.(type) {
+	case view.GotoViewMsg:
+		if !m.eventLoopStarted {
+			listenToEvents()
+			m.eventLoopStarted = true
+			cmds = append(cmds, fetchProgressNow, fetchInitialState, fetchEvent)
+		}
+
+		if len(msg.Params) != 1 {
+			slog.Error("Expected one param in player view", "got", len(msg.Params))
+			m.err = errors.New("invalid params count received")
+			return m, nil
+		}
+		result, ok := msg.Params[0].(source.SearchResult)
+		if !ok {
+			slog.Error("Expected SearchResult param in player view")
+			m.err = errors.New("invalid params type received")
+			return m, nil
+		}
+		m.playing = result
+		m.isLoading = true
+		cmds = append(cmds, play(result))
 	case InitialState:
 		m.volume = msg.volume
 		m.isPaused = msg.isPaused
@@ -47,11 +73,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.volume = msg.params[0].(float64)
 		}
 		cmds = append(cmds, fetchEvent)
+	case Progress:
+		slog.Info("Got progress", "p", msg)
+		m.percent = msg.percent
+		cmds = append(cmds, fetchProgressTick)
 	case errMsg:
 		m.err = msg
-		m.isLoading = false
 	case loadedMsg:
-		m.err = nil
 		m.isLoading = false
 	case tea.KeyMsg:
 		switch msg.String() {
@@ -64,27 +92,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		default:
 			slog.Info("Unhandled key", "key", msg.String())
 		}
-	case view.GotoViewMsg:
-		if !m.eventLoopStarted {
-			listenToEvents()
-			m.eventLoopStarted = true
-			cmds = append(cmds, loadInitialState, fetchEvent)
-		}
-
-		if len(msg.Params) != 1 {
-			slog.Info("Expected one param in player view", "got", len(msg.Params))
-			m.err = errors.New("invalid params count received")
-			return m, nil
-		}
-		result, ok := msg.Params[0].(source.SearchResult)
-		if !ok {
-			slog.Info("Expected SearchResult param in player view")
-			m.err = errors.New("invalid params type received")
-			return m, nil
-		}
-		m.playing = result
-		m.isLoading = true
-		cmds = append(cmds, play(result))
+	case view.VisibleMsg:
+		m.progress.Width = msg.Width
+	case tea.WindowSizeMsg:
+		m.progress.Width = msg.Width
 	}
 
 	return m, tea.Batch(cmds...)
@@ -112,7 +123,8 @@ func (m model) View() string {
 	}
 
 	return fmt.Sprintf(
-		"%s\n\n%s\n",
+		"%s\n\n%s\n\n%s\n",
+		m.progress.ViewAs(m.percent),
 		primaryTextStyle.Render(fmt.Sprintf("%s | %s by %s", icon, m.playing.Title, m.playing.Artist)),
 		secondaryTextStyle.Render(fmt.Sprintf("Volume: %.0f%%", m.volume)),
 	)

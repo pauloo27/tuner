@@ -25,7 +25,7 @@ func play(result source.SearchResult) tea.Cmd {
 func togglePause() tea.Msg {
 	err := providers.Player.TogglePause()
 	if err != nil {
-		slog.Info("Failed to toggle pause", "err", err)
+		slog.Error("Failed to toggle pause", "err", err)
 		return errMsg(err)
 	}
 	return nil
@@ -34,13 +34,13 @@ func togglePause() tea.Msg {
 func increaseVolume() tea.Msg {
 	curVolume, err := providers.Player.GetVolume()
 	if err != nil {
-		slog.Info("Failed to get current volume", "err", err)
+		slog.Error("Failed to get current volume", "err", err)
 		return errMsg(err)
 	}
 
 	err = providers.Player.SetVolume(curVolume + 1)
 	if err != nil {
-		slog.Info("Failed to set volume", "err", err)
+		slog.Error("Failed to set volume", "err", err)
 		return errMsg(err)
 	}
 	return nil
@@ -49,13 +49,13 @@ func increaseVolume() tea.Msg {
 func decreaseVolume() tea.Msg {
 	curVolume, err := providers.Player.GetVolume()
 	if err != nil {
-		slog.Info("Failed to get current volume", "err", err)
+		slog.Error("Failed to get current volume", "err", err)
 		return errMsg(err)
 	}
 
 	err = providers.Player.SetVolume(curVolume - 1)
 	if err != nil {
-		slog.Info("Failed to set volume", "err", err)
+		slog.Error("Failed to set volume", "err", err)
 		return errMsg(err)
 	}
 	return nil

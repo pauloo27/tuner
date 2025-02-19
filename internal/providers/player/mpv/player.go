@@ -3,6 +3,7 @@ package mpv
 import (
 	"log/slog"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/pauloo27/libmpv"
@@ -135,4 +136,8 @@ func (p *MpvPlayer) GetPosition() (time.Duration, error) {
 	}
 
 	return time.Duration(position.(float64) * float64(time.Second)), nil
+}
+
+func (p *MpvPlayer) IsErrPropertyUnavailable(err error) bool {
+	return strings.Trim(err.Error(), "\n") == "-10 property unavailable"
 }

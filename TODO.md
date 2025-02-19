@@ -1,7 +1,6 @@
 # To-Do
 
 - player view
-    - show progress
     - allow seek
 - make it look good
 

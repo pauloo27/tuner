@@ -22,7 +22,7 @@ func main() {
 
 	logFile, err := logging.SetupLogger()
 	if err != nil {
-		slog.Info("Failed to setup logger!", "err", err)
+		slog.Error("Failed to setup logger!", "err", err)
 		// hopefully, the only panic in the whole code base! (it's not)
 		panic(err)
 	}

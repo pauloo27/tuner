@@ -43,6 +43,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.tickStarted = true
 			cmds = append(cmds, tea.Tick(1*time.Second, func(time.Time) tea.Msg { return incMsg{} }))
 		}
+	case tea.WindowSizeMsg:
+		m.logViewport.Width, m.logViewport.Height = msg.Width, msg.Height-headerHeight
 	case incMsg:
 		m.counter++
 		// tick only does it once. If we need to keep the cmd in a loop, we gotta

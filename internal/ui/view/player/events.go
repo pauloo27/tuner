@@ -27,19 +27,19 @@ func (Event) ForwardTo() view.ViewName {
 	return view.PlayerViewName
 }
 
-func loadInitialState() tea.Msg {
+func fetchInitialState() tea.Msg {
 	var err error
 	var state InitialState
 
 	state.isPaused, err = providers.Player.IsPaused()
 	if err != nil {
-		slog.Info("Failed to get initial pause status", "err", err)
+		slog.Error("Failed to get initial pause status", "err", err)
 		return errMsg(err)
 	}
 
 	state.volume, err = providers.Player.GetVolume()
 	if err != nil {
-		slog.Info("Failed to get initial volume", "err", err)
+		slog.Error("Failed to get initial volume", "err", err)
 		return errMsg(err)
 	}
 
