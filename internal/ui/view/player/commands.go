@@ -2,6 +2,7 @@ package player
 
 import (
 	"log/slog"
+	"math"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/pauloo27/tuner/internal/providers"
@@ -38,7 +39,7 @@ func increaseVolume() tea.Msg {
 		return errMsg(err)
 	}
 
-	err = providers.Player.SetVolume(curVolume + 1)
+	err = providers.Player.SetVolume(math.Min(100, curVolume+1))
 	if err != nil {
 		slog.Error("Failed to set volume", "err", err)
 		return errMsg(err)
@@ -53,7 +54,7 @@ func decreaseVolume() tea.Msg {
 		return errMsg(err)
 	}
 
-	err = providers.Player.SetVolume(curVolume - 1)
+	err = providers.Player.SetVolume(math.Max(0, curVolume-1))
 	if err != nil {
 		slog.Error("Failed to set volume", "err", err)
 		return errMsg(err)

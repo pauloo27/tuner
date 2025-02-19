@@ -7,6 +7,6 @@ var (
 		Bold(true).
 		PaddingLeft(1).
 		PaddingRight(1).
-		Background(lipgloss.Color("4")).
+		Background(lipgloss.Color("2")).
 		Foreground(lipgloss.Color("0"))
 )

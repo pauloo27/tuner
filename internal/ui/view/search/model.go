@@ -22,7 +22,8 @@ type model struct {
 
 func NewModel() model {
 	ti := textinput.New()
-	ti.Placeholder = "Search..."
+	ti.Placeholder = ""
+	ti.Prompt = "> Search: "
 	ti.Focus()
 	ti.CharLimit = 100
 

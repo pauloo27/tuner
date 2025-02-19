@@ -26,7 +26,7 @@ type model struct {
 
 func NewModel() model {
 	m := model{}
-	m.progress = progress.New(progress.WithDefaultGradient(), progress.WithoutPercentage())
+	m.progress = progress.New(progress.WithSolidFill(string(progressFill)), progress.WithoutPercentage())
 	return m
 }
 
@@ -123,7 +123,7 @@ func (m model) View() string {
 	}
 
 	return fmt.Sprintf(
-		"%s\n\n%s\n\n%s\n",
+		"%s\n\n%s\n%s\n",
 		m.progress.ViewAs(m.percent),
 		primaryTextStyle.Render(fmt.Sprintf("%s | %s by %s", icon, m.playing.Title, m.playing.Artist)),
 		secondaryTextStyle.Render(fmt.Sprintf("Volume: %.0f%%", m.volume)),
