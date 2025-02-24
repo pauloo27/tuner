@@ -1,6 +1,7 @@
 package mpv
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 	"strings"
@@ -136,6 +137,10 @@ func (p *MpvPlayer) GetPosition() (time.Duration, error) {
 	}
 
 	return time.Duration(position.(float64) * float64(time.Second)), nil
+}
+
+func (p *MpvPlayer) Seek(offset time.Duration) error {
+	return p.instance.Command([]string{"seek", fmt.Sprintf("%.2f", offset.Seconds())})
 }
 
 func (p *MpvPlayer) IsErrPropertyUnavailable(err error) bool {

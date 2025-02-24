@@ -3,6 +3,7 @@ package player
 import (
 	"log/slog"
 	"math"
+	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/pauloo27/tuner/internal/providers"
@@ -19,7 +20,7 @@ func play(result source.SearchResult) tea.Cmd {
 		if err != nil {
 			return errMsg(err)
 		}
-		return loadedMsg{}
+		return nil
 	}
 }
 
@@ -57,6 +58,24 @@ func decreaseVolume() tea.Msg {
 	err = providers.Player.SetVolume(math.Max(0, curVolume-1))
 	if err != nil {
 		slog.Error("Failed to set volume", "err", err)
+		return errMsg(err)
+	}
+	return nil
+}
+
+func seekFront() tea.Msg {
+	err := providers.Player.Seek(5 * time.Second)
+	if err != nil {
+		slog.Error("Failed to seek", "err", err)
+		return errMsg(err)
+	}
+	return nil
+}
+
+func seekBack() tea.Msg {
+	err := providers.Player.Seek(-5 * time.Second)
+	if err != nil {
+		slog.Error("Failed to seek", "err", err)
 		return errMsg(err)
 	}
 	return nil

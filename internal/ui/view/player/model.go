@@ -63,8 +63,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.volume = msg.volume
 		m.isPaused = msg.isPaused
 	case Event:
-		slog.Info("Got player event", "event", msg)
 		switch msg.name {
+		case player.PlayerEventFileLoaded:
+			m.isLoading = false
 		case player.PlayerEventPlay:
 			m.isPaused = false
 		case player.PlayerEventPause:
@@ -74,7 +75,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		cmds = append(cmds, fetchEvent)
 	case Progress:
-		slog.Info("Got progress", "p", msg)
 		m.percent = msg.percent
 		cmds = append(cmds, fetchProgressTick)
 	case errMsg:
@@ -89,6 +89,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			cmds = append(cmds, decreaseVolume)
 		case "+", "=":
 			cmds = append(cmds, increaseVolume)
+		case "left":
+			if !m.isLoading {
+				cmds = append(cmds, seekBack)
+			}
+		case "right":
+			if !m.isLoading {
+				cmds = append(cmds, seekFront)
+			}
 		default:
 			slog.Info("Unhandled key", "key", msg.String())
 		}

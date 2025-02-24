@@ -19,6 +19,7 @@ type PlayerProvider interface {
 	Stop() error
 	GetDuration() (time.Duration, error)
 	GetPosition() (time.Duration, error)
+	Seek(time.Duration) error
 
 	// useful for error handling
 	IsErrPropertyUnavailable(error) bool

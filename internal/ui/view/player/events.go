@@ -55,7 +55,10 @@ func listenToEvents() {
 		}
 	}
 
-	listenAndQueue(player.PlayerEventPlay, player.PlayerEventPause, player.PlayerEventVolumeChanged)
+	listenAndQueue(
+		player.PlayerEventPlay, player.PlayerEventPause, player.PlayerEventVolumeChanged,
+		player.PlayerEventFileLoaded,
+	)
 }
 
 func queueEvent(name player.PlayerEvent, params ...any) {

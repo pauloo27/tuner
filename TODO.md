@@ -1,7 +1,5 @@
 # To-Do
 
-- player view
-    - allow seek
 - make it look good
 
 # Ideas
