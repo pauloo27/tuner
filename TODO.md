@@ -1,6 +1,10 @@
 # To-Do
 
 - make it look good
+- "help" (show binds) in the player view
+- discord rpc
+- "saved" songs
+- youtube playlist support
 
 # Ideas
 

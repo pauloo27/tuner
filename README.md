@@ -1,6 +1,6 @@
 # TUNER
 
-we are so back.
+Tuner searches and plays songs from YouTube and SoundCloud inside your terminal.
 
 ## License
 
