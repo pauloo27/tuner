@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
@@ -34,6 +35,18 @@ func NewModel() model {
 	l.SetShowStatusBar(false)
 	l.DisableQuitKeybindings()
 	l.SetFilteringEnabled(false)
+
+	extraBinds := func() []key.Binding {
+		return []key.Binding{
+			key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", "select"),
+			),
+		}
+	}
+
+	l.AdditionalFullHelpKeys = extraBinds
+	l.AdditionalShortHelpKeys = extraBinds
 
 	return model{isTyping: true, list: l, searchInput: ti}
 }
